@@ -1,2 +1,2 @@
-web: java -jar target/helloworld-0.1-jar-with-dependencies.jar 
+web: java $JAVA_OPTS -jar target/dependency/webapp-runner.jar --port $PORT target/*.war
 
