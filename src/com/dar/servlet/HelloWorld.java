@@ -33,9 +33,9 @@ public class HelloWorld extends HttpServlet {
         out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 " +
                 "Transitional//EN\">\n" +
                 "<html>\n" +
-                "<head><title>Hello WWW</title></head>\n" +
+                "<head><title>Hello World</title></head>\n" +
                 "<body>\n" +
-                "<h1>Hello WWW</h1>\n" +
+                "<h1>Hello World</h1>\n" +
                 "</body></html>");
     }
 
