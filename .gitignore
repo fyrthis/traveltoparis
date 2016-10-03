@@ -9,3 +9,7 @@ bin/*
 *~
 build/
 build/*
+.env
+.idea/
+helloworld.iml
+target/

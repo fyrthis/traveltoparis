@@ -15,7 +15,7 @@
   <configuration>
     <archive>
       <manifest>
-        <mainClass>HelloWorld</mainClass>
+        <mainClass>Servlet.HelloWorld</mainClass>
       </manifest>
     </archive>
     <descriptorRefs>
