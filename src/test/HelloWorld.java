@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class Servlet.HelloWorld
+ * Servlet implementation class HelloWorld
  */
-@WebServlet("/Servlet.HelloWorld")
+@WebServlet("/HelloWorld")
 public class HelloWorld extends HttpServlet {
 	private static final long serialVersionUID = 1L;
         public static final String HTML_START="<html><body>";
