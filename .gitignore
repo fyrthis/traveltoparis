@@ -13,3 +13,4 @@ build/*
 .idea/
 helloworld.iml
 target/
+test.jpg
