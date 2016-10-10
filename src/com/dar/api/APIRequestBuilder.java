@@ -16,15 +16,14 @@ public class APIRequestBuilder<E extends IAPI> {
 		return this;
 	}
 	
-	public APIRequestBuilder<E> addParam(E param,String value) {
+	public <T> APIRequestBuilder<E> addParam(E param, T value) {
 		if(noParam) request.append('?'); else request.append('&');
 		request.append(param).append(value);
+        noParam = false;
 		return this;
 	}
 	
 	public String get() {
 		return request.toString();
 	}
-	
-
 }
