@@ -28,7 +28,7 @@ public class RequestDB extends HttpServlet {
 	    {
 	        Context ctx = new InitialContext();
 	        Context envCtx = (Context) ctx.lookup("java:comp/env");
-	        DataSource ds = (DataSource) envCtx.lookup("jdbc/DefaultDB");
+	        DataSource ds = (DataSource) envCtx.lookup("jdbc/travelToParis");
 
 	        if (ds != null)
 	        {
