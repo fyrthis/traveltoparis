@@ -1,72 +1,84 @@
 -- Dans ce fichier, nous créons toutes les bases de données. Nous n'en avons besoin que d'une fois (normalement !)
-
-CREATE TABLE user
+-- Postgres data types : https://www.postgresql.org/docs/9.2/static/datatype.html
+CREATE TABLE User
 (
-    id_user INT PRIMARY KEY NOT NULL,
+    id_user serial not null, -- serial : autoincrementing four-byte integer
     login VARCHAR(100),
-    password VARCHAR(32), --MD5 encryption, see : http://stackoverflow.com/questions/247304/what-data-type-to-use-for-hashed-password-field-and-what-length
+    password CHAR(32), --MD5 encryption, see : http://stackoverflow.com/questions/247304/what-data-type-to-use-for-hashed-password-field-and-what-length
     firstname VARCHAR(100),
     lastname VARCHAR(100),
     birthday DATE,
     country VARCHAR(100),
     email VARCHAR(255),
     picture bytea, -- see : https://www.postgresql.org/docs/7.3/static/jdbc-binary-data.html
-    description text
+    description text,
+    PRIMARY KEY(id_user)
 )
 
-CREATE TABLE event
+CREATE TABLE Event
 (
-    id_event INT PRIMARY KEY NOT NULL,
+    id_event serial not null,
     name VARCHAR(100),
-    url VARCHAR(32),
+    url VARCHAR(512),
     location VARCHAR(100),
     date DATE,
     picture bytea,
-    description text
+    description text,
+    PRIMARY KEY(id_event)
 )
 
-CREATE TABLE travel
+CREATE TABLE Travel
 (
-    id_travel INT PRIMARY KEY NOT NULL,
-    login VARCHAR(100),
-    name VARCHAR(32), 
+    id_travel serial not null,
+    name VARCHAR(100), 
     picture bytea, 
-    description text
+    description text,
+    PRIMARY KEY (id_travel)
 )
 
-CREATE TABLE category
+CREATE TABLE Category
 (
-    id_category INT PRIMARY KEY NOT NULL,
+    id_category serial not null,
     name VARCHAR(100),
-    picture bytea, -- see : https://www.postgresql.org/docs/7.3/static/jdbc-binary-data.html
-    description text
+    picture bytea,
+    description text,
+    PRIMARY KEY (id_category)
 )
 
-CREATE TABLE vote
+CREATE TABLE Vote
 (
-    id_user INT PRIMARY KEY NOT NULL,
-    id_event VARCHAR(100),
-    id_travel VARCHAR(32), --MD5 encryption, see : http://stackoverflow.com/questions/247304/what-data-type-to-use-for-hashed-password-field-and-what-length
-    is_like VARCHAR(100)
+    id_user integer, -- integer : signed four-byte integer
+    id_event integer,
+    id_travel integer,
+    is_like boolean,
+    FOREIGN KEY (id_user) REFERENCES User(id_user),
+    FOREIGN KEY (id_event) REFERENCES Event(id_event),
+    FOREIGN KEY (id_travel) REFERENCES Travel(id_travel)
 )
 
-CREATE TABLE message
+CREATE TABLE Message
 (
-    id_user INT PRIMARY KEY NOT NULL,
-    id_travel VARCHAR(100),
-    date DATE,
-    description text
+    id_user integer,
+    id_travel integer,
+    posted DATE,
+    description text,
+    FOREIGN KEY (id_user) REFERENCES User(id_user),
+    FOREIGN KEY (id_travel) REFERENCES Travel(id_travel)
 )
 
-CREATE TABLE involded
+CREATE TABLE Involded
 (
-    id_user INT PRIMARY KEY NOT NULL,
-    id_travel VARCHAR(100),
-    is_admin VARCHAR(32)
+    id_user integer,
+    id_travel integer,
+    is_admin boolean,
+    FOREIGN KEY (id_user) REFERENCES User(id_user),
+    FOREIGN KEY (id_travel) REFERENCES Travel(id_travel)
 )
 
-CREATE TABLE tagged
+CREATE TABLE Tagged
 (
-    id_event INT PRIMARY KEY NOT NULL,
-    id_category VARCHAR(100)
+    id_event integer,
+    id_category integer,
+    FOREIGN KEY (id_event) REFERENCES Event(id_event),
+    FOREIGN KEY (id_category) REFERENCES Travel(id_category)
 )
