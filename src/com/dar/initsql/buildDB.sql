@@ -1,6 +1,6 @@
 -- Dans ce fichier, nous créons toutes les bases de données. Nous n'en avons besoin que d'une fois (normalement !)
 -- Postgres data types : https://www.postgresql.org/docs/9.2/static/datatype.html
-CREATE TABLE User
+CREATE TABLE Users
 (
     id_user serial not null, -- serial : autoincrementing four-byte integer
     login VARCHAR(100),
@@ -13,9 +13,9 @@ CREATE TABLE User
     picture bytea, -- see : https://www.postgresql.org/docs/7.3/static/jdbc-binary-data.html
     description text,
     PRIMARY KEY(id_user)
-)
+);
 
-CREATE TABLE Event
+CREATE TABLE Events
 (
     id_event serial not null,
     name VARCHAR(100),
@@ -25,60 +25,60 @@ CREATE TABLE Event
     picture bytea,
     description text,
     PRIMARY KEY(id_event)
-)
+);
 
-CREATE TABLE Travel
+CREATE TABLE Travels
 (
     id_travel serial not null,
     name VARCHAR(100), 
     picture bytea, 
     description text,
     PRIMARY KEY (id_travel)
-)
+);
 
-CREATE TABLE Category
+CREATE TABLE Categories
 (
     id_category serial not null,
     name VARCHAR(100),
     picture bytea,
     description text,
     PRIMARY KEY (id_category)
-)
+);
 
-CREATE TABLE Vote
+CREATE TABLE Votes
 (
     id_user integer, -- integer : signed four-byte integer
     id_event integer,
     id_travel integer,
     is_like boolean,
-    FOREIGN KEY (id_user) REFERENCES User(id_user),
-    FOREIGN KEY (id_event) REFERENCES Event(id_event),
-    FOREIGN KEY (id_travel) REFERENCES Travel(id_travel)
-)
+    FOREIGN KEY (id_user) REFERENCES Users(id_user),
+    FOREIGN KEY (id_event) REFERENCES Events(id_event),
+    FOREIGN KEY (id_travel) REFERENCES Travels(id_travel)
+);
 
-CREATE TABLE Message
+CREATE TABLE Messages
 (
     id_user integer,
     id_travel integer,
     posted DATE,
     description text,
-    FOREIGN KEY (id_user) REFERENCES User(id_user),
-    FOREIGN KEY (id_travel) REFERENCES Travel(id_travel)
-)
+    FOREIGN KEY (id_user) REFERENCES Users(id_user),
+    FOREIGN KEY (id_travel) REFERENCES Travels(id_travel)
+);
 
 CREATE TABLE Involded
 (
     id_user integer,
     id_travel integer,
     is_admin boolean,
-    FOREIGN KEY (id_user) REFERENCES User(id_user),
-    FOREIGN KEY (id_travel) REFERENCES Travel(id_travel)
-)
+    FOREIGN KEY (id_user) REFERENCES Users(id_user),
+    FOREIGN KEY (id_travel) REFERENCES Travels(id_travel)
+);
 
 CREATE TABLE Tagged
 (
     id_event integer,
     id_category integer,
-    FOREIGN KEY (id_event) REFERENCES Event(id_event),
-    FOREIGN KEY (id_category) REFERENCES Travel(id_category)
-)
+    FOREIGN KEY (id_event) REFERENCES Events(id_event),
+    FOREIGN KEY (id_category) REFERENCES Categories(id_category)
+);
