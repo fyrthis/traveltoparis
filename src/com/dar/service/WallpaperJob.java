@@ -26,13 +26,6 @@ public class WallpaperJob implements Runnable {
     public static void main(String[] args) {
         System.out.println("Start test");
         new WallpaperJob("5568862a7b28535025280c72").run();
-        try {
-            ImageIO.write(resizeImage(2560, 1440), "jpg", new File("test.jpg"));
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-
         System.out.println("Done");
     }
 
