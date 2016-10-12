@@ -1,7 +1,38 @@
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         id="WebApp_ID" version="3.0">
+         
+<!--  NAME OF THE WEB APPLICATION -->
+      <display-name>Travel to Paris</display-name>
+      
+<!-- DESCRIPTION OF THE WEB APPLICATION -->
+    <description>
+        The best goddamn app in the web
+    </description>
+    
+<!-- HOME PAGE -->
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
 
-<web-app>
-  <display-name>Archetype Created Web Application</display-name>
+<!-- DEFINITON OF SERVLETS -->
+    <servlet>
+        <servlet-name>signup</servlet-name>
+        <servlet-class>com.dar.servlet.SignUp</servlet-class>
+    </servlet>
+    <servlet>
+    	<servlet-name>createaccount</servlet-name>
+    	<servlet-class>com.dar.servlet.CreateAccount</servlet-class>
+    </servlet>
+    
+<!-- MAPPING OF SERVLETS -->
+    <servlet-mapping>
+        <servlet-name>signup</servlet-name>
+        <url-pattern>/sign-up</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>createaccount</servlet-name>
+        <url-pattern>/account-creation</url-pattern>
+    </servlet-mapping>
 </web-app>
