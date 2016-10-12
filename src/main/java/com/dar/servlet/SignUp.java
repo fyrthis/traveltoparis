@@ -20,36 +20,9 @@ public class SignUp extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String debug = "ds is null";
-		String user_name = null;
-		try
-		{
-			Context ctx = new InitialContext();
-			Context envCtx = (Context) ctx.lookup("java:comp/env");
-			DataSource ds = (DataSource) envCtx.lookup("jdbc/travelToParis");
-			if (ds != null)
-			{
-				Connection conn = ds.getConnection();
-				debug = "ds not null";
-				if (conn != null)
-				{
-					debug = "conn";
-					Statement stmt = conn.createStatement();
-					ResultSet rst = stmt.executeQuery("select firstname from utilisateur where lastname='DOUMOULAKIS';");
-					if (rst.next())
-					{
-						user_name = rst.getString("firstname");
-					}
-					conn.close();
-				}
-			}
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
 		PrintWriter out = response.getWriter();
-		out.println(debug+" "+user_name);
+		out.println("You called this servlet with get method");
+		out.close();
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -65,7 +38,7 @@ public class SignUp extends HttpServlet {
 			String[] paramValues = request.getParameterValues(param);
 			if(paramValues.length==1) {
 				rq2.append("'").append(paramValues[0]).append("'");
-			} else throw new IOException("unexpected value");
+			} else out.println("unexpected value<br>");
 			
 			if(parameterNames.hasMoreElements()){
 				rq.append(", ");
@@ -90,12 +63,12 @@ public class SignUp extends HttpServlet {
 					ResultSet rst = stmt.executeQuery(rq.toString());
 					out.println(rq.toString());
 					conn.close();
-				}
+				} else out.println("connection refused<br>");
 			}
 		}
 		catch (Exception e)
 		{
-			out.println("exception !");
+			out.println("failed to execute databse query<br>");
 			e.printStackTrace();
 		}
 		out.close();
