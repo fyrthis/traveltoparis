@@ -2,7 +2,7 @@
 <project>
     <modelVersion>4.0.0</modelVersion><!-- should be set to 4.0.0 -->
     <groupId>traveltoparis</groupId><!-- the id of the project's group. -->
-    <artifactId>helloworld</artifactId><!-- the id of the artifact (project) -->
+    <artifactId>TravelTestTassos</artifactId><!-- the id of the artifact (project) -->
     <version>0.1</version><!-- the version of the artifact under the specified group -->
     <packaging>war</packaging>
     <build>

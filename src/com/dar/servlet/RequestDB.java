@@ -16,9 +16,7 @@ import javax.sql.DataSource;
 
 public class RequestDB extends HttpServlet {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -29,7 +27,6 @@ public class RequestDB extends HttpServlet {
 	        Context ctx = new InitialContext();
 	        Context envCtx = (Context) ctx.lookup("java:comp/env");
 	        DataSource ds = (DataSource) envCtx.lookup("jdbc/travelToParis");
-
 	        if (ds != null)
 	        {
 	            Connection conn = ds.getConnection();

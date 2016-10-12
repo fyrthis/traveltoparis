@@ -12,10 +12,11 @@ import com.dar.api.DeckChair;
 
 import javax.imageio.ImageIO;
 
-public class WallpaperJob implements Runnable {
+class WallpaperJob implements Runnable {
 
-    private int native4kHeight = 2160;
-    private int native4kWidth = 2*native4kHeight;
+    private static final int native4kHeight = 2160;
+    private static final int native4kWidth = 2*native4kHeight;
+    //private static final String imagesPath = "/etc/toto/quelquechose/img";
     private String cameraID;
 
 
@@ -26,12 +27,12 @@ public class WallpaperJob implements Runnable {
     public static void main(String[] args) {
         System.out.println("Start test");
         new WallpaperJob("5568862a7b28535025280c72").run();
-        System.out.println("Done");
     }
 
     @Override
     public void run() {
         //Construct the api call
+        System.out.println("Launching background routine");
         String apicall = new APIRequestBuilder<DeckChair>()
                 .addDomain(DeckChair.CAMERA)
                 .addStr(cameraID)
@@ -47,11 +48,16 @@ public class WallpaperJob implements Runnable {
             if(apicall != null) redirect = apicall;
         }
         try {
+            // TODO remplacer le path actuel par un path absolu avant le deploiement
             writeImage(redirect, "img/original4k.jpg");
+            resizeImage(2560, 1440);
+            resizeImage(1920, 1080);
+            resizeImage(1366, 768);
         }
         catch (IOException e){
             e.printStackTrace();
         }
+        System.out.println("Done");
     }
 
     private String getRedirect(String urlString){
@@ -90,8 +96,9 @@ public class WallpaperJob implements Runnable {
         os.close();
     }
 
-    private static BufferedImage resizeImage(int imgWidth, int imgHeight){
+    private static void resizeImage(int imgWidth, int imgHeight){
         try {
+            // TODO: remplacer le path par la valeur absolue
             BufferedImage originalImage = ImageIO.read(new File("img/original4k.jpg"));
             int type = originalImage.getType() == 0? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
             BufferedImage resizedImage = new BufferedImage(imgWidth, imgHeight, type);
@@ -105,11 +112,11 @@ public class WallpaperJob implements Runnable {
                     RenderingHints.VALUE_RENDER_QUALITY);
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                     RenderingHints.VALUE_ANTIALIAS_ON);
-            return resizedImage;
+            File output = new File("img/" + imgWidth + "x" + imgHeight + ".jpg");
+            ImageIO.write(resizedImage,"jpg", output);
         }
         catch (IOException e){
             e.printStackTrace();
         }
-        return null;
     }
 }
