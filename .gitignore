@@ -13,6 +13,6 @@ sources.iml
 
 target/
 build/
-jar/
+jar/*
 .git/
 .settings/
