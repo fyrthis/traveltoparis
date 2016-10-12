@@ -8,5 +8,11 @@ sources.iml
 .idea/modules.xml
 .idea/vcs.xml
 .idea/workspace.xml
+.classpath
+.project
 
 target/
+build/
+jar/
+.git/
+.settings/

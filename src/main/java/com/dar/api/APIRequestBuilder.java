@@ -1,4 +1,4 @@
-package main.java.com.dar.api;
+package com.dar.api;
 
 public class APIRequestBuilder<E extends IAPI> {
 	private StringBuilder request;

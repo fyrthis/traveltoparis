@@ -1,4 +1,4 @@
-package main.java.com.dar.service;
+package com.dar.service;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
