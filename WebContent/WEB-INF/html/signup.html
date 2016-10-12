@@ -1,0 +1,46 @@
+<html>
+<head>
+
+    <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+
+
+    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    
+    
+    <script type="text/javascript" src="../js/script.js" ></script>
+    
+
+</head>
+<body>
+    <form method="POST" action="">
+        <label for="username">Username :</label><br>
+        <input type="text" id="username" required autofocus><br>
+
+        <label for="firstname">Firstname :</label><br>
+        <input type="text" id="firstname" required><br>
+        
+        <label for="lastname">Lastname :</label><br>
+        <input type="text" id="lastname" required><br>
+        
+        <label for="email">Email :</label><br>
+        <input type="email" id="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required><br>
+        
+        <label for="birth">Birth :</label><br>
+        <input type="date" id="birth"><br>
+        
+        <label for="countries">Country :</label><br>
+        <input id="countries"> <br>
+        
+        <label for="password">Password :</label><br>
+        <input type="password" id="password" id="password" required><br> <!-- Should be sent with encryption, MD5 ?-->
+        
+        <label for="password_confirm">Confirm password :</label><br>
+        <input type="password" id="password_confirm" id="password" oninput="checkpw(this)" required><br>
+
+        <input type="checkbox" id="terms" required> I have read and agree to the terms and conditions. <br>
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
