@@ -2,7 +2,7 @@ package com.dar.api;
 
 public class APIRequestBuilder<E extends IAPI> {
 	private StringBuilder request;
-	boolean noParam = true;
+	private boolean noParam = true;
 	
 	public APIRequestBuilder<E> addDomain(E domain) {
 		noParam = true;

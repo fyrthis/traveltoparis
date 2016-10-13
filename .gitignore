@@ -16,4 +16,9 @@ build/*
 jar/*
 .git/*
 .settings/*
+<<<<<<< HEAD
 /build/
+=======
+.idea/
+target/
+>>>>>>> 767a9f5df84ef8006ae63bbaba7f7e0130a3b472

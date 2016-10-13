@@ -1,6 +1,9 @@
 package com.dar.service;
 
 
+import com.dar.api.APIRequestBuilder;
+import com.dar.api.DeckChair;
+
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -15,8 +18,6 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
-import com.dar.api.APIRequestBuilder;
-import com.dar.api.DeckChair;
 
 class WallpaperJob implements Runnable {
 
