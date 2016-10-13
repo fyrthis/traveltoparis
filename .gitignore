@@ -16,3 +16,5 @@ build/*
 jar/*
 .git/*
 .settings/*
+.idea/
+target/
