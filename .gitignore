@@ -11,8 +11,9 @@ sources.iml
 .classpath
 .project
 
-target/
-build/
+target/*
+build/*
 jar/*
-.git/
-.settings/
+.git/*
+.settings/*
+/build/

@@ -11,27 +11,27 @@
 
 </head>
 <body>
-    <form method="POST" action="signup">
+    <form method="POST" action="account-creation">
         <label for="username">Username :</label><br>
-        <input type="text" id="username" required autofocus><br>
+        <input type="text" id="username" name="login" required autofocus><br>
 
         <label for="firstname">Firstname :</label><br>
-        <input type="text" id="firstname" required><br>
+        <input type="text" id="firstname" name="firstname" required><br>
         
         <label for="lastname">Lastname :</label><br>
-        <input type="text" id="lastname" required><br>
+        <input type="text" id="lastname" name="lastname" required><br>
         
         <label for="email">Email :</label><br>
-        <input type="email" id="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required><br>
+        <input type="email" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required><br>
         
         <label for="birth">Birth :</label><br>
-        <input type="date" id="birth"><br>
+        <input type="date" id="birth" name="birthday" ><br>
         
         <label for="countries">Country :</label><br>
-        <input id="countries"> <br>
+        <input id="countries" name="country"> <br>
         
         <label for="password">Password :</label><br>
-        <input type="password" id="password" required><br> <!-- Should be sent with encryption, MD5 ?-->
+        <input type="password" id="password" name="password" required><br> <!-- Should be sent with encryption, MD5 ?-->
         
         <label for="password_confirm">Confirm password :</label><br>
         <input type="password" id="password_confirm" oninput="checkpw(this)" required><br>
