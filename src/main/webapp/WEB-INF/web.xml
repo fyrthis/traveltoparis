@@ -29,6 +29,10 @@
         <servlet-name>signin</servlet-name>
         <servlet-class>com.dar.servlet.SignIn</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>trips</servlet-name>
+        <servlet-class>com.dar.servlet.MyTrips</servlet-class>
+    </servlet>
 
 
 <!-- MAPPING OF SERVLETS -->
@@ -43,5 +47,9 @@
     <servlet-mapping>
         <servlet-name>signin</servlet-name>
         <url-pattern>/sign-in</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>trips</servlet-name>
+        <url-pattern>/my-trips</url-pattern>
     </servlet-mapping>
 </web-app>

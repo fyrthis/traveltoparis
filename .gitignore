@@ -5,6 +5,7 @@ sources.iml
 src/main/resources/
 build/
 jars/
+jar/
 .git/
 .settings/
 target/
