@@ -1,41 +1,62 @@
 <!DOCTYPE html>
 <html style="">
-    <head>
-        <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
-        <script type="text/javascript" src="js/hero.js"></script>
-        <meta charset="utf-8" />
-        <title>Paris adventure</title>
-        <link rel="stylesheet" href="styles.css">
+<head>
+    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="js/hero.js"></script>
+    <meta charset="utf-8" />
+    <title>Paris adventure</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="wrapper">
+    <div id="hero">
+        <button onclick="document.getElementById('id01').style.display='block'">Sign up</button>
+        <button onclick="document.getElementById('id02').style.display='block'">Log in</button>
+        <div id="id01" class="modal">
+            <span onclick="document.getElementById('id01').style.display='none'"
+                  class="close" title="Close Modal">&times;</span>
 
-    </head>
-    <body>
-    <p><a href="sign-up">Sign Up</a> <a href="sign-in">Sign In</a>
-    <div id="wrapper">
-        <div id="hero">
-            <div class="header">
-                <h1> Travel To Paris</h1>
-            </div>
+            <!-- Modal Content -->
+            <form class="modal-content animate">
+                <div class="container">
+                    <label><b>Username</b></label>
+                    <input type="text" placeholder="Enter Username" name="uname" required>
+                    <label><b>Password</b></label>
+                    <input type="password" placeholder="Enter Password" name="psw" required>
+                    <button type="submit">Login</button>
+                    <!-- <input type="checkbox" checked="checked"> Remember me -->
+                </div>
+                <div class="container" style="background-color:#f1f1f1">
+                    <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+                    <span class="psw">Forgot <a href="#">password?</a></span>
+                </div>
+            </form>
         </div>
-        <div id="content" class="text">
-            <h2> If nothing goes right for you, go left.</h2>
-            <p> Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
-            <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat,
-                vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
-                delenit augue duis dolore te feugait nulla facilisi. </p>
-        </div>
-        <div id="footer">
-            <p> I am the footer, and you have scroll down to see me.</p>
+        <script>
+            // Get the modal
+            var modal = document.getElementById('id01');
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        </script>
+
+        <div class="header">
+            <h1> Travel To Paris</h1>
         </div>
     </div>
-
-
-    <!--<section id="heroID" class="hero">
-        <div class="intro">
-            <div class="small-centered medium-uncentered medium-6 large-7 columns">
-                <h1>Travel To Paris</h1>
-                <p>If at first you don’t succeed, then skydiving definitely isn’t for you.</p>
-            </div>
-        </div>
-    </section> -->
-    </body>
+    <div id="content" class="text">
+        <h2> If nothing goes right for you, go left.</h2>
+        <p> Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
+        <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat,
+            vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
+            delenit augue duis dolore te feugait nulla facilisi. </p>
+    </div>
+    <div id="footer">
+        <p> I am the footer, and you have scroll down to see me.</p>
+    </div>
+</div>
+</body>
 </html>

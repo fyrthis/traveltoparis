@@ -1,24 +1,10 @@
 sources.iml
-.idea/artifacts
-.idea/copyright
-.idea/libraries
-.idea/.name
-.idea/compiler.xml
-.idea/misc.xml
-.idea/modules.xml
-.idea/vcs.xml
-.idea/workspace.xml
+.idea/
 .classpath
 .project
 src/main/resources/
-target/*
-build/*
-jar/*
-.git/*
-.settings/*
-<<<<<<< HEAD
-/build/
-=======
-.idea/
+build/
+jar/
+.git/
+.settings/
 target/
->>>>>>> 767a9f5df84ef8006ae63bbaba7f7e0130a3b472

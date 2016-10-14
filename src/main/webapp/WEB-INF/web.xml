@@ -25,6 +25,11 @@
     	<servlet-name>createaccount</servlet-name>
     	<servlet-class>com.dar.servlet.CreateAccount</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>signin</servlet-name>
+        <servlet-class>com.dar.servlet.SignIn</servlet-class>
+    </servlet>
+
     
 <!-- MAPPING OF SERVLETS -->
     <servlet-mapping>
@@ -34,5 +39,9 @@
     <servlet-mapping>
         <servlet-name>createaccount</servlet-name>
         <url-pattern>/account-creation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>signin</servlet-name>
+        <url-pattern>/sign-in</url-pattern>
     </servlet-mapping>
 </web-app>
