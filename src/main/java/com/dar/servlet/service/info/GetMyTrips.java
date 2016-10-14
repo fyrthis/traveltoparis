@@ -1,4 +1,4 @@
-package com.dar.servlet;
+package com.dar.servlet.service.info;
 
 import java.io.IOException;
 import java.io.PrintWriter;

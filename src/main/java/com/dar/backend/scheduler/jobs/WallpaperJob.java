@@ -1,8 +1,8 @@
-package com.dar.service;
+package com.dar.backend.scheduler.jobs;
 
 
-import com.dar.api.APIRequestBuilder;
-import com.dar.api.DeckChair;
+import com.dar.backend.api.APIRequestBuilder;
+import com.dar.backend.api.DeckChair;
 
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;

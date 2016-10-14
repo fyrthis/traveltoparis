@@ -1,4 +1,4 @@
-package com.dar.api;
+package com.dar.backend.api;
 
 public class APIRequestBuilder<E extends IAPI> {
 	private StringBuilder request;

@@ -1,4 +1,4 @@
-package com.dar.redirection;
+package com.dar.servlet.redirection;
 
 import java.io.IOException;
 

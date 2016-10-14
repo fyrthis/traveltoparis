@@ -1,4 +1,4 @@
-package com.dar.api;
+package com.dar.backend.api;
 
 public enum DeckChair implements IAPI {
     // Returns the latest image from a camera.
