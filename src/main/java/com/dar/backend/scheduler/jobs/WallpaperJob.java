@@ -19,7 +19,7 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 
 
-class WallpaperJob implements Runnable {
+public class WallpaperJob implements Runnable {
 
     private static final int native4kHeight = 2160;
     private static final int native4kWidth = 2*native4kHeight;
