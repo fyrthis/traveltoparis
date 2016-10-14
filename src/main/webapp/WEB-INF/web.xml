@@ -22,8 +22,20 @@
         <servlet-class>com.dar.servlet.redirection.SignUp</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>trips</servlet-name>
+        <servlet-class>com.dar.servlet.redirection.MyTrips</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>newtrip</servlet-name>
+        <servlet-class>com.dar.servlet.redirection.OrganizeTrip</servlet-class>
+    </servlet>
+    <servlet>
     	<servlet-name>createaccount</servlet-name>
     	<servlet-class>com.dar.servlet.service.update.CreateAccount</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>createtrip</servlet-name>
+        <servlet-class>com.dar.servlet.service.update.CreateTrip</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>signin</servlet-name>
@@ -33,10 +45,7 @@
         <servlet-name>gettrips</servlet-name>
         <servlet-class>com.dar.servlet.service.info.GetMyTrips</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>trips</servlet-name>
-        <servlet-class>com.dar.servlet.redirection.MyTrips</servlet-class>
-    </servlet>
+    
 
 
 <!-- MAPPING OF SERVLETS -->
@@ -59,5 +68,13 @@
     <servlet-mapping>
         <servlet-name>trips</servlet-name>
         <url-pattern>/my-trips</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>newtrip</servlet-name>
+        <url-pattern>/new-trip</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>createtrip</servlet-name>
+        <url-pattern>/create-trip</url-pattern>
     </servlet-mapping>
 </web-app>
