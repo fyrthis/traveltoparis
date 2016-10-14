@@ -19,7 +19,7 @@
 <!-- DEFINITON OF SERVLETS -->
     <servlet>
         <servlet-name>signup</servlet-name>
-        <servlet-class>com.dar.servlet.SignUp</servlet-class>
+        <servlet-class>com.dar.redirection.SignUp</servlet-class>
     </servlet>
     <servlet>
     	<servlet-name>createaccount</servlet-name>
@@ -30,8 +30,12 @@
         <servlet-class>com.dar.servlet.SignIn</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>gettrips</servlet-name>
+        <servlet-class>com.dar.servlet.GetMyTrips</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>trips</servlet-name>
-        <servlet-class>com.dar.servlet.MyTrips</servlet-class>
+        <servlet-class>com.dar.redirection.MyTrips</servlet-class>
     </servlet>
 
     
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>signin</servlet-name>
         <url-pattern>/sign-in</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>gettrips</servlet-name>
+        <url-pattern>/get-my-trips</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>trips</servlet-name>

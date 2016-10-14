@@ -1,4 +1,4 @@
-package com.dar.servlet;
+package com.dar.redirection;
 
 import java.io.IOException;
 
@@ -14,7 +14,5 @@ public class SignUp extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher view = request.getRequestDispatcher("html/signup.html");
 		view.forward(request, response);
-	}
-	
-	
+	}	
 }
