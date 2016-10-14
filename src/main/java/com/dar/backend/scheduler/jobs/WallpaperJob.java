@@ -28,7 +28,7 @@ public class WallpaperJob implements Runnable {
     private String cameraID;
 
 
-    WallpaperJob(String camString){
+    public WallpaperJob(String camString){
         cameraID = camString;
     }
 
