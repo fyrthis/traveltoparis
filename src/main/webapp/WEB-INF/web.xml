@@ -30,7 +30,7 @@
         <servlet-class>com.dar.servlet.SignIn</servlet-class>
     </servlet>
 
-    
+
 <!-- MAPPING OF SERVLETS -->
     <servlet-mapping>
         <servlet-name>signup</servlet-name>
