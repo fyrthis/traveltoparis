@@ -4,8 +4,8 @@ sources.iml
 .project
 src/main/resources/
 build/
-jar/
 jars/
+jar/
 .git/
 .settings/
 target/

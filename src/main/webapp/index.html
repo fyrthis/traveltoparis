@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html style="">
 <head>
-    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
-    <script type="text/javascript" src="js/hero.js"></script>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
     <meta charset="utf-8" />
     <title>Paris adventure</title>
     <link rel="stylesheet" href="styles.css">
@@ -10,14 +10,14 @@
 <body>
 <div id="wrapper">
     <div id="hero">
-        <button onclick="document.getElementById('id01').style.display='block'">Sign up</button>
-        <button onclick="document.getElementById('id02').style.display='block'">Log in</button>
+        <button onclick="document.getElementById('id01').style.display='block'">Sign In</button>
+        <button onclick="document.getElementById('id02').style.display='block'">Sign Up</button>
         <div id="id01" class="modal">
             <span onclick="document.getElementById('id01').style.display='none'"
                   class="close" title="Close Modal">&times;</span>
 
             <!-- Modal Content -->
-            <form class="modal-content animate">
+            <form class="modal-content animate" method="POST" action="sign-in">
                 <div class="container">
                     <label><b>Username</b></label>
                     <input type="text" placeholder="Enter Username" name="uname" required>

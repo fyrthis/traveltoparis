@@ -38,7 +38,7 @@
         <servlet-class>com.dar.redirection.MyTrips</servlet-class>
     </servlet>
 
-    
+
 <!-- MAPPING OF SERVLETS -->
     <servlet-mapping>
         <servlet-name>signup</servlet-name>
