@@ -36,18 +36,17 @@ public class CreateAccount extends HttpServlet {
 		StringBuilder rq2 = new StringBuilder(") VALUES (");
 		while (parameterNames.hasMoreElements()) {
 			String param = parameterNames.nextElement();
-			rq.append(param);
 			String[] paramValues = request.getParameterValues(param);
+			rq.append(param);
 			if(paramValues.length==1) {
-				rq2.append("'").append(paramValues[0]).append("'");
-			} else errors.append("incorrect argument.<br>");
-			
+				if(paramValues[0].isEmpty()) rq2.append("NULL");
+				else rq2.append("'").append(paramValues[0]).append("'");	
+			} else rq2.append("NULL");
 			if(parameterNames.hasMoreElements()){
 				rq.append(", ");
 				rq2.append(", ");
 			}
 		}
-		
 		rq.append(rq2).append(");");
 		
 		//EXECUTE DATABASE QUERY
@@ -62,7 +61,7 @@ public class CreateAccount extends HttpServlet {
 				if (conn != null)
 				{
 					Statement stmt = conn.createStatement();
-					ResultSet rst = stmt.executeQuery(rq.toString());
+					stmt.executeUpdate(rq.toString());
 					out.println(rq.toString());
 					conn.close();
 				} else errors.append("Connection to database failed.<br>");
