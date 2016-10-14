@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>My Trips</title>
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script>
+            $(document).ready( function() {
+                $.get("get-my-trips", function(response) {
+                    $("#trips").text(response);
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div id="trips"></div>
+    </body>
+</html>
