@@ -3,17 +3,22 @@
     src: url(fonts/NordicAlternativeRegular.ttf);
 }
 
+@font-face {
+    font-family: "Paris";
+    src: url(fonts/SilentReaction.ttf);
+}
+
 body{ margin:0 0; }
 
 #hero {
-    background-image: url("images/1366x768.jpg");
+    background-image: url("../resources/images/1366x768.jpg");
     background-size: cover;
     position: relative;
 }
 
 @media (max-width:1920px) {
     #hero {
-        background-image: url("images/original4k.jpg");
+        background-image: url("../resources/images/1920x1080.jpg");
         background-size: cover;
         position: relative;
     }
@@ -21,7 +26,7 @@ body{ margin:0 0; }
 
 @media (min-width:2560px) {
     #hero {
-        background-image: url("images/2560x1440.jpg");
+        background-image: url("../resources/images/2560x1440.jpg");
         background-size: cover;
         position: relative;
     }
@@ -29,7 +34,7 @@ body{ margin:0 0; }
 
 @media (min-width:3840px) {
     #hero {
-        background-image: url("images/original4k.jpg");
+        background-image: url("../resources/images/original4k.jpg");
         background-size: cover;
         position: relative;
     }
@@ -41,12 +46,12 @@ body{ margin:0 0; }
     text-align:center;
     width:100%;
     color:#fff;
-    font-size:36px;
+    font-size:50px;
     -ms-transform: translate(0,-50%); /* IE 9 */
     -webkit-transform: translate(0,-50%); /* Safari */
     transform: translate(0,-50%);
     text-shadow: 3px 2px #0f0f0f;
-    font-family: Nordic, sans-serif;
+    font-family: Paris, sans-serif;
     background-color: rgba(0,0,0,0.5);
 }
 

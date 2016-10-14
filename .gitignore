@@ -10,7 +10,7 @@ sources.iml
 .idea/workspace.xml
 .classpath
 .project
-
+src/main/resources/
 target/*
 build/*
 jar/*

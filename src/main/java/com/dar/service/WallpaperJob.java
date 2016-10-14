@@ -23,8 +23,8 @@ class WallpaperJob implements Runnable {
 
     private static final int native4kHeight = 2160;
     private static final int native4kWidth = 2*native4kHeight;
-    //private static final String imagesPath = "src/main/resources/images/";
-    private static final String imagesPath = "images/";
+    private static final String imagesPath = "src/main/resources/images/";
+    //private static final String imagesPath = "images/";
     private String cameraID;
 
 
