@@ -11,14 +11,14 @@
 body{ margin:0 0; }
 
 #hero {
-    background-image: url("/opt/tomcat/webres/1366x768.jpg");
+    background-image: url("/images/1366x768.jpg");
     background-size: cover;
     position: relative;
 }
 
 @media (max-width:1920px) {
     #hero {
-        background-image: url("/opt/tomcat/webres/1920x1080.jpg");
+        background-image: url("/images/1920x1080.jpg");
         background-size: cover;
         position: relative;
     }
@@ -26,7 +26,7 @@ body{ margin:0 0; }
 
 @media (min-width:2560px) {
     #hero {
-        background-image: url("/opt/tomcat/webres/2560x1440.jpg");
+        background-image: url("/images/2560x1440.jpg");
         background-size: cover;
         position: relative;
     }
@@ -34,7 +34,7 @@ body{ margin:0 0; }
 
 @media (min-width:3840px) {
     #hero {
-        background-image: url("/opt/tomcat/webres/original4k.jpg");
+        background-image: url("/images/original4k.jpg");
         background-size: cover;
         position: relative;
     }

@@ -25,7 +25,7 @@ public class WallpaperJob implements Runnable {
     private static final int native4kWidth = 2*native4kHeight;
     // TODO remplacer le path actuel par un path qui marche
     //private static final String imagesPath = "src/main/resources/images/";
-    private static final String imagesPath = "/opt/tomcat/webres/";
+    private static final String imagesPath = "images/";
     private String cameraID;
 
     public WallpaperJob(String camString){
