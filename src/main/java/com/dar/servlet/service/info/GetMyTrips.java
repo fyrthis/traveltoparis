@@ -1,4 +1,4 @@
-package com.dar.servlet;
+package com.dar.servlet.service.info;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-public class MyTrips extends HttpServlet {
+public class GetMyTrips extends HttpServlet {
 	//Returned a JSON of user's trips
 
 	@Override
@@ -22,6 +22,7 @@ public class MyTrips extends HttpServlet {
 		// Assuming your json object is **jsonObject**, perform the following, it will return your json object  
 		out.print(buildJSON());
 		out.flush();
+		out.close();
 	}
 	
 	@Override

@@ -1,4 +1,4 @@
-package com.dar.service;
+package com.dar.backend.scheduler;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -7,6 +7,8 @@ import java.util.concurrent.TimeUnit;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+
+import com.dar.backend.scheduler.jobs.WallpaperJob;
 
 @WebListener
 public class BackEndScheduler implements ServletContextListener {

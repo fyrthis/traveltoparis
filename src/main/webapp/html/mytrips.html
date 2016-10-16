@@ -5,8 +5,8 @@
         <script src="http://code.jquery.com/jquery-latest.min.js"></script>
         <script>
             $(document).ready( function() {
-                $.get("get-my-trips", function(response) {
-                    $("#trips").text(response);
+                $.get("get-my-trips", function(data) {
+                	$("#trips").html('<p><b>Nom</b> : ' + data.Name + '</p>');
                 });
             });
         </script>

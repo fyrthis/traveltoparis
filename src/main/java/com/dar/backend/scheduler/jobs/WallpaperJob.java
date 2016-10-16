@@ -1,8 +1,8 @@
-package com.dar.service;
+package com.dar.backend.scheduler.jobs;
 
 
-import com.dar.api.APIRequestBuilder;
-import com.dar.api.DeckChair;
+import com.dar.backend.api.APIRequestBuilder;
+import com.dar.backend.api.DeckChair;
 
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
@@ -19,7 +19,7 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 
 
-class WallpaperJob implements Runnable {
+public class WallpaperJob implements Runnable {
 
     private static final int native4kHeight = 2160;
     private static final int native4kWidth = 2*native4kHeight;
@@ -28,7 +28,7 @@ class WallpaperJob implements Runnable {
     private static final String imagesPath = "/opt/tomcat/webres/";
     private String cameraID;
 
-    WallpaperJob(String camString){
+    public WallpaperJob(String camString){
         cameraID = camString;
     }
 

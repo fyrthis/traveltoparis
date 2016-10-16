@@ -19,20 +19,33 @@
 <!-- DEFINITON OF SERVLETS -->
     <servlet>
         <servlet-name>signup</servlet-name>
-        <servlet-class>com.dar.servlet.SignUp</servlet-class>
-    </servlet>
-    <servlet>
-    	<servlet-name>createaccount</servlet-name>
-    	<servlet-class>com.dar.servlet.CreateAccount</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>signin</servlet-name>
-        <servlet-class>com.dar.servlet.SignIn</servlet-class>
+        <servlet-class>com.dar.servlet.redirection.SignUp</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>trips</servlet-name>
-        <servlet-class>com.dar.servlet.MyTrips</servlet-class>
+        <servlet-class>com.dar.servlet.redirection.MyTrips</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>newtrip</servlet-name>
+        <servlet-class>com.dar.servlet.redirection.OrganizeTrip</servlet-class>
+    </servlet>
+    <servlet>
+    	<servlet-name>createaccount</servlet-name>
+    	<servlet-class>com.dar.servlet.service.update.CreateAccount</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>createtrip</servlet-name>
+        <servlet-class>com.dar.servlet.service.update.CreateTrip</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>signin</servlet-name>
+        <servlet-class>com.dar.servlet.service.session.SignIn</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>gettrips</servlet-name>
+        <servlet-class>com.dar.servlet.service.info.GetMyTrips</servlet-class>
+    </servlet>
+    
 
 
 <!-- MAPPING OF SERVLETS -->
@@ -49,7 +62,19 @@
         <url-pattern>/sign-in</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>gettrips</servlet-name>
+        <url-pattern>/get-my-trips</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>trips</servlet-name>
         <url-pattern>/my-trips</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>newtrip</servlet-name>
+        <url-pattern>/new-trip</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>createtrip</servlet-name>
+        <url-pattern>/create-trip</url-pattern>
     </servlet-mapping>
 </web-app>
