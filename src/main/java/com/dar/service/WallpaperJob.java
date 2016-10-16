@@ -23,10 +23,10 @@ class WallpaperJob implements Runnable {
 
     private static final int native4kHeight = 2160;
     private static final int native4kWidth = 2*native4kHeight;
-    private static final String imagesPath = "src/main/resources/images/";
-    //private static final String imagesPath = "images/";
+    // TODO remplacer le path actuel par un path qui marche
+    //private static final String imagesPath = "src/main/resources/images/";
+    private static final String imagesPath = "/opt/tomcat/webres/";
     private String cameraID;
-
 
     WallpaperJob(String camString){
         cameraID = camString;
@@ -56,7 +56,6 @@ class WallpaperJob implements Runnable {
             if(apicall != null) redirect = apicall;
         }
         try {
-            // TODO remplacer le path actuel par un path absolu avant le deploiement
             writeImage(redirect, imagesPath+"original4k.jpg");
             resizeImage(2560, 1440);
             resizeImage(1920, 1080);
@@ -106,7 +105,6 @@ class WallpaperJob implements Runnable {
 
     private static void resizeImage(int imgWidth, int imgHeight){
         try {
-            // TODO: remplacer le path par la valeur absolue
             BufferedImage originalImage = ImageIO.read(new File(imagesPath + "original4k.jpg"));
             int type = originalImage.getType() == 0? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
             BufferedImage resizedImage = new BufferedImage(imgWidth, imgHeight, type);
