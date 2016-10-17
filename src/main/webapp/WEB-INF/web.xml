@@ -1,22 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-         id="WebApp_ID" version="3.0">
-         
-<!--  NAME OF THE WEB APPLICATION -->
-      <display-name>Travel to Paris</display-name>
-      
-<!-- DESCRIPTION OF THE WEB APPLICATION -->
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+    <display-name>Travel to Paris</display-name>
     <description>
         The best goddamn app in the web
     </description>
-    
-<!-- HOME PAGE -->
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
-
-<!-- DEFINITON OF SERVLETS -->
     <servlet>
         <servlet-name>signup</servlet-name>
         <servlet-class>com.dar.servlet.redirection.SignUp</servlet-class>
@@ -30,8 +20,8 @@
         <servlet-class>com.dar.servlet.redirection.OrganizeTrip</servlet-class>
     </servlet>
     <servlet>
-    	<servlet-name>createaccount</servlet-name>
-    	<servlet-class>com.dar.servlet.service.update.CreateAccount</servlet-class>
+        <servlet-name>createaccount</servlet-name>
+        <servlet-class>com.dar.servlet.service.update.CreateAccount</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>createtrip</servlet-name>
@@ -46,13 +36,34 @@
         <servlet-class>com.dar.servlet.service.info.GetMyTrips</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>calendar</servlet-name>
+        <servlet-class>com.dar.servlet.service.trip.CalendarTrip</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>chat</servlet-name>
+        <servlet-class>com.dar.servlet.service.trip.ChatTrip</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>events</servlet-name>
+        <servlet-class>com.dar.servlet.service.trip.EventsTrip</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>friends</servlet-name>
+        <servlet-class>com.dar.servlet.service.trip.FriendsTrip</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>overview</servlet-name>
+        <servlet-class>com.dar.servlet.service.trip.OverviewTrip</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>settings</servlet-name>
+        <servlet-class>com.dar.servlet.service.trip.SettingsTrip</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>getimages</servlet-name>
         <servlet-class>com.dar.servlet.service.GetImages</servlet-class>
     </servlet>
-    
 
-
-<!-- MAPPING OF SERVLETS -->
     <servlet-mapping>
         <servlet-name>signup</servlet-name>
         <url-pattern>/sign-up</url-pattern>
@@ -80,6 +91,30 @@
     <servlet-mapping>
         <servlet-name>createtrip</servlet-name>
         <url-pattern>/create-trip</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>calendar</servlet-name>
+        <url-pattern>/cal</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>chat</servlet-name>
+        <url-pattern>/chat</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>events</servlet-name>
+        <url-pattern>/events</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>friends</servlet-name>
+        <url-pattern>/invite-friends</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>overview</servlet-name>
+        <url-pattern>/overview</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>settings</servlet-name>
+        <url-pattern>/settings</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>getimages</servlet-name>
