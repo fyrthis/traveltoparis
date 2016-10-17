@@ -83,7 +83,6 @@ public class CreateAccount extends HttpServlet {
 	    else out.println(errors.toString());
 	    out.println("</body>");
 	    out.println("</html>");
-
 		out.close();
 	}
 
