@@ -33,7 +33,7 @@ public class ChatTrip extends HttpServlet {
 		//TODO : Check identity and permissions
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
-		out.print(buildJSON());
+		out.print(buildJSONMock());
 		out.flush();
 		out.close();
 	}
@@ -44,8 +44,12 @@ public class ChatTrip extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-
+	
 	private JSONObject buildJSON() {
+		return null;
+	}
+
+	private JSONObject buildJSONMock() {
 		JSONObject obj = new JSONObject();
 		obj.put("Name", "crunchify.com");
 		obj.put("Author", "App Shah");

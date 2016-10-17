@@ -3,13 +3,13 @@
 CREATE TABLE Users
 (
     id_user serial not null, -- serial : autoincrementing four-byte integer
-    login VARCHAR(100),
-    password CHAR(32), --MD5 encryption, see : http://stackoverflow.com/questions/247304/what-data-type-to-use-for-hashed-password-field-and-what-length
+    login VARCHAR(100) unique,
+    password CHAR(64), --SHA-256 encryption, see : http://stackoverflow.com/questions/247304/what-data-type-to-use-for-hashed-password-field-and-what-length
     firstname VARCHAR(100),
     lastname VARCHAR(100),
     birthday DATE,
     country VARCHAR(100),
-    email VARCHAR(255),
+    email VARCHAR(255) unique,
     picture bytea, -- see : https://www.postgresql.org/docs/7.3/static/jdbc-binary-data.html
     description text,
     PRIMARY KEY(id_user)
@@ -21,19 +21,21 @@ CREATE TABLE Events
     name VARCHAR(100),
     url VARCHAR(512),
     location VARCHAR(100),
-    date DATE,
+    eventdate DATE,
     picture bytea,
     description text,
     PRIMARY KEY(id_event)
 );
 
-CREATE TABLE Travels
+CREATE TABLE Trips
 (
-    id_travel serial not null,
+    id_trip serial not null,
     name VARCHAR(100), 
     picture bytea, 
     description text,
-    PRIMARY KEY (id_travel)
+    begins date,
+    ends date,
+    PRIMARY KEY (id_trip)
 );
 
 CREATE TABLE Categories
@@ -49,30 +51,30 @@ CREATE TABLE Votes
 (
     id_user integer, -- integer : signed four-byte integer
     id_event integer,
-    id_travel integer,
+    id_trip integer,
     is_like boolean,
     FOREIGN KEY (id_user) REFERENCES Users(id_user),
     FOREIGN KEY (id_event) REFERENCES Events(id_event),
-    FOREIGN KEY (id_travel) REFERENCES Travels(id_travel)
+    FOREIGN KEY (id_trip) REFERENCES Trips(id_trip)
 );
 
 CREATE TABLE Messages
 (
     id_user integer,
-    id_travel integer,
+    id_trip integer,
     posted DATE,
     description text,
     FOREIGN KEY (id_user) REFERENCES Users(id_user),
-    FOREIGN KEY (id_travel) REFERENCES Travels(id_travel)
+    FOREIGN KEY (id_trip) REFERENCES Trips(id_trip)
 );
 
 CREATE TABLE Involded
 (
     id_user integer,
-    id_travel integer,
+    id_trip integer,
     is_admin boolean,
     FOREIGN KEY (id_user) REFERENCES Users(id_user),
-    FOREIGN KEY (id_travel) REFERENCES Travels(id_travel)
+    FOREIGN KEY (id_trip) REFERENCES Trips(id_trip)
 );
 
 CREATE TABLE Tagged

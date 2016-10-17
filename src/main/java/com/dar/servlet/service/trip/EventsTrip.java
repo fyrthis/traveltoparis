@@ -33,7 +33,7 @@ public class EventsTrip extends HttpServlet {
 		//TODO : Check identity and permissions
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
-		out.print(buildJSON());
+		out.print(buildJSONMock());
 		out.flush();
 		out.close();
 	}
@@ -46,6 +46,10 @@ public class EventsTrip extends HttpServlet {
 	}
 	
 	private JSONObject buildJSON() {
+		return null;
+	}
+	
+	private JSONObject buildJSONMock() {
 		JSONObject obj = new JSONObject();
 		obj.put("Name", "crunchify.com");
 		obj.put("Author", "App Shah");
