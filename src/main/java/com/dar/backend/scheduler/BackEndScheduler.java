@@ -19,7 +19,7 @@ public class BackEndScheduler implements ServletContextListener {
     @Override
     public void contextInitialized(final ServletContextEvent event) {
         scheduler = Executors.newSingleThreadScheduledExecutor();
-        scheduler.scheduleAtFixedRate(new WallpaperJob(webcam), 0, 15, TimeUnit.MINUTES);
+        scheduler.scheduleAtFixedRate(new WallpaperJob(webcam), 0, 10, TimeUnit.MINUTES);
     }
 
     @Override
