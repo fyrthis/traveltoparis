@@ -8,8 +8,5 @@ jar/
 .git/
 .settings/
 target/
-resources/images/1366x768.jpg
-resources/images/1920x1080.jpg
-resources/images/2560x1440.jpg
-resources/images/original4k.jpg
-
+resources/
+.directory
