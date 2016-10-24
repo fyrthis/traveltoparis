@@ -27,7 +27,7 @@ body{
     }
 }
 
-@media (min-width:2560px) {
+@media (max-width:2560px) {
     #hero {
         background-image: url("/TravelToParis/images?res=2560x1440");
         background-size: cover;
@@ -35,7 +35,7 @@ body{
     }
 }
 
-@media (min-width:3840px) {
+@media (max-width:3840px) {
     #hero {
         background-image: url("/TravelToParis/images?res=3840x2160");
         background-size: cover;

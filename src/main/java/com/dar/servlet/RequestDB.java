@@ -36,8 +36,7 @@ public class RequestDB extends HttpServlet {
 	            	debug = "conn";
 	                Statement stmt = conn.createStatement();
 	                ResultSet rst = stmt.executeQuery("select firstname from utilisateur where lastname='DOUMOULAKIS';");
-	                if (rst.next())
-	                {
+	                if (rst.next()) {
 	                    user_name = rst.getString("firstname");
 	                }
 	                conn.close();
