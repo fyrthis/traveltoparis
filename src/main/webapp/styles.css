@@ -8,33 +8,36 @@
     src: url(fonts/SilentReaction.ttf);
 }
 
-body{ margin:0 0; }
+body{
+    margin:0 0;
+    overflow-x: hidden;
+}
 
 #hero {
-    background-image: url("/images/1366x768.jpg");
+    background-image: url("/TravelToParis/images?res=1366x768");
     background-size: cover;
     position: relative;
 }
 
 @media (max-width:1920px) {
     #hero {
-        background-image: url("/images/1920x1080.jpg");
+        background-image: url("/TravelToParis/images?res=1920x1080");
         background-size: cover;
         position: relative;
     }
 }
 
-@media (min-width:2560px) {
+@media (max-width:2560px) {
     #hero {
-        background-image: url("/images/2560x1440.jpg");
+        background-image: url("/TravelToParis/images?res=2560x1440");
         background-size: cover;
         position: relative;
     }
 }
 
-@media (min-width:3840px) {
+@media (max-width:3840px) {
     #hero {
-        background-image: url("/images/original4k.jpg");
+        background-image: url("/TravelToParis/images?res=3840x2160");
         background-size: cover;
         position: relative;
     }
@@ -90,6 +93,7 @@ body{ margin:0 0; }
 /* Modal Content/Box */
 .modal-content {
     background-color: #fefefe;
+    position: fixed;
     margin: 0 auto; /* 15% from the top and centered */
     border: 5px solid #888;
     width: 80%; /* Could be more or less, depending on screen size */
