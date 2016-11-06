@@ -13,9 +13,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.Date;
 
 import javax.imageio.ImageIO;
 
@@ -33,17 +31,11 @@ public class WallpaperJob implements Runnable {
         cameraID = camString;
     }
 
-    public static void main(String[] args) {
-        System.out.println("Start test");
-        //new WallpaperJob("5568862a7b28535025280c72").run();
-        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
-        scheduler.scheduleAtFixedRate(new WallpaperJob("5568862a7b28535025280c72"), 0, 1, TimeUnit.MINUTES);
-    }
-
     @Override
     public void run() {
+        Date time = new Date();
         try {
-            System.out.println("Launching background routine");
+            System.out.println(time.toString() + " | Launching background routine");
             String apicall = new APIRequestBuilder<DeckChair>()
                     .addDomain(DeckChair.CAMERA)
                     .addStr(cameraID)
@@ -63,10 +55,12 @@ public class WallpaperJob implements Runnable {
             resizeImage(2560, 1440);
             resizeImage(1920, 1080);
             resizeImage(1366, 768);
-            System.out.println("Done");
+            time = new Date();
+            System.out.println(time.toString() + " | Done");
         } catch (Exception e){
             e.printStackTrace(System.out);
-            System.out.println("Not done");
+            time = new Date();
+            System.out.println(time.toString() + " | Not done");
             e.printStackTrace();
         }
     }
