@@ -4,6 +4,6 @@ import org.json.simple.JSONObject;
 
 public interface JSONable {
 	
-	public JSONObject getJSON(long id);
+	public JSONObject getJSON();
 
 }
