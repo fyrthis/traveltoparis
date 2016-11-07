@@ -67,6 +67,55 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
+        <dependency>
+            <groupId>eventful</groupId>
+            <artifactId>eventfulapi</artifactId>
+            <scope>system</scope>
+            <version>1.0</version>
+            <systemPath>${basedir}/eventful/bin/eventfulapi.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>eventful</groupId>
+            <artifactId>activation</artifactId>
+            <scope>system</scope>
+            <version>1.0</version>
+            <systemPath>${basedir}/eventful/lib/activation.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>eventful</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <scope>system</scope>
+            <version>1.0</version>
+            <systemPath>${basedir}/eventful/lib/jaxb-api.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>eventful</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <scope>system</scope>
+            <version>1.0</version>
+            <systemPath>${basedir}/eventful/lib/jaxb-impl.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>eventful</groupId>
+            <artifactId>jaxb-xjc</artifactId>
+            <scope>system</scope>
+            <version>1.0</version>
+            <systemPath>${basedir}/eventful/lib/jaxb-xjc.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>eventful</groupId>
+            <artifactId>jaxbl-impl</artifactId>
+            <scope>system</scope>
+            <version>1.0</version>
+            <systemPath>${basedir}/eventful/lib/jaxb1-impl.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>eventful</groupId>
+            <artifactId>jsr173_1.0_api</artifactId>
+            <scope>system</scope>
+            <version>1.0</version>
+            <systemPath>${basedir}/eventful/lib/jsr173_1.0_api.jar</systemPath>
+        </dependency>
     </dependencies>
     <build>
         <sourceDirectory>src</sourceDirectory>
@@ -90,8 +139,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.5.1</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
             <plugin>

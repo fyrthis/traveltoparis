@@ -7,6 +7,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.ECField;
 import java.security.spec.InvalidKeySpecException;
+import java.sql.Date;
+import java.util.Calendar;
 
 //Class which will contain various static usefull functions
 //Password function taken from https://github.com/defuse/password-hashing/blob/master/PasswordStorage.java
@@ -150,5 +152,14 @@ public class Tools {
     private static String toBase64(byte[] array) {
         return DatatypeConverter.printBase64Binary(array);
     }
+
+    /*public static Date dateOfString(String str){
+        Calendar cal = Calendar.getInstance();
+        String[] list = str.split("-");
+        cal.set(Calendar.YEAR, Integer.parseInt(list[0]));
+        cal.set(Calendar.MONTH, Integer.parseInt(list[1]));
+        cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(list[2]));
+        return new Date(cal.getTimeInMillis());
+    }*/
 
 }

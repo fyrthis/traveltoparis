@@ -1,8 +1,12 @@
 package com.dar.servlet;
 
+import com.dar.backend.sql.User;
+
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,15 +32,16 @@ public class HelloWorld extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // TODO Auto-generated method stub
+        int id = 1;
+        response.setContentType("application/json");
         PrintWriter out = response.getWriter();
-        out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 " +
-                "Transitional//EN\">\n" +
-                "<html>\n" +
-                "<head><title>Hello World</title></head>\n" +
-                "<body>\n" +
-                "<h1>Hello World</h1>\n" +
-                "</body></html>");
+        try {
+            out.print(new User(id).getJSON());
+        } catch (NamingException | SQLException e) {
+            e.printStackTrace(out);
+        }
+        out.flush();
+        out.close();
     }
 
 

@@ -1,13 +1,13 @@
 package com.dar.servlet.service.update;
 
 import com.dar.Tools;
+import com.dar.backend.sql.SQLManager;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import javax.naming.Context;
@@ -28,6 +28,7 @@ public class CreateAccount extends HttpServlet {
         out.close();
     }
 
+    //TODO: proper error manager
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("login");
         String firstname = request.getParameter("firstname");
@@ -36,7 +37,7 @@ public class CreateAccount extends HttpServlet {
         String birth = request.getParameter("birthday");
         String country = request.getParameter("country");
         String password = request.getParameter("password");
-        String securePass = "NULL", salt = "NULL";
+        String securePass, salt;
 
         Calendar cal = Calendar.getInstance();
         StringBuilder errors = new StringBuilder();
@@ -57,7 +58,8 @@ public class CreateAccount extends HttpServlet {
             Context envCtx = (Context) ctx.lookup("java:comp/env");
             DataSource ds = (DataSource) envCtx.lookup("jdbc/travelToParisDB");
             if (ds != null) {
-                Connection conn = ds.getConnection();
+                SQLManager mngr = new SQLManager();
+                Connection conn = mngr.getConnection();
                 if (conn != null) {
                     stmt = conn.prepareStatement(rq);
                     stmt.setString(1, username);
@@ -86,9 +88,8 @@ public class CreateAccount extends HttpServlet {
             out.println(errors.toString());
             if(stmt != null) out.println(stmt.toString());
         }
-        else {
-            out.print("Success !");
-        }
+        else out.print("Success !");
+
         out.println("</body>");
         out.println("</html>");
         out.close();

@@ -26,12 +26,12 @@ public class SignIn extends HttpServlet{
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
-        StringBuilder requestDb = new StringBuilder("SELECT password,salt FROM Users WHERE ");
+        String requestDb = "SELECT password,salt FROM Users WHERE login = ?";
         String uname = request.getParameter("uname");
         String password = request.getParameter("psw");
         String dbHashedPass = null;
         String dbSalt = null;
-        requestDb.append("login='").append(uname).append("'");
+        PreparedStatement stmt;
         try{
             Context ctx = new InitialContext();
             Context envCtx = (Context) ctx.lookup("java:comp/env");
@@ -39,8 +39,9 @@ public class SignIn extends HttpServlet{
             if (ds != null) {
                 Connection conn = ds.getConnection();
                 if (conn != null) {
-                    Statement stmt = conn.createStatement();
-                    ResultSet rst = stmt.executeQuery(requestDb.toString());
+                    stmt = conn.prepareStatement(requestDb);
+                    stmt.setString(1, uname);
+                    ResultSet rst = stmt.executeQuery();
                     if (rst.next()) dbHashedPass = rst.getString("password");
                     if (rst.next()) dbSalt = rst.getString("salt");
                     conn.close();
@@ -51,7 +52,6 @@ public class SignIn extends HttpServlet{
             e.printStackTrace(out);
             return;
         }
-
         // format: algorithm:iterations:hashSize:salt:hash
         String param = "sha256:" + Tools.PBKDF2_ITERATIONS + ":" + Tools.HASH_BYTE_SIZE + ":" + dbSalt + ":" + dbHashedPass;
         boolean isValid;
@@ -68,7 +68,7 @@ public class SignIn extends HttpServlet{
             out.println("</head>");
             out.println("<body><br>");
             HttpSession session = request.getSession(true);
-            if(!session.isNew()){
+            if(session.isNew()){
                 session.setAttribute(uname, dbHashedPass);
                 out.println("<p>Vous etes connecte</p><br>");
             }
@@ -76,7 +76,7 @@ public class SignIn extends HttpServlet{
                 out.println("<p>Vous etes deja connecte</p><br>");
             }
         } else {
-            out.print("<h1> Erreur - Mauvais Pass <h1><br>");
+            out.print("<h1> Erreur - Mauvais Pass </h1><br>");
         }
         out.println("</body>");
         out.println("</html>");
