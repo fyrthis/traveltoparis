@@ -61,6 +61,7 @@ CREATE TABLE Votes
 
 CREATE TABLE Messages
 (
+  id_msg integer,
   id_user integer,
   id_trip integer,
   posted DATE,
@@ -84,4 +85,13 @@ CREATE TABLE Tagged
   id_category integer,
   FOREIGN KEY (id_event) REFERENCES Events(id_event),
   FOREIGN KEY (id_category) REFERENCES Categories(id_category)
+);
+
+CREATE TABLE Friendships
+(
+  id_user1 integer,
+  id_user2 integer,
+  is_pending_request boolean,
+  FOREIGN KEY (id_user1) REFERENCES Users(id_user),
+  FOREIGN KEY (id_user2) REFERENCES Users(id_user)
 );
