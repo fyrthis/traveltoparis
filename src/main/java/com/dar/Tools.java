@@ -5,6 +5,7 @@ import javax.crypto.spec.PBEKeySpec;
 import javax.xml.bind.DatatypeConverter;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.security.spec.ECField;
 import java.security.spec.InvalidKeySpecException;
 
 //Class which will contain various static usefull functions
@@ -34,8 +35,8 @@ public class Tools {
 
     private static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA256";
 
-    private static final int SALT_BYTE_SIZE = 32;
-    public static final int HASH_BYTE_SIZE = 64;
+    private static final int SALT_BYTE_SIZE = 24;
+    public static final int HASH_BYTE_SIZE = 48;
     public static final int PBKDF2_ITERATIONS = 64000;
 
     private static final int HASH_SECTIONS = 5;
@@ -44,7 +45,6 @@ public class Tools {
     private static final int HASH_SIZE_INDEX = 2;
     private static final int SALT_INDEX = 3;
     private static final int PBKDF2_INDEX = 4;
-
 
     public static String createHash(String password) throws CannotPerformOperationException {
         return createHash(password.toCharArray());

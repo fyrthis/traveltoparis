@@ -1,39 +1,51 @@
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./bootstrap/css/bootstrap.css">
+    <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
     <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/signup.css">
     <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script type="text/javascript" src="../js/script.js" ></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./js/script.js" ></script>
 </head>
-<body>
-    <form method="POST" action="account-creation">
-        <label for="username">Username :</label><br>
-        <input type="text" id="username" name="login" required autofocus><br>
+<body id="wrap">
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <h1 style="text-align: center">
+                <span class="label label-success">Sign-Up</span>
+            </h1><br>
+            <form method="POST" action="account-creation" class="form" role="form">
+                <input type="text" id="username" name="login" placeholder="Login" class="form-control input-lg" required autofocus><br>
 
-        <label for="firstname">Firstname :</label><br>
-        <input type="text" id="firstname" name="firstname" required><br>
-        
-        <label for="lastname">Lastname :</label><br>
-        <input type="text" id="lastname" name="lastname" required><br>
-        
-        <label for="email">Email :</label><br>
-        <input type="email" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required><br>
-        
-        <label for="birth">Birth :</label><br>
-        <input type="date" id="birth" name="birthday" ><br>
-        
-        <label for="countries">Country :</label><br>
-        <input id="countries" name="country"> <br>
-        
-        <label for="password">Password :</label><br>
-        <input type="password" id="password" name="password" required><br> <!-- Should be sent with encryption, MD5 ?-->
-        
-        <label for="password_confirm">Confirm password :</label><br>
-        <input type="password" id="password_confirm" oninput="checkpw(this)" required><br>
+                <input type="text" id="firstname" name="firstname" placeholder="Firstname" class="form-control input-lg" required><br>
 
-        <input type="checkbox" id="terms" required> I have read and agree to the terms and conditions. <br>
+                <input type="text" id="lastname" name="lastname" placeholder="Lastname" class="form-control input-lg" required><br>
 
-        <input type="submit" value="Submit">
-    </form>
+                <input type="email" id="email" name="email" placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" class="form-control input-lg" required><br>
+
+                <input type="date" id="birth" name="birthday" placeholder="Birthday" class="form-control input-lg" ><br>
+
+                <input id="countries" name="country" placeholder="Country" class="form-control input-lg"> <br>
+
+                <input type="password" id="password" name="password" placeholder="Password" required class="form-control input-lg"><br>
+
+                <input type="password" id="password_confirm" oninput="checkpw(this)" placeholder="Confirm Password" class="form-control input-lg" required><br>
+
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" value="I agree to sell my soul to the owner of this site">
+                        I agree to sell my soul to the owner of this site
+                    </label>
+
+                </div>
+                <button class="btn btn-lg btn-primary btn-block signup-btn" type="submit">Create Account</button>
+            </form>
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -19,7 +19,7 @@ import javax.sql.DataSource;
 public class SignIn extends HttpServlet{
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
-        out.println("You called this servlet with get method");
+        out.println("You called this servlet with get method, feels bad man...");
         out.close();
     }
 
@@ -51,6 +51,7 @@ public class SignIn extends HttpServlet{
             e.printStackTrace(out);
             return;
         }
+
         // format: algorithm:iterations:hashSize:salt:hash
         String param = "sha256:" + Tools.PBKDF2_ITERATIONS + ":" + Tools.HASH_BYTE_SIZE + ":" + dbSalt + ":" + dbHashedPass;
         boolean isValid;
@@ -62,6 +63,10 @@ public class SignIn extends HttpServlet{
             return;
         }
         if(isValid){
+            out.println("<html>");
+            out.println("<head>");
+            out.println("</head>");
+            out.println("<body><br>");
             HttpSession session = request.getSession(true);
             if(!session.isNew()){
                 session.setAttribute(uname, dbHashedPass);
@@ -73,5 +78,8 @@ public class SignIn extends HttpServlet{
         } else {
             out.print("<h1> Erreur - Mauvais Pass <h1><br>");
         }
+        out.println("</body>");
+        out.println("</html>");
+        out.close();
     }
 }
