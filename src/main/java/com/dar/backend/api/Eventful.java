@@ -87,8 +87,7 @@ public class Eventful {
             } catch (EVDBRuntimeException | EVDBAPIException e) {
                 System.err.println("ERROR Eventful : "+e.getMessage());
             }
-        }while(pageNumber <= nbPages);
-
+        } while(pageNumber <= nbPages);
         return events;
     }
 

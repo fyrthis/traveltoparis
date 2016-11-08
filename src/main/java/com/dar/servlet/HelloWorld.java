@@ -36,7 +36,7 @@ public class HelloWorld extends HttpServlet {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
         try {
-            out.print(new User(id).getJSON());
+           out.print(new User(id).getUserTrips());
         } catch (NamingException | SQLException e) {
             e.printStackTrace(out);
         }

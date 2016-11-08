@@ -49,8 +49,7 @@ public class CreateTrip extends HttpServlet {
 		rq.append(rq2).append(");");
 		
 		//EXECUTE DATABASE QUERY
-		try
-		{
+		try {
 			Context ctx = new InitialContext();
 			Context envCtx = (Context) ctx.lookup("java:comp/env");
 			DataSource ds = (DataSource) envCtx.lookup("jdbc/travelToParisDB");

@@ -3,8 +3,6 @@ package com.dar.backend.sql;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -19,8 +17,7 @@ public class SQLManager {
         Context ctx = new InitialContext();
         Context envCtx = (Context) ctx.lookup("java:comp/env");
         DataSource ds = (DataSource) envCtx.lookup("jdbc/travelToParisDB");
-        if (ds != null)
-        {
+        if (ds != null) {
             Connection conn = ds.getConnection();
             if (conn != null) {
                 return conn;
@@ -49,25 +46,13 @@ public class SQLManager {
         return res;
     }
 
-    public int executeUpdate(String request) throws SQLException, NamingException {
-        Connection conn = null;
+    public int executeUpdate(PreparedStatement prep) throws SQLException, NamingException {
         try {
-            conn = getConnection();
-            Statement stmt = conn.createStatement();
-            int rst = stmt.executeUpdate(request);
-            conn.close();
-            return rst;
-        } finally {
-            try {
-                if(conn != null) {
-                    if(!conn.isClosed()) {
-                        conn.close();
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            return prep.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return -1;
     }
 }
 
