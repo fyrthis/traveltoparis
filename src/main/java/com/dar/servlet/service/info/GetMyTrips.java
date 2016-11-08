@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 
 import com.dar.Tools;
 import com.dar.backend.sql.User;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class GetMyTrips extends HttpServlet {
@@ -22,8 +21,8 @@ public class GetMyTrips extends HttpServlet {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
+        JSONObject obj = new JSONObject();
         if(session.isNew()){
-            JSONObject obj = new JSONObject();
             obj.put("Status", "fail");
             obj.put("Cause", "not connected");
             out.print(obj);
@@ -31,14 +30,13 @@ public class GetMyTrips extends HttpServlet {
             return;
         }
         String uname = (String)session.getAttribute("uname");
-        User user = null;
+        User user;
         try {
-          user = new User(uname);
+            user = new User(uname);
+            obj.put("Trips", user.getUserTrips());
         } catch (Exception e){e.printStackTrace(out); Tools.closeConn(out);}
-
-
-
-        out.print(buildJSON());
+        obj.put("Status","success");
+        out.print(obj);
         Tools.closeConn(out);
     }
 
@@ -46,19 +44,5 @@ public class GetMyTrips extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // TODO Auto-generated method stub
         super.doPost(req, resp);
-    }
-
-    private JSONObject buildJSON() {
-        JSONObject obj = new JSONObject();
-        obj.put("Name", "crunchify.com");
-        obj.put("Author", "App Shah");
-
-        JSONArray company = new JSONArray();
-        company.add("Compnay: eBay");
-        company.add("Compnay: Paypal");
-        company.add("Compnay: Google");
-        obj.put("Company List", company);
-
-        return obj;
     }
 }

@@ -37,6 +37,15 @@ public class Event implements JSONable{
         this.description = (String)first.get("description");
     }
 
+    public Event(int id, String name, String url, String location, Date date, String description){
+        this.id = id;
+        this.name = name;
+        this.url = url;
+        this.location = location;
+        this.date = date;
+        this.description = description;
+    }
+
     @Override
     public JSONObject getJSON() {
         JSONObject obj = new JSONObject();
