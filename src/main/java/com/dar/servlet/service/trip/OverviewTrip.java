@@ -33,7 +33,6 @@ public class OverviewTrip extends HttpServlet {
 		//TODO : Check identity and permissions
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
-		out.print(buildJSONMock());
 		out.flush();
 		out.close();
 	}
@@ -43,23 +42,5 @@ public class OverviewTrip extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
-	}
-	
-	private JSONObject buildJSON() {
-		return null;
-	}
-
-	private JSONObject buildJSONMock() {
-		JSONObject obj = new JSONObject();
-		obj.put("Name", "crunchify.com");
-		obj.put("Author", "App Shah");
- 
-		JSONArray company = new JSONArray();
-		company.add("Compnay: eBay");
-		company.add("Compnay: Paypal");
-		company.add("Compnay: Google");
-		obj.put("Company List", company);
-		
-		return obj;
 	}
 }

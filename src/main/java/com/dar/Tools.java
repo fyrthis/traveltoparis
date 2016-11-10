@@ -3,10 +3,15 @@ package com.dar;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.xml.bind.DatatypeConverter;
+import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.ECField;
 import java.security.spec.InvalidKeySpecException;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 
 //Class which will contain various static usefull functions
 //Password function taken from https://github.com/defuse/password-hashing/blob/master/PasswordStorage.java
@@ -149,6 +154,12 @@ public class Tools {
 
     private static String toBase64(byte[] array) {
         return DatatypeConverter.printBase64Binary(array);
+    }
+
+    public static void closeConn(PrintWriter out){
+        //TODO faire un traitement general des erreurs ou qqch du genre
+        out.flush();
+        out.close();
     }
 
 }

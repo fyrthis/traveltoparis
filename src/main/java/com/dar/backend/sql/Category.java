@@ -1,27 +1,22 @@
 package com.dar.backend.sql;
 
-
 import org.json.simple.JSONObject;
 
 import javax.naming.NamingException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Event implements JSONable{
+public class Category implements JSONable{
     private int id;
     private String name;
-    private String url;
-    private String location;
-    private Date date;
     private String description;
 
 
-    public Event(int id) throws NamingException, SQLException {
-        String request = "SELECT * FROM events WHERE id_event=?;";
+    public Category(int id) throws NamingException, SQLException {
+        String request = "SELECT * FROM categories WHERE id_category=?;";
         SQLManager mngr = new SQLManager();
         Connection conn = mngr.getConnection();
         PreparedStatement stmt = conn.prepareStatement(request);
@@ -29,31 +24,16 @@ public class Event implements JSONable{
         ArrayList<HashMap<String, Object>> res = mngr.executeQuery(stmt);
         conn.close();
         HashMap<String, Object> first = res.get(0);
-        this.id = (Integer)first.get("id_event");
+        this.id = (Integer)first.get("id_category");
         this.name = (String)first.get("name");
-        this.url = (String)first.get("url");
-        this.location = (String)first.get("location");
-        this.date = (Date)first.get("date");
         this.description = (String)first.get("description");
-    }
-
-    public Event(int id, String name, String url, String location, Date date, String description){
-        this.id = id;
-        this.name = name;
-        this.url = url;
-        this.location = location;
-        this.date = date;
-        this.description = description;
     }
 
     @Override
     public JSONObject getJSON() {
         JSONObject obj = new JSONObject();
-        obj.put("Type", "event");
+        obj.put("Type", "category");
         obj.put("Name", name);
-        obj.put("Url", url);
-        obj.put("Location", location);
-        obj.put("Date", date.toString());
         obj.put("Description", description);
         return obj;
     }

@@ -1,13 +1,13 @@
 package com.dar.servlet.service.update;
 
 import com.dar.Tools;
+import com.dar.backend.sql.SQLManager;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import javax.naming.Context;
@@ -28,6 +28,7 @@ public class CreateAccount extends HttpServlet {
         out.close();
     }
 
+    //TODO: proper error manager
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("login");
         String firstname = request.getParameter("firstname");
@@ -36,12 +37,11 @@ public class CreateAccount extends HttpServlet {
         String birth = request.getParameter("birthday");
         String country = request.getParameter("country");
         String password = request.getParameter("password");
-        String securePass = "NULL", salt = "NULL";
+        String securePass, salt;
 
         Calendar cal = Calendar.getInstance();
-        StringBuilder errors = new StringBuilder();
         PrintWriter out = response.getWriter();
-        String rq = ("INSERT INTO Users (login, password, salt, firstname, lastname, birthday, country, email) VALUES (?,?,?,?,?,?,?,?);");
+        String rq = ("INSERT INTO users (login, password, salt, firstname, lastname, birthday, country, email) VALUES (?,?,?,?,?,?,?,?);");
         PreparedStatement stmt = null;
         try {
             String[] list = birth.split("-");
@@ -53,42 +53,29 @@ public class CreateAccount extends HttpServlet {
             salt = list[3];
             securePass = list[4];
             response.setContentType("text/html");
-            Context ctx = new InitialContext();
-            Context envCtx = (Context) ctx.lookup("java:comp/env");
-            DataSource ds = (DataSource) envCtx.lookup("jdbc/travelToParisDB");
-            if (ds != null) {
-                Connection conn = ds.getConnection();
-                if (conn != null) {
-                    stmt = conn.prepareStatement(rq);
-                    stmt.setString(1, username);
-                    stmt.setString(2, securePass);
-                    stmt.setString(3, salt);
-                    stmt.setString(4, firstname);
-                    stmt.setString(5, lastname);
-                    stmt.setDate(6, new Date(cal.getTimeInMillis()));
-                    stmt.setString(7, country);
-                    stmt.setString(8, email);
-                    stmt.executeUpdate();
-                    conn.close();
-                } else errors.append("Connection to database failed.<br>");
-            } else errors.append("Datasource is null.<br>");
-        }
-        catch (Exception e) {
-            errors.append("Query ended with an error : <br>");
-            errors.append(rq).append("<br>");
+            SQLManager mngr = new SQLManager();
+            Connection conn = mngr.getConnection();
+            stmt = conn.prepareStatement(rq);
+            stmt.setString(1, username);
+            stmt.setString(2, securePass);
+            stmt.setString(3, salt);
+            stmt.setString(4, firstname);
+            stmt.setString(5, lastname);
+            stmt.setDate(6, new Date(cal.getTimeInMillis()));
+            stmt.setString(7, country);
+            stmt.setString(8, email);
+            stmt.executeUpdate();
+            conn.close();
+        } catch(Exception e){
             e.printStackTrace(out);
+            out.close();
+            return;
         }
         out.println("<html>");
         out.println("<head>");
         out.println("</head>");
         out.println("<body><br>");
-        if(errors.length() > 0) {
-            out.println(errors.toString());
-            if(stmt != null) out.println(stmt.toString());
-        }
-        else {
-            out.print("Success !");
-        }
+        out.print("Success !");
         out.println("</body>");
         out.println("</html>");
         out.close();

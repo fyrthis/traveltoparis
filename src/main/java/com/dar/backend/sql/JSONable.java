@@ -2,8 +2,6 @@ package com.dar.backend.sql;
 
 import org.json.simple.JSONObject;
 
-public interface JSONable {
-	
-	public JSONObject getJSON();
-
+interface JSONable {
+	JSONObject getJSON();
 }

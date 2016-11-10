@@ -1,17 +1,18 @@
 #wrap{
-    background-image: -ms-linear-gradient(top, #FFFFFF 0%, #D3D8E8 100%);
+    background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
     /* Mozilla Firefox */
-    background-image: -moz-linear-gradient(top, #FFFFFF 0%, #D3D8E8 100%);
+    background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
     /* Opera */
-    background-image: -o-linear-gradient(top, #FFFFFF 0%, #D3D8E8 100%);
+    background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
     /* Webkit (Safari/Chrome 10) */
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFFFFF), color-stop(1, #D3D8E8));
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #000000), color-stop(1, #000000)), url("../img/Paris_France,_Eiffel_Tower_in_background.JPG");
     /* Webkit (Chrome 11+) */
-    background-image: -webkit-linear-gradient(top, #FFFFFF 0%, #D3D8E8 100%);
+    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../img/Paris_France,_Eiffel_Tower_in_background.JPG");
     /* W3C Markup, IE10 Release Preview */
-    background-image: linear-gradient(to bottom, #FFFFFF 0%, #D3D8E8 100%);
+    background-image:  linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("../img/Paris_France,_Eiffel_Tower_in_background.JPG");
     background-repeat: no-repeat;
     background-attachment: fixed;
+    background-size: cover;
 }
 legend{
     color:#141823;

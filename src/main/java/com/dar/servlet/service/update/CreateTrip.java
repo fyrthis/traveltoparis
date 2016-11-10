@@ -1,9 +1,14 @@
 package com.dar.servlet.service.update;
 
+import com.dar.backend.sql.SQLManager;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.Calendar;
 import java.util.Enumeration;
 
 import javax.naming.Context;
@@ -16,75 +21,55 @@ import javax.sql.DataSource;
 
 public class CreateTrip extends HttpServlet {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
-		out.println("You called this servlet with get method");
-		out.close();
-	}
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        PrintWriter out = response.getWriter();
+        out.println("You called this servlet with get method");
+        out.close();
+    }
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		StringBuilder errors = new StringBuilder();
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		
-		//BUILD QUERY FROM POST PARAMETERS
-		Enumeration<String> parameterNames = request.getParameterNames();
-		StringBuilder rq = new StringBuilder("INSERT INTO Travels (");
-		StringBuilder rq2 = new StringBuilder(") VALUES (");
-		while (parameterNames.hasMoreElements()) {
-			String param = parameterNames.nextElement();
-			String[] paramValues = request.getParameterValues(param);
-			rq.append(param);
-			if(paramValues.length==1) {
-				if(paramValues[0].isEmpty()) rq2.append("NULL");
-				else rq2.append("'").append(paramValues[0]).append("'");	
-			} else rq2.append("NULL");
-			if(parameterNames.hasMoreElements()){
-				rq.append(", ");
-				rq2.append(", ");
-			}
-		}
-		rq.append(rq2).append(");");
-		
-		//EXECUTE DATABASE QUERY
-		try
-		{
-			Context ctx = new InitialContext();
-			Context envCtx = (Context) ctx.lookup("java:comp/env");
-			DataSource ds = (DataSource) envCtx.lookup("jdbc/travelToParisDB");
-			if (ds != null)
-			{
-				Connection conn = ds.getConnection();
-				if (conn != null)
-				{
-					Statement stmt = conn.createStatement();
-					stmt.executeUpdate(rq.toString());
-					out.println(rq.toString());
-					conn.close();
-				} else errors.append("Connection to database failed.<br>");
-			} else errors.append("Datasource is null.<br>");
-		}
-		catch (Exception e)
-		{
-			errors.append("Query ended with an error : <br>");
-			errors.append(rq.toString()).append("<br>");
-			errors.append(e.getMessage());
-		}
-		
-		out.println("<html>");
-	    out.println("<head>");
-	    if(errors.length()==0) out.println("<title>Sign up succesful </title>");
-	    else out.println("<title>ERROR </title>");
-	    out.println("</head>");
-	    out.println("<body>");
-	    if(errors.length()==0) out.println("<p>Your account has been successfully created !</p>");
-	    else out.println(errors.toString());
-	    out.println("</body>");
-	    out.println("</html>");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String name = request.getParameter("name");
+        String description = request.getParameter("description");
+        String begins = request.getParameter("begins");
+        String ends = request.getParameter("ends");
 
-		out.close();
-	}
+        Date date1;
+        Date date2;
+        Calendar cal = Calendar.getInstance();
+        PrintWriter out = response.getWriter();
+        PreparedStatement stmt = null;
+        String rq = ("INSERT INTO trips (name, description, begins, ends) VALUES (?,?,?,?);");
+        try {
+            String[] list = begins.split("-");
+            cal.set(Calendar.YEAR, Integer.parseInt(list[0]));
+            cal.set(Calendar.MONTH, Integer.parseInt(list[1]));
+            cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(list[2]));
+            date1 = new Date(cal.getTimeInMillis());
+            list = ends.split("-");
+            cal.set(Calendar.YEAR, Integer.parseInt(list[0]));
+            cal.set(Calendar.MONTH, Integer.parseInt(list[1]));
+            cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(list[2]));
+            date2 = new Date(cal.getTimeInMillis());
+            SQLManager mngr = new SQLManager();
+            Connection conn = mngr.getConnection();
+            stmt = conn.prepareStatement(rq);
+            stmt.setString(1, name);
+            stmt.setString(2, description);
+            stmt.setDate(3, date1);
+            stmt.setDate(4, date2);
+            stmt.executeUpdate();
+            conn.close();
+        } catch(Exception e){e.printStackTrace(out);}
+        out.println("<html>");
+        out.println("<head>");
+        out.println("</head>");
+        out.println("<body><br>");
+        out.print("Success !");
+        out.println("</body>");
+        out.println("</html>");
+        out.close();
+    }
 
 }
