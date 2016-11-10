@@ -1,3 +1,56 @@
+/* BASE */
+body{
+    margin:0 0;
+    overflow-x: hidden;
+    padding-top: 50px;
+    color: #888; 
+}
+
+a {
+    color: #03a1d1;
+    text-decoration: none!important;
+}
+
+/* LAYOUT */
+.list-inline>li {
+    padding: 0 10px 0 0;
+}
+.container-pad {
+    padding: 30px 15px;
+}
+
+.img-responsive.list {
+    max-height: 100px;
+}
+input {
+        max-width: 100%;
+    }
+
+/* MODULE */
+.bgc-fff {
+    background-color: #fff!important;
+}
+.box-shad {
+    -webkit-box-shadow: 1px 1px 0 rgba(0,0,0,.2);
+    box-shadow: 1px 1px 0 rgba(0,0,0,.2);
+}
+.brdr {
+    border: 1px solid #ededed;
+}
+
+/* FONTS */
+.fnt-smaller {
+    font-size: .9em;
+}
+
+.fnt-100px {
+    font-size: 100px!important;
+}
+
+.fnt-lighter {
+    color: #bbb;
+}
+
 @font-face {
     font-family: "Nordic";
     src: url(fonts/NordicAlternativeRegular.ttf);
@@ -8,11 +61,77 @@
     src: url(fonts/SilentReaction.ttf);
 }
 
-body{
-    margin:0 0;
-    overflow-x: hidden;
+/* LIKE AND DISLIKE */
+.like-or-not i.glyphicon { display: inline; font-size: 1.125em; cursor: pointer; }
+.like-or-not i.glyphicon-thumbs-up { color: #1abc9c; }
+.like-or-not i.glyphicon-thumbs-down { color: #e74c3c; padding-left: 5px; }
+.like-or-not div { width: 15px; display: inline; font: 300 normal 1.125em "Roboto",Arial,Verdana,sans-serif; color: #34495e; text-align: center; background-color: transparent !important; border: none !important; }   
+
+/* PLUS AND MINUS */
+i.glyphicon-plus { color: #1abc9c; padding-left: 5px; }
+i.glyphicon-minus { color: #e74c3c; padding-left: 5px; }
+
+/* FRIENDS */
+.img-responsive.friends {
+    max-height: 50px;
+}
+/**** MEDIA QUERIES ****/
+@media only screen and (max-width: 991px) {
+    #property-listings .property-listing {
+        padding: 5px!important;
+    }
+    #property-listings .property-listing a {
+        margin: 0;
+    }
+    #property-listings .property-listing .media-body {
+        padding: 10px;
+    }
 }
 
+/* PADDING & MARGING */
+.pad-10 {
+    padding: 10px!important;
+}
+
+.pad-top-20 {
+    padding-top: 20px!important;
+}
+.mrg-0 {
+    margin: 0!important;
+}
+.btm-mrg-10 {
+    margin-bottom: 10px!important;
+}
+.btm-mrg-20 {
+    margin-bottom: 20px!important;
+}
+.top-mrg-20 {
+    margin-top: 20px!important;
+}
+
+@media only screen and (min-width: 992px) {
+    #property-listings .property-listing img {
+        max-width: 180px;
+    }
+    
+/* SPIN LOADER */
+.spin-loader {
+    -animation: spin 1.2s infinite linear;
+    -webkit-animation: spin2 1.2s infinite linear;
+    font-size: 50px;
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+}
+
+/* BACKGROUND */
 #hero {
     background-image: url("/TravelToParis/images?res=1366x768");
     background-size: cover;
@@ -90,33 +209,7 @@ body{
     padding-top: 22em;
 }
 
-/* Modal Content/Box */
-.modal-content {
-    background-color: #fefefe;
-    position: fixed;
-    margin: 0 auto; /* 15% from the top and centered */
-    border: 5px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
-    padding: 50px;
-}
 
-/* The Close Button */
-.close {
-    /* Position it in the top right corner outside of the modal */
-    position: absolute;
-    right: 25px;
-    top: 0;
-    color: #000;
-    font-size: 35px;
-    font-weight: bold;
-}
-
-/* Close button on hover */
-.close:hover,
-.close:focus {
-    color: red;
-    cursor: pointer;
-}
 /* Add Zoom Animation */
 .animate {
     -webkit-animation: animatezoom 0.6s;
@@ -139,4 +232,11 @@ body{
         text-align: right;
         font-size: 2.5rem; }
     .text p {
-        text-align: right; } }
+        text-align: right; } 
+}
+
+/* Color  */
+.clr-535353 {
+    color: #535353;
+}
+
