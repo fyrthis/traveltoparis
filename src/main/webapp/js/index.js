@@ -1,3 +1,5 @@
+
+
 jQuery(document).ready(function($){
     // Defining a function to set size for #hero
     function fullscreen(){
@@ -28,16 +30,15 @@ jQuery(document).ready(function($){
                 console.log(data);
                 if(data.requestValid === "yes"){
                     if(data.sessionType === "new"){
-                        $("#sign-in-res").empty().append("<p>Success</p>");
-                        var modal = document.getElementById('id01');
-                        modal.style.display = "none";
+                        $("#id01").css("display", "none");
+                        //$("#sign-in-button").replaceWith("<a href='sign-out'><button>Sign out</button></a>");
                     }
                     else{$("#sign-in-res").empty().append("<p>Already signed in</p>")}
                 }
                 else{$("#sign-in-res").empty().append("<p>Failed</p>")}
             },
             error: function(requestObj, status, error){
-                $("#sign-in-res").empty().append("<p>Failed : " + status + "</p>");
+                $("#sign-in-res").empty().append("<p>Failed : " + status + " : "+ error+"</p>");
             }
         });
     });

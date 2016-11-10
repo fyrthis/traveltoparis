@@ -2,22 +2,43 @@
 <html style="">
 <head>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
     <meta charset="utf-8" />
-    <title>Paris adventure</title>
+    <title>Travel To Paris</title>
+    <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+    <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./css/trip.css">
+    <link rel="stylesheet" href="./bootstrap/css/bootstrap.css">
 </head>
 <body>
 <div id="wrapper">
     <div id="hero">
-        <button onclick="document.getElementById('id01').style.display='block'">Sign In</button>
+        <!--<button onclick="document.getElementById('id01').style.display='block'" id="sign-in-button">Sign In</button>
+
         <a href="sign-up">
             <button onclick="document.getElementById('id02').style.display='block'">Sign Up</button>
-        </a>
+        </a> -->
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Travel to Paris</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li onclick="document.getElementById('id01').style.display='block'"><a href="#">Sign in</a></li>
+                        <li onclick="document.getElementById('id02').style.display='block'"><a href="#">Sign up</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+
         <div id="id01" class="modal">
             <span onclick="document.getElementById('id01').style.display='none'"
                   class="close" title="Close Modal">&times;</span>
-
             <!-- Modal Content -->
             <form class="modal-content animate" id="form-sign-in" method="POST" action="sign-in">
                 <div class="container">
@@ -47,7 +68,7 @@
         </script>
 
         <div class="header">
-            <h1> Travel To Paris</h1>
+            <h1 id="fnt-50"> Travel To Paris</h1>
         </div>
     </div>
     <div id="content" class="text">
