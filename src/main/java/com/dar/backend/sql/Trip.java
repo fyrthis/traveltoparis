@@ -3,7 +3,15 @@ package com.dar.backend.sql;
 import org.json.simple.JSONObject;
 
 public class Trip implements JSONable {
-
+/*
+ *   id_trip serial not null,
+  name VARCHAR(100),
+  picture bytea,
+  description text,
+  begins date,
+  ends date,
+  PRIMARY KEY (id_trip)
+ */
 	@Override
 	public JSONObject getJSON(long id) {
 		JSONObject obj = new JSONObject();
