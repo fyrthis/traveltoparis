@@ -22,7 +22,15 @@ import javax.sql.DataSource;
 
 public class SignIn extends HttpServlet{
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect(request.getContextPath());
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession(false);
+        JSONObject obj = new JSONObject();
+        if(session == null) obj.put("has_session", true);
+        else obj.put("has_session", false);
+        //response.sendRedirect(request.getContextPath());
+        out.print(obj);
+        out.close();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{

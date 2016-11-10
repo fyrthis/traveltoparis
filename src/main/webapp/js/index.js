@@ -29,6 +29,8 @@ jQuery(document).ready(function($){
                 if(data.requestValid === "yes"){
                     if(data.sessionType === "new"){
                         $("#sign-in-res").empty().append("<p>Success</p>");
+                        var modal = document.getElementById('id01');
+                        modal.style.display = "none";
                     }
                     else{$("#sign-in-res").empty().append("<p>Already signed in</p>")}
                 }

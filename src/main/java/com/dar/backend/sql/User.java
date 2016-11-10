@@ -76,11 +76,11 @@ public class User implements JSONable {
                     (String) e.get("description"),
                     (Date) e.get("begins"),
                     (Date) e.get("ends"));
-            elem.put("Trip", trip.getJSON());
+            elem.put("trip", trip.getJSON());
             arr.add(elem);
         }
-        obj.put("Size", res.size());
-        obj.put("List", arr);
+        obj.put("size", res.size());
+        obj.put("list", arr);
         conn.close();
         return obj;
     }
@@ -88,14 +88,15 @@ public class User implements JSONable {
     @Override
     public JSONObject getJSON() {
         JSONObject obj = new JSONObject();
-        obj.put("Type", "user");
-        obj.put("Login", login);
-        obj.put("Firstname", firstname);
-        obj.put("Lastname", lastname);
-        obj.put("Birthday", birthday.toString());
-        obj.put("Country", country);
-        obj.put("Email", email);
-        obj.put("Description", description);
+        obj.put("type", "user");
+        obj.put("id", id);
+        obj.put("login", login);
+        obj.put("firstname", firstname);
+        obj.put("lastname", lastname);
+        obj.put("birthday", birthday.toString());
+        obj.put("country", country);
+        obj.put("email", email);
+        obj.put("description", description);
         return obj;
     }
 }

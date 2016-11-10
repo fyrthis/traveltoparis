@@ -56,20 +56,20 @@ public class Trip implements JSONable {
         ArrayList<HashMap<String, Object>> res = mngr.executeQuery(stmt);
         for(HashMap<String, Object> e : res){
             JSONObject elem = new JSONObject();
-            elem.put("User", e.get("login"));
-            elem.put("Is_like", e.get("is_like"));
-            elem.put("Category", e.get("description_cat"));
+            elem.put("user", e.get("login"));
+            elem.put("is_like", e.get("is_like"));
+            elem.put("category", e.get("description_cat"));
             Event event = new Event((Integer)e.get("id_event"),
                     (String)e.get("name"),
                     (String)e.get("url"),
                     (String)e.get("location"),
                     (Date)e.get("date"),
                     (String)e.get("description"));
-            elem.put("Event", event.getJSON());
+            elem.put("event", event.getJSON());
             arr.add(elem);
         }
-        obj.put("Size", res.size());
-        obj.put("List", arr);
+        obj.put("size", res.size());
+        obj.put("list", arr);
         conn.close();
         return obj;
     }
@@ -77,10 +77,12 @@ public class Trip implements JSONable {
     @Override
     public JSONObject getJSON() {
         JSONObject obj = new JSONObject();
-        obj.put("Name", name);
-        obj.put("Description", description);
-        obj.put("Begins", begins.toString());
-        obj.put("Ends", ends.toString());
+        obj.put("type", "trip");
+        obj.put("id", id);
+        obj.put("name", name);
+        obj.put("description", description);
+        obj.put("begins", begins.toString());
+        obj.put("ends", ends.toString());
         return obj;
     }
 }

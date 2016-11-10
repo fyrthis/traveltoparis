@@ -1,11 +1,13 @@
 $(document).ready(function() {
 
 //Servlet get-my-trips
-	$.get("get-my-trips", function(data) {
-		//Pour chaque trip, on append
-		for(var i = 0; i < data.length; i++) {
-			var trip = data.trip[i];
-			$("#trips").append('<div class="col-lg-12 col-sm-12 col-xs-12"> \
+    $.get("../get-my-trips", function(data) {
+        console.log(data);
+        //Pour chaque trip, on append
+        console.log(data.trips.list[0]);
+        for(var i = 0; i < data.trips.size; i++) {
+            var trip = data.trips.list[i].trip;
+            $(".trips").append('<div class="col-lg-12 col-sm-12 col-xs-12"> \
 					<div \
 					class="brdr bgc-fff pad-10 box-shad btm-mrg-20 "> \
 					<div class="media"> \
@@ -22,12 +24,12 @@ $(document).ready(function() {
 					<li>To '+trip.ends+'</li> \
 					</ul> \
 					<p class="hidden-xs"> nb participants</p> \
-					<span class="fnt-smaller fnt-lighter fnt-arial"'+trip.description+'</span> \
+					<span class="fnt-smaller fnt-lighter fnt-arial">'+trip.description+'</span> \
 					</div> \
 					</div> \
 					</div> \
 			</div>');
-		}
-	});
-	
+        }
+    });
+
 });
