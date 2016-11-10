@@ -16,25 +16,30 @@
 <body>
 <div id="wrapper">
     <div id="hero">
-        <!--<button onclick="document.getElementById('id01').style.display='block'" id="sign-in-button">Sign In</button>
-
-        <a href="sign-up">
-            <button onclick="document.getElementById('id02').style.display='block'">Sign Up</button>
-        </a> -->
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#">Travel to Paris</a>
                 </div>
-                <div class="navbar-collapse collapse">
+                <div class="navbar-collapse collapse" id="first_div">
                     <ul class="nav navbar-nav navbar-right">
                         <li onclick="document.getElementById('id01').style.display='block'"><a href="#">Sign in</a></li>
-                        <li onclick="document.getElementById('id02').style.display='block'"><a href="#">Sign up</a></li>
+                        <li onclick="document.getElementById('id02').style.display='block'"><a href="./sign-up">Sign up</a></li>
+                    </ul>
+                </div>
+                <div class="navbar-collapse collapse" id="second_div">
+                    <ul class="nav navbar-nav">
+                        <li><a href="new-trip.html">New Trip</a></li>
+                        <li class="active"><a href="#">My Trips</a></li>
+                        <li><a href="friends.html">My Friends</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#">My account</a></li>
+                        <li><a href="./sign-out">Sign out</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
-
 
         <div id="id01" class="modal">
             <span onclick="document.getElementById('id01').style.display='none'"

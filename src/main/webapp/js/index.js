@@ -1,18 +1,43 @@
+function load_bar(){
+    console.log("bar function got called");
+    $.ajax({
+        type: "GET",
+        url: "./sign-in",
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            if (data.has_session == true){
+                $("#first_div").css("display", "none");
+                $("#second_div").css("display", "block");
+            }
+            else{
+                $("#first_div").css("display", "none");
+                $("#second_div").css("display", "block");
+            }
+        },
+        error: function (requestObj, status, error) {
+            console.log(requestObj + " : " + status + " : " + error);
+            $("#first_div").css("display", "none");
+            $("#second_div").css("display", "block");
+        },
+        async: false
+    });}
 
+load_bar();
 
-jQuery(document).ready(function($){
+$(document).ready(function(){
     // Defining a function to set size for #hero
     function fullscreen(){
-        jQuery('#hero').css({
-            width: jQuery(window).width(),
-            height: jQuery(window).height()
+        $('#hero').css({
+            width: $(window).width(),
+            height: $(window).height()
         });
     }
 
     fullscreen();
 
     // Run the function in case of window resize
-    jQuery(window).resize(function() {
+    $(window).resize(function() {
         fullscreen();
     });
 
@@ -31,7 +56,7 @@ jQuery(document).ready(function($){
                 if(data.requestValid === "yes"){
                     if(data.sessionType === "new"){
                         $("#id01").css("display", "none");
-                        //$("#sign-in-button").replaceWith("<a href='sign-out'><button>Sign out</button></a>");
+                        //location.reload();
                     }
                     else{$("#sign-in-res").empty().append("<p>Already signed in</p>")}
                 }
