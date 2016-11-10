@@ -23,8 +23,8 @@ public class GetMyTrips extends HttpServlet {
         HttpSession session = request.getSession();
         JSONObject obj = new JSONObject();
         if(session.isNew()){
-            obj.put("Status", "fail");
-            obj.put("Cause", "not connected");
+            obj.put("status", "fail");
+            obj.put("cause", "not connected");
             out.print(obj);
             Tools.closeConn(out);
             return;
@@ -33,9 +33,9 @@ public class GetMyTrips extends HttpServlet {
         User user;
         try {
             user = new User(uname);
-            obj.put("Trips", user.getUserTrips());
+            obj.put("trips", user.getUserTrips());
         } catch (Exception e){e.printStackTrace(out); Tools.closeConn(out);}
-        obj.put("Status","success");
+        obj.put("status","success");
         out.print(obj);
         Tools.closeConn(out);
     }

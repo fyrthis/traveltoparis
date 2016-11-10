@@ -46,8 +46,9 @@ public class Trip implements JSONable {
     public JSONObject getTripEvents() throws NamingException, SQLException {
         JSONObject obj = new JSONObject();
         JSONArray arr = new JSONArray();
-        String request = "SELECT v.is_like, u.login, e.* FROM trips t, votes v, users u, events e WHERE t.id_trip = ? AND v.id_trip=t.id_trip " +
-                "AND v.id_event=e.id_event AND v.id_user=u.id_user";
+        String request = "SELECT v.is_like, u.login, c.description AS description_cat, e.* FROM trips t, votes v, users u, events e, tagged tg, categories c " +
+                "WHERE t.id_trip = ? AND v.id_trip=t.id_trip AND v.id_event=e.id_event AND v.id_user=u.id_user AND e.id_event=tg.id_event " +
+                "AND tg.id_category = c.id_category";
         SQLManager mngr = new SQLManager();
         Connection conn = mngr.getConnection();
         PreparedStatement stmt = conn.prepareStatement(request);
@@ -57,6 +58,7 @@ public class Trip implements JSONable {
             JSONObject elem = new JSONObject();
             elem.put("User", e.get("login"));
             elem.put("Is_like", e.get("is_like"));
+            elem.put("Category", e.get("description_cat"));
             Event event = new Event((Integer)e.get("id_event"),
                     (String)e.get("name"),
                     (String)e.get("url"),

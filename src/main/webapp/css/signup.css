@@ -1,15 +1,15 @@
 #wrap{
-    background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+    background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../img/background_signup.jpg");
     /* Mozilla Firefox */
-    background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+    background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../img/background_signup.jpg");
     /* Opera */
-    background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+    background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../img/background_signup.jpg");
     /* Webkit (Safari/Chrome 10) */
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #000000), color-stop(1, #000000)), url("../img/Paris_France,_Eiffel_Tower_in_background.JPG");
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #000000), color-stop(1, #000000)), url("../img/background_signup.jpg");
     /* Webkit (Chrome 11+) */
-    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../img/Paris_France,_Eiffel_Tower_in_background.JPG");
+    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../img/background_signup.jpg");
     /* W3C Markup, IE10 Release Preview */
-    background-image:  linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("../img/Paris_France,_Eiffel_Tower_in_background.JPG");
+    background-image:  linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("../img/background_signup.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -26,14 +26,14 @@ legend{
     background-image: -ms-linear-gradient(top, #79bc64, #578843);
     background-image: -o-linear-gradient(top, #79bc64, #578843);
     background-image: linear-gradient(to bottom, #79bc64, #578843);
-    -webkit-border-radius: 4;
-    -moz-border-radius: 4;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
     border-radius: 4px;
-    text-shadow: 0px 1px 0px #898a88;
-    -webkit-box-shadow: 0px 0px 0px #a4e388;
-    -moz-box-shadow: 0px 0px 0px #a4e388;
-    box-shadow: 0px 0px 0px #a4e388;
-    font-family: Arial;
+    text-shadow: 0 1px 0 #898a88;
+    -webkit-box-shadow: 0 0 0 #a4e388;
+    -moz-box-shadow: 0 0 0 #a4e388;
+    box-shadow: 0 0 0 #a4e388;
+    font-family: Arial, sans-serif;
     color: #ffffff;
     font-size: 20px;
     padding: 10px 20px 10px 20px;

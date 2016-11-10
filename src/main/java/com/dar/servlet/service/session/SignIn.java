@@ -1,10 +1,14 @@
 package com.dar.servlet.service.session;
 
 import com.dar.Tools;
+import com.dar.backend.sql.SQLManager;
+import org.json.simple.JSONObject;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -18,68 +22,45 @@ import javax.sql.DataSource;
 
 public class SignIn extends HttpServlet{
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
-        out.println("You called this servlet with get method, feels bad man...");
-        out.close();
+        response.sendRedirect(request.getContextPath());
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        response.setContentType("text/html");
+        response.setContentType("application/json");
         PrintWriter out = response.getWriter();
-        String requestDb = "SELECT password,salt FROM Users WHERE login = ?";
+        String requestDb = "SELECT u.password, u.salt FROM Users u WHERE u.login = ?";
         String uname = request.getParameter("uname");
         String password = request.getParameter("psw");
         String dbHashedPass = null;
         String dbSalt = null;
-        PreparedStatement stmt;
-        try{
-            Context ctx = new InitialContext();
-            Context envCtx = (Context) ctx.lookup("java:comp/env");
-            DataSource ds = (DataSource) envCtx.lookup("jdbc/travelToParisDB");
-            if (ds != null) {
-                Connection conn = ds.getConnection();
-                if (conn != null) {
-                    stmt = conn.prepareStatement(requestDb);
-                    stmt.setString(1, uname);
-                    ResultSet rst = stmt.executeQuery();
-                    if (rst.next()) dbHashedPass = rst.getString("password");
-                    if (rst.next()) dbSalt = rst.getString("salt");
-                    conn.close();
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            e.printStackTrace(out);
-            return;
-        }
+        SQLManager sql = new SQLManager();
+        try {
+            Connection con = sql.getConnection();
+            PreparedStatement stmt = con.prepareStatement(requestDb);
+            stmt.setString(1, uname);
+            ArrayList<HashMap<String, Object>> res = sql.executeQuery(stmt);
+            dbHashedPass = (String)res.get(0).get("password");
+            dbSalt = (String)res.get(0).get("salt");
+        } catch (Exception e){e.printStackTrace(out); return;}
+
         // format: algorithm:iterations:hashSize:salt:hash
         String param = "sha256:" + Tools.PBKDF2_ITERATIONS + ":" + Tools.HASH_BYTE_SIZE + ":" + dbSalt + ":" + dbHashedPass;
         boolean isValid;
         try {
             isValid = Tools.verifyPassword(password, param);
-        } catch (Exception e){
-            e.printStackTrace();
-            e.printStackTrace(out);
-            return;
-        }
+        } catch (Exception e){e.printStackTrace(out); return;}
+        JSONObject res = new JSONObject();
         if(isValid){
-            out.println("<html>");
-            out.println("<head>");
-            out.println("</head>");
-            out.println("<body><br>");
+            res.put("requestValid", "yes");
             HttpSession session = request.getSession(true);
             if(session.isNew()){
-                session.setAttribute(uname, dbHashedPass);
-                out.println("<p>Vous etes connecte</p><br>");
+                res.put("sessionType", "new");
+                session.setAttribute("uname", uname);
+                session.setAttribute("hash", dbHashedPass);
             }
-            else{
-                out.println("<p>Vous etes deja connecte</p><br>");
-            }
-        } else {
-            out.print("<h1> Erreur - Mauvais Pass </h1><br>");
-        }
-        out.println("</body>");
-        out.println("</html>");
+            else{res.put("sessionType", "old");}
+        } else{res.put("requestValid", "no");}
+        out.print(res);
         out.close();
     }
 }

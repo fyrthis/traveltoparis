@@ -19,7 +19,7 @@
                   class="close" title="Close Modal">&times;</span>
 
             <!-- Modal Content -->
-            <form class="modal-content animate" method="POST" action="sign-in">
+            <form class="modal-content animate" id="form-sign-in" method="POST" action="./sign-in">
                 <div class="container">
                     <label><b>Username</b></label>
                     <input type="text" placeholder="Enter Username" name="uname" required>
@@ -31,6 +31,7 @@
                 <div class="container" style="background-color:#f1f1f1">
                     <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
                     <span class="psw">Forgot <a href="#">password?</a></span>
+                    <div id="sign-in-res"></div>
                 </div>
             </form>
         </div>

@@ -26,7 +26,7 @@ public class SQLManager {
         } else throw new SQLException("Datasource is null.<br>");
     }
 
-    ArrayList<HashMap<String, Object>> executeQuery(PreparedStatement prep) throws NamingException, SQLException {
+    public ArrayList<HashMap<String, Object>> executeQuery(PreparedStatement prep) throws NamingException, SQLException {
         ArrayList<HashMap<String, Object>> res = new ArrayList<>();
         try {
             ResultSet rs = prep.executeQuery();

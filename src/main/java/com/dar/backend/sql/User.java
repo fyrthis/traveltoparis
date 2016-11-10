@@ -69,7 +69,7 @@ public class User implements JSONable {
         ArrayList<HashMap<String, Object>> res = mngr.executeQuery(stmt);
         for(HashMap<String, Object> e : res){
             JSONObject elem = new JSONObject();
-            elem.put("Admin", e.get("is_admin").toString());
+            elem.put("admin", e.get("is_admin").toString());
             Trip trip = new Trip((Integer) e.get("id_trip"),
                     (String) e.get("name"),
                     (String) e.get("description"),
