@@ -9,6 +9,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class User implements JSONable {
+
     private int id;
     private String login;
     private String firstname;

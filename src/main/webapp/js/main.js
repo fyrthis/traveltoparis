@@ -3,7 +3,7 @@ $(document).ready( function() {
 // Container qui change en fonction du bouton sur lequel on appuie !
 //EN MAJUSCULE les champs à changer !
 
-	document.getElementById("resume").addEventListener("click", function(){
+	document.getElementById("overview").addEventListener("click", function(){
 	    document.getElementById("container").innerHTML = "Attente response MAIN PAGE"; //Ici, on met un loading spinner au cas où la requète prend du temps
 	    $.getJSON("MAINSERVLET", function(data) {
 	    	//Ici on n'oubliera pas de cacher le spin loader
