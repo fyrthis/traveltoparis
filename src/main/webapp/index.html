@@ -2,18 +2,24 @@
 <html style="">
 <head>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
     <meta charset="utf-8" />
     <title>Travel To Paris</title>
-    <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
-    <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Passion+One'
+          rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Oxygen'
+          rel='stylesheet' type='text/css'>
+    <link
+            href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
+            rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="./css/trip.css">
+    <!-- <link rel="stylesheet" href="./css/trip.css"> -->
     <link rel="stylesheet" href="./bootstrap/css/bootstrap.css">
 </head>
 <body>
+<<<<<<< HEAD
 <div id="wrapper">
     <div id="hero">
         <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -41,25 +47,26 @@
             </div>
         </nav>
 
-        <div id="id01" class="modal">
-            <span onclick="document.getElementById('id01').style.display='none'"
-                  class="close" title="Close Modal">&times;</span>
-            <!-- Modal Content -->
-            <form class="modal-content animate" id="form-sign-in" method="POST" action="sign-in">
-                <div class="container">
-                    <label><b>Username</b></label>
-                    <input type="text" placeholder="Enter Username" name="uname" required>
-                    <label><b>Password</b></label>
-                    <input type="password" placeholder="Enter Password" name="psw" required>
-                    <button type="submit">Login</button>
-                    <!-- <input type="checkbox" checked="checked"> Remember me -->
+        <div id="id01" class=" modal">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <form method="POST" action="sign-in">
+                                <input class="form-control" type="text" placeholder="Username"
+                                       name="uname" required> <input class="form-control"
+                                                                     type="password" placeholder="Password" name="psw" required>
+                                <button class="btn btn-success btn-block btm-20" type="submit">Login</button>
+                                <button class="btn btn-danger btn-block btm-20" type="button"
+                                        onclick="document.getElementById('id01').style.display='none'"
+                                        class="cancelbtn">Cancel</button>
+                                <span class="psw">Forgot <a href="#">password?</a></span>
+                                <div id="sign-in-res"></div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <div class="container" style="background-color:#f1f1f1">
-                    <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-                    <span class="psw">Forgot <a href="#">password?</a></span>
-                    <div id="sign-in-res"></div>
-                </div>
-            </form>
+            </div>
         </div>
         <script>
             // Get the modal
@@ -73,18 +80,22 @@
         </script>
 
         <div class="header">
-            <h1 id="fnt-50"> Travel To Paris</h1>
+            <p class="fnt-100px pad-top-20">Travel To Paris</p>
         </div>
     </div>
     <div id="content" class="text">
-        <h2> If nothing goes right for you, go left.</h2>
-        <p> Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
-        <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat,
-            vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
-            delenit augue duis dolore te feugait nulla facilisi. </p>
+        <h2>If nothing goes right for you, go left.</h2>
+        <p>Ut wisi enim ad minim veniam, quis nostrud exerci tation
+            ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo
+            consequat.</p>
+        <p>Duis autem vel eum iriure dolor in hendrerit in vulputate
+            velit esse molestie consequat, vel illum dolore eu feugiat nulla
+            facilisis at vero eros et accumsan et iusto odio dignissim qui
+            blandit praesent luptatum zzril delenit augue duis dolore te feugait
+            nulla facilisi.</p>
     </div>
     <div id="footer">
-        <p> I am the footer, and you have scroll down to see me.</p>
+        <p>I am the footer, and you have scroll down to see me.</p>
     </div>
 </div>
 </body>
