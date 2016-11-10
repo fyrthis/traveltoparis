@@ -1,9 +1,12 @@
 $(document).ready(function() {
-$(".btn-pref .btn").click(function () {
-    $(".btn-pref .btn").removeClass("btn-primary").addClass("btn-default");
-    // $(".tab").addClass("active"); // instead of this do the below 
-    $(this).removeClass("btn-default").addClass("btn-primary");   
-});
+
+//	Script pour la gestion des tabs
+	$(".btn-pref .btn").click(function () {
+		$(".btn-pref .btn").removeClass("btn-primary").addClass("btn-default");
+		$(this).removeClass("btn-default").addClass("btn-primary");   
+	});
+
+//	Script pour l'ajout d'emails pour les invitations
 	var i = 0;
 	function addFriend() {
 		$('#add').attr('id','changing');
@@ -12,11 +15,20 @@ $(".btn-pref .btn").click(function () {
 		$('#changing').on('click', function() {
 			$(this).parent().parent().fadeOut(700, function() { $(this).remove(); })
 		});
-		
+
 		$('<tr><td><input type="email" name="friend" class="form-control"></td> <td><i id="add" class="glyphicon glyphicon-plus"></i></td></tr>').fadeIn(1000).insertAfter($('#changing').parent().parent());
 		$('#changing').removeAttr('id');
 		$('#add').on('click', function() { addFriend(); });
 	}
 
 	$('#add').on('click', function() {addFriend();});
+
+	
 });
+
+/*
+<div class="container text-center">
+	<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
+  <p>updating information...</p>
+</div>
+ */
