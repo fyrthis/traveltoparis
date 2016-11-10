@@ -1,16 +1,16 @@
 package com.dar.backend.sql;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
-import javax.naming.NamingException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.StringTokenizer;
+
+import javax.naming.NamingException;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 public class Trip implements JSONable {
     private int id;
