@@ -1,23 +1,20 @@
 package com.dar.servlet.service.update;
 
-import com.dar.backend.sql.SQLManager;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
-import java.sql.Statement;
+import java.sql.ResultSet;
 import java.util.Calendar;
-import java.util.Enumeration;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
+
+import com.dar.backend.sql.SQLManager;
 
 public class CreateTrip extends HttpServlet {
 
@@ -38,9 +35,8 @@ public class CreateTrip extends HttpServlet {
         Date date1;
         Date date2;
         Calendar cal = Calendar.getInstance();
-        PrintWriter out = response.getWriter();
         PreparedStatement stmt = null;
-        String rq = ("INSERT INTO trips (name, description, begins, ends) VALUES (?,?,?,?);");
+        String rq = ("INSERT INTO trips (name, description, begins, ends) VALUES (?,?,?,?) RETURNING id_trip;");
         try {
             String[] list = begins.split("-");
             cal.set(Calendar.YEAR, Integer.parseInt(list[0]));
@@ -60,16 +56,14 @@ public class CreateTrip extends HttpServlet {
             stmt.setDate(3, date1);
             stmt.setDate(4, date2);
             stmt.executeUpdate();
+            //Le insert into nous retourne l'id du trip nouvellement ajouté.
+            ResultSet newly_trip = stmt.getResultSet();
+            int id_trip = newly_trip.getInt(1);
             conn.close();
-        } catch(Exception e){e.printStackTrace(out);}
-        out.println("<html>");
-        out.println("<head>");
-        out.println("</head>");
-        out.println("<body><br>");
-        out.print("Success !");
-        out.println("</body>");
-        out.println("</html>");
-        out.close();
+            RequestDispatcher view = request.getRequestDispatcher("html/trip.html?id="+id_trip);
+    		view.forward(request, response);
+        } catch(Exception e) {e.printStackTrace();}
+        
     }
 
 }
