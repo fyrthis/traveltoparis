@@ -23,9 +23,7 @@ public class CreateAccount extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
-        out.println("You called this servlet with get method... bad person!");
-        out.close();
+        response.sendRedirect(request.getContextPath());
     }
 
     //TODO: proper error manager
@@ -71,6 +69,7 @@ public class CreateAccount extends HttpServlet {
             out.close();
             return;
         }
+        response.sendRedirect(request.getContextPath());
         out.println("<html>");
         out.println("<head>");
         out.println("</head>");

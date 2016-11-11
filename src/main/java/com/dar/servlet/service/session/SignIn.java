@@ -26,8 +26,8 @@ public class SignIn extends HttpServlet{
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession(false);
         JSONObject obj = new JSONObject();
-        if(session == null) obj.put("has_session", true);
-        else obj.put("has_session", false);
+        if(session == null) obj.put("has_session", false);
+        else obj.put("has_session", true);
         //response.sendRedirect(request.getContextPath());
         out.print(obj);
         out.close();

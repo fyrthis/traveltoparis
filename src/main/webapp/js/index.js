@@ -1,29 +1,4 @@
-function load_bar(){
-    console.log("bar function got called");
-    $.ajax({
-        type: "GET",
-        url: "./sign-in",
-        dataType: "json",
-        success: function (data) {
-            console.log(data);
-            if (data.has_session == true){
-                $("#first_div").css("display", "none");
-                $("#second_div").css("display", "block");
-            }
-            else{
-                $("#first_div").css("display", "none");
-                $("#second_div").css("display", "block");
-            }
-        },
-        error: function (requestObj, status, error) {
-            console.log(requestObj + " : " + status + " : " + error);
-            $("#first_div").css("display", "none");
-            $("#second_div").css("display", "block");
-        },
-        async: false
-    });}
 
-load_bar();
 
 $(document).ready(function(){
     // Defining a function to set size for #hero
@@ -56,7 +31,7 @@ $(document).ready(function(){
                 if(data.requestValid === "yes"){
                     if(data.sessionType === "new"){
                         $("#id01").css("display", "none");
-                        //location.reload();
+                        load_bar();
                     }
                     else{$("#sign-in-res").empty().append("<p>Already signed in</p>")}
                 }
@@ -67,4 +42,31 @@ $(document).ready(function(){
             }
         });
     });
+
+    function load_bar(){
+        console.log("bar function got called");
+        $.ajax({
+            type: "GET",
+            url: "./sign-in",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                if (data.has_session == true){
+                    $("#first_div").toggleClass("hidden", true);
+                    $("#second_div").toggleClass("hidden", false);
+                }
+                else{
+                    $("#first_div").toggleClass("hidden", false);
+                    $("#second_div").toggleClass("hidden", true);
+                }
+            },
+            error: function (requestObj, status, error) {
+                console.log(requestObj + " : " + status + " : " + error);
+                $("#first_div").toggleClass("hidden", true);
+                $("#second_div").toggleClass("hidden", false);
+
+            },
+        });}
+
+    load_bar();
 });

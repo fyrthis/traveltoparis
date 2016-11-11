@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="./bootstrap/css/bootstrap.css">
 </head>
 <body>
-<<<<<<< HEAD
+
 <div id="wrapper">
     <div id="hero">
         <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -27,17 +27,17 @@
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#">Travel to Paris</a>
                 </div>
-                <div class="navbar-collapse collapse" id="first_div">
+                <div id="first_div">
                     <ul class="nav navbar-nav navbar-right">
                         <li onclick="document.getElementById('id01').style.display='block'"><a href="#">Sign in</a></li>
                         <li onclick="document.getElementById('id02').style.display='block'"><a href="./sign-up">Sign up</a></li>
                     </ul>
                 </div>
-                <div class="navbar-collapse collapse" id="second_div">
+                <div class="hidden" id="second_div">
                     <ul class="nav navbar-nav">
-                        <li><a href="new-trip.html">New Trip</a></li>
-                        <li class="active"><a href="#">My Trips</a></li>
-                        <li><a href="friends.html">My Friends</a></li>
+                        <li><a href="#">New Trip</a></li>
+                        <li><a href="#">My Trips</a></li>
+                        <li><a href="#">My Friends</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#">My account</a></li>
@@ -52,7 +52,7 @@
                 <div class="col-md-4 col-md-offset-4">
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            <form method="POST" action="sign-in">
+                            <form method="POST" id="form-sign-in" action="sign-in">
                                 <input class="form-control" type="text" placeholder="Username"
                                        name="uname" required> <input class="form-control"
                                                                      type="password" placeholder="Password" name="psw" required>
