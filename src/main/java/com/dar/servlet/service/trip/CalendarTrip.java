@@ -35,7 +35,7 @@ public class CalendarTrip extends HttpServlet {
 		String trip_id = request.getParameter("id");
 		PrintWriter out = response.getWriter();
 		try {
-			Trip trip = new Trip(new Integer(trip_id));
+			Trip trip = new Trip(Integer.parseInt(trip_id));
 			JSONObject object = trip.getTripEvents();
 			out.print(object);
 		} catch (Exception e){

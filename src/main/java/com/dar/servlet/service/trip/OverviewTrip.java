@@ -31,7 +31,7 @@ public class OverviewTrip extends HttpServlet {
         PrintWriter out = response.getWriter();
         String trip_id = request.getParameter("id");
         try {
-            Trip trip = new Trip(new Integer(trip_id));
+            Trip trip = new Trip(Integer.parseInt(trip_id));
             JSONObject object = trip.getTripOverview();
             out.print(object);
         } catch (Exception e){

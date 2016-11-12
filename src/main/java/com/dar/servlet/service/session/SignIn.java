@@ -42,34 +42,48 @@ public class SignIn extends HttpServlet{
         String dbHashedPass = null;
         String dbSalt = null;
         SQLManager sql = new SQLManager();
-        System.out.println("DEBUG : Making request");
+        JSONObject result = new JSONObject();
+        System.out.println("DEBUG : Making request1");
         try {
             Connection con = sql.getConnection();
             PreparedStatement stmt = con.prepareStatement(requestDb);
             stmt.setString(1, uname);
             ArrayList<HashMap<String, Object>> res = sql.executeQuery(stmt);
+            System.out.println("DEBUG : Making request2");
             dbHashedPass = (String)res.get(0).get("password");
             dbSalt = (String)res.get(0).get("salt");
-        } catch (Exception e){e.printStackTrace(out); return;}
-
+        } catch (Exception e){
+            e.printStackTrace();
+            result.put("requestValid", "no");
+            out.print(result);
+            out.close();
+            return;
+        }
+        System.out.println("DEBUG : request done, checking pass");
         // format: algorithm:iterations:hashSize:salt:hash
         String param = "sha256:" + Tools.PBKDF2_ITERATIONS + ":" + Tools.HASH_BYTE_SIZE + ":" + dbSalt + ":" + dbHashedPass;
         boolean isValid;
         try {
             isValid = Tools.verifyPassword(password, param);
-        } catch (Exception e){e.printStackTrace(out); return;}
-        JSONObject res = new JSONObject();
+        } catch (Exception e){
+            e.printStackTrace();
+            result.put("requestValid", "no");
+            out.print(result);
+            out.close();
+            return;
+        }
+        System.out.println("DEBUG : cheking done");
         if(isValid){
-            res.put("requestValid", "yes");
+            result.put("requestValid", "yes");
             HttpSession session = request.getSession(true);
             if(session.isNew()){
-                res.put("sessionType", "new");
+                result.put("sessionType", "new");
                 session.setAttribute("uname", uname);
                 session.setAttribute("hash", dbHashedPass);
             }
-            else{res.put("sessionType", "old");}
-        } else{res.put("requestValid", "no");}
-        out.print(res);
+            else{result.put("sessionType", "old");}
+        } else{result.put("requestValid", "no");}
+        out.print(result);
         out.close();
     }
 }

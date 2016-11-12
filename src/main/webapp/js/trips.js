@@ -11,19 +11,19 @@ $(document).ready(function() {
 					<div \
 					class="brdr bgc-fff pad-10 box-shad btm-mrg-20 "> \
 					<div class="media"> \
-					<a class="pull-left" href="trip-overview?id='+trip.id+'"><img class="img-responsive list" \
+					<a class="pull-left" href="trip.html?id='+trip.id+'"><img class="img-responsive list" \
 					src="http://lorempixel.com/100/100/city/"></a> \
 					<div class="media-body fnt-smaller"> \
-					<a href="trip-overview?id='+trip.id+'"></a> \
+					<a href="trip.html?id='+trip.id+'"></a> \
 					<h4 class="media-heading"> \
-					<a href="trip-overview?id='+trip.id+'">'+trip.name+'</a> \
+					<a href="trip.html?id='+trip.id+'">'+trip.name+'</a> \
 					</h4> \
 					<ul class="list-inline mrg-0 btm-mrg-10 clr-535353"> \
 					<li>From '+trip.begins+'</li> \
 					<li style="list-style: none">|</li> \
 					<li>To '+trip.ends+'</li> \
 					</ul> \
-					<p class="hidden-xs"> nb participants</p> \
+					<p class="hidden-xs"> ?? participants</p> \
 					<span class="fnt-smaller fnt-lighter fnt-arial">'+trip.description+'</span> \
 					</div> \
 					</div> \
@@ -31,5 +31,4 @@ $(document).ready(function() {
 			</div>');
         }
     });
-
 });

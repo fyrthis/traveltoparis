@@ -85,6 +85,18 @@ public class User implements JSONable {
         return obj;
     }
 
+    public void addEventToTrip(int id_trip, int id_event, boolean is_like) throws NamingException, SQLException{
+        String request = "INSERT INTO votes (id_user, id_event, id_trip, is_like) SELECT ?, ?, ?, ?;";
+        SQLManager mngr = new SQLManager();
+        Connection conn = mngr.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(request);
+        stmt.setInt(1, this.id);
+        stmt.setInt(2, id_event);
+        stmt.setInt(3, id_trip);
+        stmt.setBoolean(4, is_like);
+        mngr.executeUpdate(stmt);
+    }
+
     @Override
     public JSONObject getJSON() {
         JSONObject obj = new JSONObject();

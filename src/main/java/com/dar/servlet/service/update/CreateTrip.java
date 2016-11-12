@@ -5,12 +5,10 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -65,7 +63,6 @@ public class CreateTrip extends HttpServlet {
             stmt.setDate(4, date2);
             ArrayList<HashMap<String, Object>> res = mngr.executeQuery(stmt);
             int id_trip = (Integer)res.get(0).get("id_trip");
-
             HttpSession session = request.getSession();
 
             rq = "INSERT INTO involded (id_user, id_trip, is_admin) SELECT u.id_user, ?, TRUE FROM users u WHERE u.login=?;";
