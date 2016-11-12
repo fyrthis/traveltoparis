@@ -52,9 +52,4 @@ public class EventsTrip extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
     }
-
-    private JSONObject buildJSON() {
-        return null;
-    }
-
 }

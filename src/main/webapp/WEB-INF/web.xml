@@ -76,10 +76,6 @@
         <url-pattern>/sign-up</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>createaccount</servlet-name>
-        <url-pattern>/account-creation</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>signin</servlet-name>
         <url-pattern>/sign-in</url-pattern>
     </servlet-mapping>
