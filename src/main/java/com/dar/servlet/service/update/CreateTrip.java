@@ -74,11 +74,10 @@ public class CreateTrip extends HttpServlet {
             stmt.setString(2, (String)session.getAttribute("uname"));
             System.out.println("Result : " + mngr.executeUpdate(stmt));
             conn.close();
-            //RequestDispatcher view = request.getRequestDispatcher("html/trip.html?id="+id_trip);
             response.sendRedirect(request.getContextPath() + "/html/trip.html?id=" + id_trip);
         } catch(Exception e) {
             e.printStackTrace();
-            System.out.flush();
+            response.sendRedirect(request.getContextPath());
         }
     }
 
