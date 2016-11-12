@@ -13,7 +13,7 @@
     </servlet>
     <servlet>
         <servlet-name>signup</servlet-name>
-        <servlet-class>com.dar.servlet.redirection.SignUp</servlet-class>
+        <servlet-class>com.dar.servlet.service.session.SignUp</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>trips</servlet-name>
@@ -22,10 +22,6 @@
     <servlet>
         <servlet-name>newtrip</servlet-name>
         <servlet-class>com.dar.servlet.redirection.OrganizeTrip</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>createaccount</servlet-name>
-        <servlet-class>com.dar.servlet.service.update.CreateAccount</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>createtrip</servlet-name>
