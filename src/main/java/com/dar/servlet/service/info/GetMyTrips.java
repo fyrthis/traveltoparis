@@ -26,7 +26,7 @@ public class GetMyTrips extends HttpServlet {
             obj.put("status", "fail");
             obj.put("cause", "not connected");
             out.print(obj);
-            Tools.closeConn(out);
+            out.close();
             return;
         }
         String uname = (String)session.getAttribute("uname");
@@ -34,10 +34,10 @@ public class GetMyTrips extends HttpServlet {
         try {
             user = new User(uname);
             obj.put("trips", user.getUserTrips());
-        } catch (Exception e){e.printStackTrace(out); Tools.closeConn(out);}
+        } catch (Exception e){e.printStackTrace(out); out.close();}
         obj.put("status","success");
         out.print(obj);
-        Tools.closeConn(out);
+        out.close();
     }
 
     @Override

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.dar.backend.sql.Trip;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -30,10 +31,17 @@ public class CalendarTrip extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//TODO : Check identity and permissions
 		response.setContentType("application/json");
+		String trip_id = request.getParameter("id");
 		PrintWriter out = response.getWriter();
-		out.print(buildJSONMock());
+		try {
+			Trip trip = new Trip(new Integer(trip_id));
+			JSONObject object = trip.getTripEvents();
+			out.print(object);
+		} catch (Exception e){
+			e.printStackTrace();
+			response.sendRedirect(request.getContextPath());
+		}
 		out.flush();
 		out.close();
 	}
@@ -43,33 +51,5 @@ public class CalendarTrip extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
-	}
-
-	private JSONObject buildJSON() {
-		return null;
-	}
-	
-	private JSONObject buildJSONMock() {
-		JSONObject obj = new JSONObject();
-		
-		JSONArray events = new JSONArray();
-		
-		JSONObject event = new JSONObject();
-		event.put("id", "000001");
-		event.put("name", "Event name 1");
-		event.put("date", "aaaa/mm/dd");
-		
-		events.add(event);
-		
-		event = new JSONObject();
-		event.put("id", "000002");
-		event.put("name", "Event name 2");
-		event.put("date", "aaaa/mm/dd");
-		
-		events.add(event);
-		
-		obj.put("Events List", events);
-		
-		return obj;
 	}
 }

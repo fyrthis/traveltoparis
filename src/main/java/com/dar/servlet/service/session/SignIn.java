@@ -42,6 +42,7 @@ public class SignIn extends HttpServlet{
         String dbHashedPass = null;
         String dbSalt = null;
         SQLManager sql = new SQLManager();
+        System.out.println("DEBUG : Making request");
         try {
             Connection con = sql.getConnection();
             PreparedStatement stmt = con.prepareStatement(requestDb);

@@ -4,8 +4,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 import javax.naming.NamingException;
 
@@ -46,9 +45,8 @@ public class Trip implements JSONable {
     public JSONObject getTripEvents() throws NamingException, SQLException {
         JSONObject obj = new JSONObject();
         JSONArray arr = new JSONArray();
-        String request = "SELECT v.is_like, u.login, c.description AS description_cat, e.* FROM trips t, votes v, users u, events e, tagged tg, categories c " +
-                "WHERE t.id_trip = ? AND v.id_trip=t.id_trip AND v.id_event=e.id_event AND v.id_user=u.id_user AND e.id_event=tg.id_event " +
-                "AND tg.id_category = c.id_category";
+        String request = "SELECT v.is_like, u.login, c.description AS description_cat, e.* FROM votes v, users u, events e, tagged tg, categories c " +
+                "WHERE v.id_trip=? AND v.id_event=e.id_event AND v.id_user=u.id_user AND e.id_event=tg.id_event AND tg.id_category = c.id_category;";
         SQLManager mngr = new SQLManager();
         Connection conn = mngr.getConnection();
         PreparedStatement stmt = conn.prepareStatement(request);
@@ -71,6 +69,44 @@ public class Trip implements JSONable {
         obj.put("size", res.size());
         obj.put("list", arr);
         conn.close();
+        return obj;
+    }
+
+    public JSONObject getTripOverview() throws NamingException, SQLException {
+        JSONObject obj = new JSONObject();
+        String request = "SELECT v.id_user, e.id_event, c.name AS cat_name FROM involded i, events e, votes v, tagged t, categories c" +
+                " WHERE i.id_trip=? AND v.id_trip=i.id_trip AND e.id_event=v.id_event AND t.id_event=e.id_event AND c.id_category = t.id_category;";
+        SQLManager mngr = new SQLManager();
+        Connection conn = mngr.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(request);
+        stmt.setInt(1, id);
+        ArrayList<HashMap<String, Object>> res = mngr.executeQuery(stmt);
+
+        HashSet<Integer> id_user_list = new HashSet<>();
+        HashSet<Integer> id_event_list = new HashSet<>();
+        HashMap<String, Integer> events_in_cat = new HashMap<>();
+
+        for(HashMap<String, Object> e : res){
+            id_user_list.add((Integer)e.get("id_user"));
+            Integer id_event = (Integer)e.get("id_event");
+            if(!id_event_list.contains(id_event)) {
+                id_event_list.add(id_event);
+                String cat_name = (String)e.get("cat_name");
+                events_in_cat.put(cat_name, events_in_cat.get(cat_name) + 1);
+            }
+        }
+        obj.put("name", this.name);
+        obj.put("description", this.description);
+        obj.put("begins", this.begins);
+        obj.put("end", this.ends);
+        obj.put("participants", id_user_list.size());
+        obj.put("categories", events_in_cat.size());
+        Iterator it = events_in_cat.entrySet().iterator();
+        while(it.hasNext()){
+            Map.Entry pair = (Map.Entry)it.next();
+            obj.put(pair.getKey(), pair.getValue());
+            it.remove();
+        }
         return obj;
     }
 

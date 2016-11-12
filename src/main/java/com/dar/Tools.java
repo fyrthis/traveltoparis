@@ -156,10 +156,4 @@ public class Tools {
         return DatatypeConverter.printBase64Binary(array);
     }
 
-    public static void closeConn(PrintWriter out){
-        //TODO faire un traitement general des erreurs ou qqch du genre
-        out.flush();
-        out.close();
-    }
-
 }

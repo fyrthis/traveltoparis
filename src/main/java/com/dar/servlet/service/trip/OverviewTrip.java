@@ -26,7 +26,6 @@ public class OverviewTrip extends HttpServlet {
     public OverviewTrip() {
         super();
     }
-
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
@@ -36,13 +35,12 @@ public class OverviewTrip extends HttpServlet {
         String trip_id = request.getParameter("id");
         try {
             Trip trip = new Trip(new Integer(trip_id));
-            JSONObject object = trip.getTripEvents();
+            JSONObject object = trip.getTripOverview();
             out.print(object);
         } catch (Exception e){
             e.printStackTrace();
             response.sendRedirect(request.getContextPath());
         }
-
         out.flush();
         out.close();
     }
