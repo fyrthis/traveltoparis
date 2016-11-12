@@ -18,7 +18,6 @@ $(document).ready(function(){
 
     $("#form-sign-in").submit(function(event){
         event.preventDefault();
-        console.log("Got Called");
         var $form = $(this),
             url = $form.attr('action');
         $.ajax({
@@ -44,13 +43,11 @@ $(document).ready(function(){
     });
 
     function load_bar(){
-        console.log("bar function got called");
         $.ajax({
             type: "GET",
             url: "./sign-in",
             dataType: "json",
             success: function (data) {
-                console.log(data);
                 if (data.has_session == true){
                     $("#first_div").toggleClass("hidden", true);
                     $("#second_div").toggleClass("hidden", false);
@@ -65,7 +62,7 @@ $(document).ready(function(){
                 $("#first_div").toggleClass("hidden", true);
                 $("#second_div").toggleClass("hidden", false);
 
-            },
+            }
         });}
 
     load_bar();

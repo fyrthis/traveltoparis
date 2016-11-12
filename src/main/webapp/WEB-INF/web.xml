@@ -20,65 +20,57 @@
     </servlet>
     
     <!-- SERVLETS DE SESSION -->
-    <servlet>
+    <servlet> <!-- POST : permet de s'enregistrer -->
         <servlet-name>signup</servlet-name>
         <servlet-class>com.dar.servlet.service.session.SignUp</servlet-class>
     </servlet>
-    <servlet>
+    <servlet> <!-- GET : Vérifie si connecté ; POST : permet de se connecter -->
         <servlet-name>signin</servlet-name>
         <servlet-class>com.dar.servlet.service.session.SignIn</servlet-class>
     </servlet>
-    <servlet>
+    <servlet> <!-- GET : permet de se déconnecter -->
         <servlet-name>signout</servlet-name>
         <servlet-class>com.dar.servlet.service.session.SignOut</servlet-class>
     </servlet>
     
     <!-- SERVLETS DE TRIPS -->
-    <servlet>
+    <servlet> <!-- GET : retourne les informations du trip pour l'onglet overview -->
         <servlet-name>overview</servlet-name>
         <servlet-class>com.dar.servlet.service.trip.OverviewTrip</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>trips</servlet-name>
-        <servlet-class>com.dar.servlet.redirection.MyTrips</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>newtrip</servlet-name>
-        <servlet-class>com.dar.servlet.redirection.OrganizeTrip</servlet-class>
-    </servlet>
-    <servlet>
+    <servlet> <!-- POST : permet la création d'un voyage -->
         <servlet-name>createtrip</servlet-name>
         <servlet-class>com.dar.servlet.service.update.CreateTrip</servlet-class>
     </servlet>
-    <servlet>
+    <servlet> <!-- GET : Retounr la liste des voyages -->
         <servlet-name>gettrips</servlet-name>
         <servlet-class>com.dar.servlet.service.info.GetMyTrips</servlet-class>
     </servlet>
     
     <!-- SERVLETS D'EVENTS -->
-    <servlet>
+    <servlet> <!-- GET : Renvoie les évènements auquel participe un user -->
         <servlet-name>calendar</servlet-name>
         <servlet-class>com.dar.servlet.service.trip.CalendarTrip</servlet-class>
     </servlet>
-    <servlet>
+    <servlet> <!-- GET : Renvoie les évènements disponibles à une date donnée -->
         <servlet-name>events</servlet-name>
         <servlet-class>com.dar.servlet.service.trip.EventsTrip</servlet-class>
     </servlet>
     
     <!-- AUTRES SERVLETS -->
-    <servlet>
+    <servlet> <!-- GET : Obtenir les derniers messages ; POST : Envoyer un message -->
         <servlet-name>chat</servlet-name>
         <servlet-class>com.dar.servlet.service.trip.ChatTrip</servlet-class>
     </servlet>
-    <servlet>
+    <servlet> <!-- GET : Obtenir la liste de ses amis -->
         <servlet-name>friends</servlet-name>
         <servlet-class>com.dar.servlet.service.trip.FriendsTrip</servlet-class>
     </servlet>
-    
     <servlet>
         <servlet-name>settings</servlet-name>
         <servlet-class>com.dar.servlet.service.trip.SettingsTrip</servlet-class>
     </servlet>
+    <!--  TODO :  obtenir participants du voyage -->
     
     
     <!-- MAPPING DE SERVLETS -->
@@ -101,14 +93,6 @@
     <servlet-mapping>
         <servlet-name>gettrips</servlet-name>
         <url-pattern>/get-my-trips</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>trips</servlet-name>
-        <url-pattern>/my-trips</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>newtrip</servlet-name>
-        <url-pattern>/new-trip</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>createtrip</servlet-name>
@@ -142,6 +126,8 @@
         <servlet-name>getimages</servlet-name>
         <url-pattern>/images</url-pattern>
     </servlet-mapping>
+    
+    <!-- FILTRES -->
     <filter>
         <filter-name>AuthFilter</filter-name>
         <filter-class>com.dar.servlet.service.session.MyFilter</filter-class>
