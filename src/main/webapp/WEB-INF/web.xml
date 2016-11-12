@@ -7,13 +7,36 @@
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
+    <!-- SERVLET DE TEST -->
     <servlet>
         <servlet-name>hello</servlet-name>
         <servlet-class>com.dar.servlet.HelloWorld</servlet-class>
     </servlet>
+    
+    <!-- SERVLET BACKGROUND -->
+    <servlet>
+        <servlet-name>getimages</servlet-name>
+        <servlet-class>com.dar.servlet.service.GetImages</servlet-class>
+    </servlet>
+    
+    <!-- SERVLETS DE SESSION -->
     <servlet>
         <servlet-name>signup</servlet-name>
         <servlet-class>com.dar.servlet.service.session.SignUp</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>signin</servlet-name>
+        <servlet-class>com.dar.servlet.service.session.SignIn</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>signout</servlet-name>
+        <servlet-class>com.dar.servlet.service.session.SignOut</servlet-class>
+    </servlet>
+    
+    <!-- SERVLETS DE TRIPS -->
+    <servlet>
+        <servlet-name>overview</servlet-name>
+        <servlet-class>com.dar.servlet.service.trip.OverviewTrip</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>trips</servlet-name>
@@ -28,45 +51,37 @@
         <servlet-class>com.dar.servlet.service.update.CreateTrip</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>signin</servlet-name>
-        <servlet-class>com.dar.servlet.service.session.SignIn</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>signout</servlet-name>
-        <servlet-class>com.dar.servlet.service.session.SignOut</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>gettrips</servlet-name>
         <servlet-class>com.dar.servlet.service.info.GetMyTrips</servlet-class>
     </servlet>
+    
+    <!-- SERVLETS D'EVENTS -->
     <servlet>
         <servlet-name>calendar</servlet-name>
         <servlet-class>com.dar.servlet.service.trip.CalendarTrip</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>chat</servlet-name>
-        <servlet-class>com.dar.servlet.service.trip.ChatTrip</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>events</servlet-name>
         <servlet-class>com.dar.servlet.service.trip.EventsTrip</servlet-class>
+    </servlet>
+    
+    <!-- AUTRES SERVLETS -->
+    <servlet>
+        <servlet-name>chat</servlet-name>
+        <servlet-class>com.dar.servlet.service.trip.ChatTrip</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>friends</servlet-name>
         <servlet-class>com.dar.servlet.service.trip.FriendsTrip</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>overview</servlet-name>
-        <servlet-class>com.dar.servlet.service.trip.OverviewTrip</servlet-class>
-    </servlet>
+    
     <servlet>
         <servlet-name>settings</servlet-name>
         <servlet-class>com.dar.servlet.service.trip.SettingsTrip</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>getimages</servlet-name>
-        <servlet-class>com.dar.servlet.service.GetImages</servlet-class>
-    </servlet>
+    
+    
+    <!-- MAPPING DE SERVLETS -->
     <servlet-mapping>
         <servlet-name>hello</servlet-name>
         <url-pattern>/test</url-pattern>
@@ -74,10 +89,6 @@
     <servlet-mapping>
         <servlet-name>signup</servlet-name>
         <url-pattern>/sign-up</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>createaccount</servlet-name>
-        <url-pattern>/account-creation</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>signin</servlet-name>
