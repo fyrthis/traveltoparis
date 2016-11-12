@@ -67,14 +67,6 @@ public class SignUp extends HttpServlet {
 			return;
 		}
 		response.sendRedirect(request.getContextPath());
-		out.println("<html>");
-		out.println("<head>");
-		out.println("</head>");
-		out.println("<body><br>");
-		out.print("Success !");
-		out.println("</body>");
-		out.println("</html>");
-		out.close();
 	}
 
 }
