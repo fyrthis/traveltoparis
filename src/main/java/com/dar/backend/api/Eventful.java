@@ -37,7 +37,6 @@ public class Eventful {
         APIConfiguration.setEvdbUser("TravelToParis");
         APIConfiguration.setEvdbPassword("none");
         APIConfiguration.setApiKey(key);
-
         EventSearchRequest esr = new EventSearchRequest();
 
         if(!c.isEmpty()) {
@@ -56,22 +55,25 @@ public class Eventful {
     }
 
     public static List<Event> getEvents(String begin, String end) {
+        System.out.println("DEBUG1");
+        System.out.flush();
         APIConfiguration.setEvdbUser("TravelToParis");
         APIConfiguration.setEvdbPassword("none");
         APIConfiguration.setApiKey(key);
-
-
+        System.out.println("DEBUG2");
         EventSearchRequest esr = new EventSearchRequest();
-
+        System.out.println("DEBUG3");
         esr.setLocation("Paris");
         esr.setDateRange(begin+"00-"+end+"00");
         esr.setPageSize(50);
-        return  getEvents(esr);
+        System.out.println("DEBUG4");
+        return getEvents(esr);
     }
 
     //Begin and end should be YYYYMMDD
     private static List<Event> getEvents(EventSearchRequest esr) {
         List<Event> events = new ArrayList<>();
+        System.out.println(new java.util.Date().toString() + " | Getting events");
         SearchResult sr = null;
 
         EventOperations eo = new EventOperations();
@@ -92,7 +94,7 @@ public class Eventful {
     }
 
 
-    public static void printXMLCategories() {
+    private static void printXMLCategories() {
         APIConfiguration.setEvdbUser("TravelToParis");
         APIConfiguration.setEvdbPassword("none");
         APIConfiguration.setApiKey(key);
@@ -149,9 +151,9 @@ public class Eventful {
 
 
     public static void main(String[] args) {
-        //getEvents("20161101", "20161131");
+        getEvents("20161113", "20161114");
         //List<Category> categories = getCategories();
         //for(Category c : categories) System.out.println(c.getId() + " : "  + c.getName());
-        printXMLCategories();
+        //printXMLCategories();
     }
 }

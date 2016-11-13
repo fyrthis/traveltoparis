@@ -42,9 +42,19 @@ public class Trip implements JSONable {
         this.ends = ends;
     }
 
+    public JSONObject chooseNewEvents(String category_id) throws NamingException, SQLException{
+        JSONObject obj = new JSONObject();
+        String request = "SELECT e.* FROM events e, categories c, tagged t WHERE e.id_event=t.id_event AND c.name=? AND c.id_category=t.id_category LIMIT 5";
+        SQLManager mngr = new SQLManager();
+        Connection conn = mngr.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(request);
+        return obj;
+    }
+
     public JSONObject getTripEvents() throws NamingException, SQLException {
         JSONObject obj = new JSONObject();
         JSONArray arr = new JSONArray();
+
         String request = "SELECT v.is_like, u.login, c.description AS description_cat, e.* FROM votes v, users u, events e, tagged tg, categories c " +
                 "WHERE v.id_trip=? AND v.id_event=e.id_event AND v.id_user=u.id_user AND e.id_event=tg.id_event AND tg.id_category = c.id_category;";
         SQLManager mngr = new SQLManager();
@@ -74,16 +84,13 @@ public class Trip implements JSONable {
 
     public JSONObject getTripOverview() throws NamingException, SQLException {
         JSONObject obj = new JSONObject();
-
         String request = "SELECT i.id_user FROM involded i WHERE i.id_trip=?";
-
         SQLManager mngr = new SQLManager();
         Connection conn = mngr.getConnection();
         PreparedStatement stmt = conn.prepareStatement(request);
         stmt.setInt(1, id);
         ArrayList<HashMap<String, Object>> res = mngr.executeQuery(stmt);
         obj.put("participants", res.size());
-
         request = "SELECT e.id_event, c.name AS cat_name FROM events e, votes v, tagged t, categories c" +
                 " WHERE v.id_trip=? AND e.id_event=v.id_event AND t.id_event=e.id_event AND c.id_category = t.id_category;";
         stmt = conn.prepareStatement(request);

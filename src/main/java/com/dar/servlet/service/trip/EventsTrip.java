@@ -35,12 +35,16 @@ public class EventsTrip extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         String trip_id = request.getParameter("id");
+        String start_date = request.getParameter("date_start");
+        String end_date = request.getParameter("date_end");
+        String cat = request.getParameter("category");
         PrintWriter out = response.getWriter();
         try {
             Trip trip = new Trip(Integer.parseInt(trip_id));
             //TODO : epic super complicated machine learning neural network quantic algorithm of space time bending awsomeness
             // that gives good event suggestions with EventJob runnable, or get one (thousand?) Indian guy(s?) to do it.
-            JSONObject object = trip.getTripEvents();
+            // if(end_date - start_date > 1 month) (new EventJob(start_date, end_date)).run();
+            JSONObject object = trip.chooseNewEvents(cat);
             out.print(object);
         } catch (Exception e){
             e.printStackTrace();

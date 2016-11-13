@@ -77,12 +77,12 @@ public class Event implements JSONable{
     @Override
     public JSONObject getJSON() {
         JSONObject obj = new JSONObject();
-        obj.put("Type", "event");
-        obj.put("Name", name);
-        obj.put("Url", url);
-        obj.put("Location", location);
-        obj.put("Date", date.toString());
-        obj.put("Description", description);
+        obj.put("type", "event");
+        obj.put("name", name);
+        obj.put("url", url);
+        obj.put("location", location);
+        obj.put("date", date.toString());
+        obj.put("description", description);
         return obj;
     }
 }

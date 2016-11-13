@@ -24,8 +24,7 @@ public class BackEndScheduler implements ServletContextListener {
         scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.scheduleAtFixedRate(new WallpaperJob(webcam), 5, 20, TimeUnit.MINUTES);
         //TODO: check so that it doesn't make the database go boom!
-        //scheduler.scheduleAtFixedRate(new EventJob(new Date(new java.util.Date().getTime()),
-        //        new Date(new java.util.Date().getTime() + (1000 * 60 * 60 * 24))), 1, 24, TimeUnit.HOURS);
+        scheduler.scheduleAtFixedRate(new EventJob(new Date(new java.util.Date().getTime()), new Date(new java.util.Date().getTime() + (1000 * 60 * 60 /* *24 */))), 0, 24, TimeUnit.HOURS);
     }
 
     @Override

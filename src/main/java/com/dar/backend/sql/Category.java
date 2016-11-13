@@ -32,9 +32,9 @@ public class Category implements JSONable{
     @Override
     public JSONObject getJSON() {
         JSONObject obj = new JSONObject();
-        obj.put("Type", "category");
-        obj.put("Name", name);
-        obj.put("Description", description);
+        obj.put("type", "category");
+        obj.put("name", name);
+        obj.put("description", description);
         return obj;
     }
 }

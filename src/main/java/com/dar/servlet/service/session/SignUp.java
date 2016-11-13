@@ -66,11 +66,11 @@ public class SignUp extends HttpServlet {
             out.close();
             return;
         }
-        response.setContentType("application/json");
-        JSONObject object = new JSONObject();
-        object.put("status", "success");
-        out.print(object);
-        out.close();
+        //response.setContentType("application/json");
+        //JSONObject object = new JSONObject();
+        //object.put("status", "success");
+        //out.print(object);
+        //out.close();
         response.sendRedirect(request.getContextPath());
     }
 }

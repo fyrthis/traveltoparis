@@ -33,9 +33,8 @@ public class WallpaperJob implements Runnable {
 
     @Override
     public void run() {
-        Date time = new Date();
         try {
-            System.out.println(time.toString() + " | Launching background routine");
+            System.out.println(new Date().toString() + " | Launching background routine");
             String apicall = new APIRequestBuilder<DeckChair>()
                     .addDomain(DeckChair.CAMERA)
                     .addStr(cameraID)
@@ -55,12 +54,10 @@ public class WallpaperJob implements Runnable {
             resizeImage(2560, 1440);
             resizeImage(1920, 1080);
             resizeImage(1366, 768);
-            time = new Date();
-            System.out.println(time.toString() + " | Done");
+            System.out.println(new Date().toString() + " | Done");
         } catch (Exception e){
             e.printStackTrace(System.out);
-            time = new Date();
-            System.out.println(time.toString() + " | Not done");
+            System.out.println(new Date().toString() + " | Not done");
             e.printStackTrace();
         }
     }

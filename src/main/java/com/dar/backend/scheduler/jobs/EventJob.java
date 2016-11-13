@@ -33,9 +33,11 @@ public class EventJob implements Runnable{
     public void run() {
         String begin = this.begin.toString().replaceAll("-","");
         String end = this.end.toString().replaceAll("-", "");
-        List<Event> list;
-        if(filtre == null)list = Eventful.getEvents(begin, end);
-        else list = Eventful.getEvents(begin, end, filtre);
+        System.out.println(new java.util.Date().toString() + " | Launching background routine Events : " + begin + " | " + end);
+        List<Event> list = Eventful.getEvents(begin, end);
+        //if(filtre == null)list = Eventful.getEvents(begin, end);
+        //else list = Eventful.getEvents(begin, end, filtre);
+        System.out.println(new java.util.Date().toString() + " | Got Events " + list.size());
         for(Event e : list){
             String name = e.getTitle();
             String desc = e.getDescription();
