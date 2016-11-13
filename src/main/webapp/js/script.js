@@ -180,6 +180,15 @@ $(document).ready(function(){
                     $("#nb_participants").text(data.participants);
                     $("#from_trip").text(data.begins);
                     $("#to_trip").text(data.ends);
+                    $("#music_trip").text(0);
+                    $("#family_trip").text(0);
+                    $("#food_trip").text(0);
+                    $("#movie_trip").text(0);
+                    $("#art_trip").text(0);
+                    $("#health_trip").text(0);
+                    $("#museum_trip").text(0);
+                    $("#sport_trip").text(0);
+                    $("#technology_trip").text(0);
                 },
                 error: function(requestObj, status, error){
                     console.log("req : " + requestObj + " | status : " + status + " | error : " + error);

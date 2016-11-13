@@ -25,13 +25,13 @@ public class Trip implements JSONable {
         PreparedStatement stmt = conn.prepareStatement(request);
         stmt.setInt(1,id);
         ArrayList<HashMap<String, Object>> res = mngr.executeQuery(stmt);
-        conn.close();
         HashMap<String, Object> first = res.get(0);
         this.id = (Integer)first.get("id_trip");
         this.name = (String)first.get("name");
         this.description = (String)first.get("description");
         this.begins = (Date)first.get("begins");
         this.ends = (Date)first.get("ends");
+        conn.close();
     }
 
     public Trip(int id, String name, String description, Date begins, Date ends){
@@ -111,7 +111,7 @@ public class Trip implements JSONable {
             obj.put(pair.getKey(), pair.getValue());
             it.remove();
         }
-        System.out.println(obj);
+        System.out.println("obj " + obj);
         conn.close();
         return obj;
     }

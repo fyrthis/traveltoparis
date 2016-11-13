@@ -46,6 +46,34 @@ public class Event implements JSONable{
         this.description = description;
     }
 
+    public static int insertEvent(String name, String url, String location, Date date, String description) throws NamingException, SQLException {
+        String request = "INSERT INTO events (name, url, location, eventdate, description) VALUES (?,?,?,?,?) RETURNING id_event";
+        SQLManager mngr = new SQLManager();
+        Connection conn = mngr.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(request);
+        stmt.setString(1,name);
+        stmt.setString(2, url);
+        stmt.setString(3, location);
+        stmt.setDate(4, date);
+        stmt.setString(5, description);
+        ArrayList<HashMap<String, Object>> res = mngr.executeQuery(stmt);
+        int id_trip = (Integer)res.get(0).get("id_event");
+        conn.close();
+        return id_trip;
+    }
+
+    public static int insertTag(int id_event, String id_category) throws NamingException, SQLException{
+        String request = "INSERT INTO tagged (id_event, id_category) SELECT ?, t.id_category FROM categories t WHERE t.name=?";
+        SQLManager mngr = new SQLManager();
+        Connection conn = mngr.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(request);
+        stmt.setInt(1, id_event);
+        stmt.setString(2, id_category);
+        int res = mngr.executeUpdate(stmt);
+        conn.close();
+        return res;
+    }
+
     @Override
     public JSONObject getJSON() {
         JSONObject obj = new JSONObject();

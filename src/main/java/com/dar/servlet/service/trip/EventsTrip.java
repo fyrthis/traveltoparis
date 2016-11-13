@@ -38,6 +38,8 @@ public class EventsTrip extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             Trip trip = new Trip(Integer.parseInt(trip_id));
+            //TODO : epic super complicated machine learning neural network quantic algorithm of space time bending awsomeness
+            // that gives good event suggestions with EventJob runnable
             JSONObject object = trip.getTripEvents();
             out.print(object);
         } catch (Exception e){

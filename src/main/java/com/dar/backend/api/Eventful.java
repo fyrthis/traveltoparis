@@ -70,7 +70,7 @@ public class Eventful {
     }
 
     //Begin and end should be YYYYMMDD
-    public static List<Event> getEvents(EventSearchRequest esr) {
+    private static List<Event> getEvents(EventSearchRequest esr) {
         List<Event> events = new ArrayList<>();
         SearchResult sr = null;
 

@@ -28,8 +28,7 @@ public enum Category {
     RELIGION("religion_spirituality", "Religion &amp;amp; Spirituality"),
     SPORTS("sports", "Sports"),
     TECHNOLOGY("technology", "Technology"),
-    OTHER("other", "Other &amp;amp; Miscellaneous"),
-    ;
+    OTHER("other", "Other &amp;amp; Miscellaneous");
 
     private final String id;
     private final String name;
