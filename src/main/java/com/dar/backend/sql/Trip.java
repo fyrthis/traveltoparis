@@ -74,20 +74,24 @@ public class Trip implements JSONable {
 
     public JSONObject getTripOverview() throws NamingException, SQLException {
         JSONObject obj = new JSONObject();
-        String request = "SELECT v.id_user, e.id_event, c.name AS cat_name FROM involded i, events e, votes v, tagged t, categories c" +
-                " WHERE i.id_trip=? AND v.id_trip=i.id_trip AND e.id_event=v.id_event AND t.id_event=e.id_event AND c.id_category = t.id_category;";
+
+        String request = "SELECT i.id_user FROM involded i WHERE i.id_trip=?";
+
         SQLManager mngr = new SQLManager();
         Connection conn = mngr.getConnection();
         PreparedStatement stmt = conn.prepareStatement(request);
         stmt.setInt(1, id);
         ArrayList<HashMap<String, Object>> res = mngr.executeQuery(stmt);
+        obj.put("participants", res.size());
 
-        HashSet<Integer> id_user_list = new HashSet<>();
+        request = "SELECT e.id_event, c.name AS cat_name FROM events e, votes v, tagged t, categories c" +
+                " WHERE v.id_trip=? AND e.id_event=v.id_event AND t.id_event=e.id_event AND c.id_category = t.id_category;";
+        stmt = conn.prepareStatement(request);
+        stmt.setInt(1, id);
         HashSet<Integer> id_event_list = new HashSet<>();
         HashMap<String, Integer> events_in_cat = new HashMap<>();
-
+        res = mngr.executeQuery(stmt);
         for(HashMap<String, Object> e : res){
-            id_user_list.add((Integer)e.get("id_user"));
             Integer id_event = (Integer)e.get("id_event");
             if(!id_event_list.contains(id_event)) {
                 id_event_list.add(id_event);
@@ -97,9 +101,9 @@ public class Trip implements JSONable {
         }
         obj.put("name", this.name);
         obj.put("description", this.description);
-        obj.put("begins", this.begins);
-        obj.put("end", this.ends);
-        obj.put("participants", id_user_list.size());
+        obj.put("begins", this.begins.toString());
+        obj.put("ends", this.ends.toString());
+        obj.put("events", id_event_list.size());
         obj.put("categories", events_in_cat.size());
         Iterator it = events_in_cat.entrySet().iterator();
         while(it.hasNext()){
@@ -107,6 +111,8 @@ public class Trip implements JSONable {
             obj.put(pair.getKey(), pair.getValue());
             it.remove();
         }
+        System.out.println(obj);
+        conn.close();
         return obj;
     }
 

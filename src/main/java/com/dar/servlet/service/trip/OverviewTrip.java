@@ -13,7 +13,7 @@ import com.dar.backend.sql.Trip;
 /**
  * Servlet implementation class ResumeTrip
  */
-@WebServlet("/ResumeTrip")
+@WebServlet("/OverviewTrip")
 public class OverviewTrip extends HttpServlet {
     private static final long serialVersionUID = 1L;
 

@@ -4,9 +4,11 @@
     <description>
         The best goddamn app in the web
     </description>
-    <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
-    </welcome-file-list>
+
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
     <!-- SERVLET DE TEST -->
     <servlet>
         <servlet-name>hello</servlet-name>
@@ -136,4 +138,9 @@
         <filter-name>AuthFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
+
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
 </web-app>
