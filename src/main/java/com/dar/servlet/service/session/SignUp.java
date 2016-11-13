@@ -38,7 +38,7 @@ public class SignUp extends HttpServlet {
         Calendar cal = Calendar.getInstance();
         PrintWriter out = response.getWriter();
         String rq = ("INSERT INTO users (login, password, salt, firstname, lastname, birthday, country, email) VALUES (?,?,?,?,?,?,?,?);");
-        PreparedStatement stmt = null;
+        PreparedStatement stmt;
         try {
             String[] list = birth.split("-");
             cal.set(Calendar.YEAR, Integer.parseInt(list[0]));
@@ -48,7 +48,6 @@ public class SignUp extends HttpServlet {
             list = hashedReturn.split(":");
             salt = list[3];
             securePass = list[4];
-            response.setContentType("application/json");
             SQLManager mngr = new SQLManager();
             Connection conn = mngr.getConnection();
             stmt = conn.prepareStatement(rq);
@@ -67,11 +66,11 @@ public class SignUp extends HttpServlet {
             out.close();
             return;
         }
-        response.sendRedirect(request.getContextPath());
+        response.setContentType("application/json");
         JSONObject object = new JSONObject();
         object.put("status", "success");
         out.print(object);
         out.close();
+        response.sendRedirect(request.getContextPath());
     }
-
 }

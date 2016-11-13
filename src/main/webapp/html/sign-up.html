@@ -1,51 +1,96 @@
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
-    <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
-    <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css">
-    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../js/script.js" ></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
+<link href='https://fonts.googleapis.com/css?family=Passion+One'
+	rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Oxygen'
+	rel='stylesheet' type='text/css'>
+<link
+	href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
+	rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../js/script.js"></script>
 </head>
-<body id="wrap" class="signup">
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <h1 style="text-align: center">
-                <span class="label label-success">Sign-Up</span>
-            </h1><br>
-            <form method="POST" action="sign-up" class="form" role="form">
-                <input type="text" id="username" name="login" placeholder="Login" class="form-control input-lg" required autofocus><br>
-
-                <input type="text" id="firstname" name="firstname" placeholder="Firstname" class="form-control input-lg" required><br>
-
-                <input type="text" id="lastname" name="lastname" placeholder="Lastname" class="form-control input-lg" required><br>
-
-                <input type="email" id="email" name="email" placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" class="form-control input-lg" required><br>
-
-                <input type="date" id="birth" name="birthday" placeholder="Birthday" class="form-control input-lg" ><br>
-
-                <input id="countries" name="country" placeholder="Country" class="form-control input-lg"> <br>
-
-                <input type="password" id="password" name="password" placeholder="Password" required class="form-control input-lg"><br>
-
-                <input type="password" id="password_confirm" oninput="checkpw(this)" placeholder="Confirm Password" class="form-control input-lg" required><br>
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="I agree to sell my soul to the owner of this site">
-                        I agree to sell my soul to the owner of this site
-                    </label>
-
-                </div>
-                <button class="btn btn-lg btn-primary btn-block signup-btn" type="submit">Create Account</button>
-            </form>
+<body class="signup">
+<!-- NAVIGATION BAR -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="../index.html">Travel to Paris</a>
+            </div>
+            <div id="first_div">
+                <ul class="nav navbar-nav navbar-right">
+                    <li onclick="document.getElementById('id01').style.display='block'"><a
+                        href="#">Sign in</a></li>
+                    <li><a href="./html/sign-up.html">Sign up</a></li>
+                </ul>
+            </div>
+            <div class="hidden" id="second_div">
+                <ul class="nav navbar-nav">
+                    <li><a href="./html/new-trip.html">New Trip</a></li>
+                    <li><a href="#">My Trips</a></li>
+                    <li><a href="#">My Friends</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">My account</a></li>
+                    <li><a href="./sign-out">Sign out</a></li>
+                </ul>
+            </div>
         </div>
-    </div>
-</div>
+    </nav>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4 col-md-offset-4">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h1 style="text-align: center">
+							<span class="label label-success">Sign-Up</span>
+						</h1>
+					</div>
+					<div class="panel-body">
+						<form method="POST" action="sign-up" class="form" role="form">
+							<input type="text" id="username" name="login" placeholder="Login"
+								class="form-control" required autofocus><br>
+
+							<input type="text" id="firstname" name="firstname"
+								placeholder="Firstname" class="form-control" required><br>
+
+							<input type="text" id="lastname" name="lastname"
+								placeholder="Lastname" class="form-control" required><br>
+
+							<input type="email" id="email" name="email" placeholder="Email"
+								pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+								class="form-control" required><br> <input
+								type="date" id="birth" name="birthday" placeholder="Birthday"
+								class="form-control"><br> <input
+								id="countries" name="country" placeholder="Country"
+								class="form-control"> <br> <input
+								type="password" id="password" name="password"
+								placeholder="Password" required class="form-control"><br>
+
+							<input type="password" id="password_confirm"
+								oninput="checkpw(this)" placeholder="Confirm Password"
+								class="form-control" required><br>
+
+							<div class="checkbox">
+								<label> <input type="checkbox"
+									value="I agree to sell my soul to the owner of this site">
+									I agree to sell my soul to the owner of this site
+								</label>
+
+							</div>
+							<button class="btn btn-primary btn-block signup-btn"
+								type="submit">Create Account</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
