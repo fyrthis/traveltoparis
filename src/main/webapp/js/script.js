@@ -197,6 +197,25 @@ $(document).ready(function(){
             });
         }
     }
-
+    
+  //---> Si la page est trip avec le choix des catégories, afficher les événements liés
+    if(body.is('.trip')) {
+    	$(".category").addEventListener("click", function(){
+    	    var cat = $(this).attr("category");
+    	    var servleturl = "../events?category="+cat;
+    	    $.get(servleturl, function(data) {
+                console.log(data);
+                //Pour chaque event, on append
+                console.log(data.events.list[0]);
+                $("#tab2").empty();
+                for(var i = 0; i < data.events.size; i++) {
+                    var event = data.events.list[i].event;
+                    $("#tab2").append('<div class="row categories"><div class="col-lg-12 col-sm-12 col-xs-12"><divclass="brdr bgc-fff pad-10 box-shad btm-mrg-20 "><div class="media"><a class="pull-left" href="'+event.url+'"><img class="img-responsive list" src="http://lorempixel.com/100/100/"></a><div class="media-body fnt-smaller"><a href="'+event.url+'"></a><h4 class="media-heading"><a href="'+event.url+'">'+event.name+'</a></h4><ul class="list-inline mrg-0 btm-mrg-10 clr-535353"><li>From '+event.date+'</li></ul><span class="fnt-smaller fnt-lighter fnt-arial">'+event.description+'</span></div></div></div></div></div>');
+                }
+            });
+    	});
+    }
+    
+    
 
 });
