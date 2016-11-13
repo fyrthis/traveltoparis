@@ -1,7 +1,6 @@
 package com.dar.backend.scheduler;
 
 import java.sql.Date;
-import java.util.Calendar;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -31,5 +30,4 @@ public class BackEndScheduler implements ServletContextListener {
     public void contextDestroyed(ServletContextEvent event) {
         scheduler.shutdownNow();
     }
-
 }
