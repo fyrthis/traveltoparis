@@ -15,8 +15,6 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>9.4.1212.jre7</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/jars/postgresql-9.4.1212.jre7.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -69,54 +67,41 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
+
         <dependency>
-            <groupId>eventful</groupId>
-            <artifactId>eventfulapi</artifactId>
-            <scope>system</scope>
-            <version>1.0</version>
-            <systemPath>${basedir}/eventful/bin/eventfulapi.jar</systemPath>
+            <groupId>Eventful</groupId>
+            <artifactId>EventfulApi</artifactId>
+            <version>LATEST</version>
         </dependency>
         <dependency>
-            <groupId>eventful</groupId>
-            <artifactId>activation</artifactId>
-            <scope>system</scope>
-            <version>1.0</version>
-            <systemPath>${basedir}/eventful/lib/activation.jar</systemPath>
+            <groupId>Eventful</groupId>
+            <artifactId>Activation</artifactId>
+            <version>LATEST</version>
         </dependency>
         <dependency>
-            <groupId>eventful</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <scope>system</scope>
-            <version>1.0</version>
-            <systemPath>${basedir}/eventful/lib/jaxb-api.jar</systemPath>
+            <groupId>Eventful</groupId>
+            <artifactId>Jaxb-api</artifactId>
+            <version>LATEST</version>
         </dependency>
         <dependency>
-            <groupId>eventful</groupId>
-            <artifactId>jaxb-impl</artifactId>
-            <scope>system</scope>
+            <groupId>Eventful</groupId>
+            <artifactId>Jaxb-impl</artifactId>
             <version>1.0</version>
-            <systemPath>${basedir}/eventful/lib/jaxb-impl.jar</systemPath>
         </dependency>
         <dependency>
-            <groupId>eventful</groupId>
-            <artifactId>jaxb-xjc</artifactId>
-            <scope>system</scope>
+            <groupId>Eventful</groupId>
+            <artifactId>Jaxb-xjc</artifactId>
             <version>1.0</version>
-            <systemPath>${basedir}/eventful/lib/jaxb-xjc.jar</systemPath>
         </dependency>
         <dependency>
-            <groupId>eventful</groupId>
-            <artifactId>jaxbl-impl</artifactId>
-            <scope>system</scope>
+            <groupId>Eventful</groupId>
+            <artifactId>Jaxb1-impl</artifactId>
             <version>1.0</version>
-            <systemPath>${basedir}/eventful/lib/jaxb1-impl.jar</systemPath>
         </dependency>
         <dependency>
-            <groupId>eventful</groupId>
-            <artifactId>jsr173_1.0_api</artifactId>
-            <scope>system</scope>
+            <groupId>Eventful</groupId>
+            <artifactId>Jsr173_1</artifactId>
             <version>1.0</version>
-            <systemPath>${basedir}/eventful/lib/jsr173_1.0_api.jar</systemPath>
         </dependency>
         <dependency>
         <groupId>com.sun.faces</groupId>
@@ -137,12 +122,13 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.0.0</version>
                 <configuration>
-                    <webResources>
+<!--                    <webResources>
                         <resource>
                             <directory>resources</directory>
                         </resource>
-                    </webResources>
+                    </webResources>-->
                     <warSourceDirectory>src/main/webapp</warSourceDirectory>
+                    <!--<packagingIncludes>WEB-INF/*</packagingIncludes>-->
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
@@ -177,6 +163,11 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.5.2</version>
             </plugin>
         </plugins>
         <finalName>TravelToParis</finalName>

@@ -1,10 +1,9 @@
 package com.dar.backend.scheduler;
 
 import java.sql.Date;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -15,22 +14,37 @@ import com.dar.backend.scheduler.jobs.WallpaperJob;
 @WebListener
 public class BackEndScheduler implements ServletContextListener {
 
-    private ScheduledExecutorService scheduler1;
-    private ScheduledExecutorService scheduler2;
-    private static final String webcam = "5568862a7b28535025280c72";
+    private ScheduledExecutorService scheduler;
+    private ExecutorService executor;
 
     @Override
     public void contextInitialized(final ServletContextEvent event) {
-        scheduler1 = Executors.newSingleThreadScheduledExecutor();
-        scheduler2 = Executors.newSingleThreadScheduledExecutor();
-        scheduler1.scheduleAtFixedRate(new EventJob(new Date(new java.util.Date().getTime()), new Date(new java.util.Date().getTime() + (1000 * 60 * 60 /* *24 */))), 0, 24, TimeUnit.HOURS);
-        scheduler2.scheduleAtFixedRate(new WallpaperJob(webcam), 5, 20, TimeUnit.MINUTES);
-        //TODO: check so that it doesn't make the database go boom!
+        ServletContext context = event.getServletContext();
+        int nr_executors = 1;
+        ThreadFactory daemonFactory = new DaemonThreadFactory();
+
+        try {
+            nr_executors = Integer.parseInt(context.getInitParameter("nr-executors"));
+        } catch (NumberFormatException ignore ) {}
+
+        if(nr_executors <= 1) {
+            executor = Executors.newSingleThreadExecutor(daemonFactory);
+        } else {
+            executor = Executors.newFixedThreadPool(nr_executors,daemonFactory);
+        }
+        context.setAttribute("MY_EXECUTOR", executor);
+
+        scheduler = Executors.newSingleThreadScheduledExecutor();
+        scheduler.scheduleAtFixedRate(new EventJob(new Date(new java.util.Date().getTime()), new Date(new java.util.Date().getTime() + (1000 * 60 * 60 /* *24 */))), 0, 24, TimeUnit.HOURS);
+        scheduler.scheduleAtFixedRate(new WallpaperJob(), 5, 20, TimeUnit.MINUTES);
+
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent event) {
-        scheduler1.shutdownNow();
-        scheduler2.shutdownNow();
+        System.out.println(new java.util.Date().toString() + " | Context destroyed");
+        ServletContext context = event.getServletContext();
+        executor.shutdownNow();
+        scheduler.shutdownNow();
     }
 }

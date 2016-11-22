@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +13,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import com.evdb.javaapi.data.Tag;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -31,7 +33,10 @@ import com.evdb.javaapi.operations.EventOperations;
 public class Eventful {
     // Application Keys
     private static String key = "cH942g8gwHwmjpVh";
+    private static final int pageSize = 5;
+    private static final int eventLimit = 5;
 
+    public Eventful(){ }
 
     public static List<Event> getEvents(String begin, String end, ArrayList<Category> c) {
         APIConfiguration.setEvdbUser("TravelToParis");
@@ -54,19 +59,14 @@ public class Eventful {
         return  getEvents(esr);
     }
 
-    public static List<Event> getEvents(String begin, String end) {
-        System.out.println("DEBUG1");
-        System.out.flush();
+    public List<Event> getEvents(String begin, String end) {
         APIConfiguration.setEvdbUser("TravelToParis");
         APIConfiguration.setEvdbPassword("none");
         APIConfiguration.setApiKey(key);
-        System.out.println("DEBUG2");
         EventSearchRequest esr = new EventSearchRequest();
-        System.out.println("DEBUG3");
         esr.setLocation("Paris");
         esr.setDateRange(begin+"00-"+end+"00");
-        esr.setPageSize(50);
-        System.out.println("DEBUG4");
+        esr.setPageSize(pageSize);
         return getEvents(esr);
     }
 
@@ -74,13 +74,14 @@ public class Eventful {
     private static List<Event> getEvents(EventSearchRequest esr) {
         List<Event> events = new ArrayList<>();
         System.out.println(new java.util.Date().toString() + " | Getting events");
-        SearchResult sr = null;
+        SearchResult sr;
 
         EventOperations eo = new EventOperations();
         int pageNumber = 0;
         int nbPages = -1;
         do {
             try {
+                if(events.size() >= eventLimit) return events;
                 esr.setPageNumber(++pageNumber);
                 sr = eo.search(esr);
                 nbPages = sr.getPageCount();
@@ -151,7 +152,18 @@ public class Eventful {
 
 
     public static void main(String[] args) {
-        getEvents("20161113", "20161114");
+        Eventful ev = new Eventful();
+        List<Event> list= ev.getEvents("20161122", "20161122");
+        for(Event e : list) {
+            String name = e.getTitle();
+            String desc = e.getDescription();
+            String location = e.getVenueAddress();
+            Date date = new Date(e.getStartTime().getTime());
+            String url = e.getURL();
+            System.out.println("Title " + e.getTitle());
+            List<Tag> cat_list = e.getTags();
+            if(cat_list != null) for(Tag c : cat_list) System.out.println(c.getId() + " | " + c.getTitle());
+        }
         //List<Category> categories = getCategories();
         //for(Category c : categories) System.out.println(c.getId() + " : "  + c.getName());
         //printXMLCategories();

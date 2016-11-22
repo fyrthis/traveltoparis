@@ -59,10 +59,13 @@ public class Event implements JSONable{
         ArrayList<HashMap<String, Object>> res = mngr.executeQuery(stmt);
         int id_trip = (Integer)res.get(0).get("id_event");
         conn.close();
+
         return id_trip;
     }
 
     public static int insertTag(int id_event, String id_category) throws NamingException, SQLException{
+        System.out.println("DEBUG : ID_CAT = " + id_category + " ID_EVENT = " + id_event);
+        System.out.flush();
         String request = "INSERT INTO tagged (id_event, id_category) SELECT ?, t.id_category FROM categories t WHERE t.name=?";
         SQLManager mngr = new SQLManager();
         Connection conn = mngr.getConnection();
