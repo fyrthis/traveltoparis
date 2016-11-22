@@ -198,7 +198,7 @@ i.glyphicon-minus { color: #e74c3c; padding-left: 5px; }
 /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
+    /*position: fixed;  Stay in place */
     z-index: 1; /* Sit on top */
     left: 0;
     top: 0;
@@ -207,7 +207,7 @@ i.glyphicon-minus { color: #e74c3c; padding-left: 5px; }
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
-    padding-top: 22em;
+    /*padding-top: 22em;*/
 }
 
 
