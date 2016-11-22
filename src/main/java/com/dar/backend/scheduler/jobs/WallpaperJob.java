@@ -20,15 +20,15 @@ import javax.imageio.ImageIO;
 
 public class WallpaperJob implements Runnable {
 
+
+    private static final String webcam = "5568862a7b28535025280c72";
     private static final int native4kHeight = 3000;
     private static final int native4kWidth = 2*native4kHeight;
-    // TODO remplacer le path actuel par un path qui marche
     private static final String imagesPath = "/opt/tomcat/webres/";
-    //private static final String imagesPath = "resources/";
     private String cameraID;
 
-    public WallpaperJob(String camString){
-        cameraID = camString;
+    public WallpaperJob(){
+        cameraID = webcam;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class WallpaperJob implements Runnable {
         }
     }
 
-    private String getRedirect(String urlString){
+    private static String getRedirect(String urlString){
         try {
             boolean redirect = false;
             URL url = new URL(urlString);

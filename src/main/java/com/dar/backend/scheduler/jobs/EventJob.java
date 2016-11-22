@@ -31,29 +31,32 @@ public class EventJob implements Runnable{
 
     @Override
     public void run() {
-        String begin = this.begin.toString().replaceAll("-","");
-        String end = this.end.toString().replaceAll("-", "");
-        System.out.println(new java.util.Date().toString() + " | Launching background routine Events : " + begin + " | " + end);
-        List<Event> list = new ArrayList<>();
         try {
-            list = Eventful.getEvents(begin, end);
-        } catch (Exception e){e.printStackTrace();}
-        //if(filtre == null)list = Eventful.getEvents(begin, end);
-        //else list = Eventful.getEvents(begin, end, filtre);
-        System.out.println(new java.util.Date().toString() + " | Got Events " + list.size());
-        for(Event e : list){
-            String name = e.getTitle();
-            String desc = e.getDescription();
-            String location = e.getVenueAddress();
-            Date date = new Date(e.getStartTime().getTime());
-            String url = e.getURL();
-            try {
+            String begin = this.begin.toString().replaceAll("-","");
+            String end = this.end.toString().replaceAll("-", "");
+            System.out.println(new java.util.Date().toString() + " | Launching background routine Events : " + begin + " | " + end);
+            Eventful ev = new Eventful();
+            List<Event> list = ev.getEvents(begin, end);
+            //} catch (Exception e){e.printStackTrace();}
+            //if(filtre == null)list = Eventful.getEvents(begin, end);
+            //else list = Eventful.getEvents(begin, end, filtre);
+            System.out.println(new java.util.Date().toString() + " | Got Events " + list.size());
+            for(Event e : list){
+                String name = e.getTitle();
+                String desc = e.getDescription();
+                String location = e.getVenueAddress();
+                Date date = new Date(e.getStartTime().getTime());
+                String url = e.getURL();
                 int event_id = com.dar.backend.sql.Event.insertEvent(name, url, location, date, desc);
+                System.out.println("DEBUG!!");
+                System.out.flush();
                 List<Category> cat_list = e.getCategories();
+                System.out.println("DEBUG E S " + cat_list.size());
+                System.out.flush();
                 for(Category cat : cat_list){
                     com.dar.backend.sql.Event.insertTag(event_id, cat.getId());
                 }
-            } catch (Exception ex){ex.printStackTrace();}
-        }
+            }
+        } catch (Exception ex){ex.printStackTrace();}
     }
 }
