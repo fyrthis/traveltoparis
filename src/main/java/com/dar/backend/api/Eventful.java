@@ -34,11 +34,11 @@ public class Eventful {
     private static final int pageSize = 50;
     private static final int eventLimit = 5;
 
-    public void updateDatabase(String begin, String end){
+    public void updateDatabase(String begin, String end) {
         String[] cat_list = {Category.MUSIC.getId(), Category.FAMILY.getId(), Category.FOOD.getId(), Category.MOVIES.getId(),
-        Category.ART.getId(), Category.HEALTH.getId(), Category.MUSEUMS.getId(), Category.SPORTS.getId(), Category.TECHNOLOGY.getId(),
-        Category.FESTIVALS.getId(), Category.FUNDRAISERS.getId(), Category.ANIMALS.getId()};
-        for(String s : cat_list) {
+                Category.ART.getId(), Category.HEALTH.getId(), Category.MUSEUMS.getId(), Category.SPORTS.getId(), Category.TECHNOLOGY.getId(),
+                Category.FESTIVALS.getId(), Category.FUNDRAISERS.getId(), Category.ANIMALS.getId()};
+        for (String s : cat_list) {
             List<Event> list = getEvents(begin, end, s);
             System.out.println(new java.util.Date().toString() + " | Got Events " + list.size());
             for (Event e : list) {
@@ -51,10 +51,11 @@ public class Eventful {
                 try {
                     com.dar.backend.sql.Event.insertEvent(id, name, url, location, date, desc);
                     com.dar.backend.sql.Event.insertTag(id, s);
-                } catch (Exception ex){
+                } catch (Exception ex) {
                     ex.printStackTrace(System.out);
                     System.out.flush();
-                return;}
+                    return;
+                }
             }
         }
     }
@@ -65,7 +66,7 @@ public class Eventful {
         APIConfiguration.setApiKey(key);
         EventSearchRequest esr = new EventSearchRequest();
         esr.setLocation("Paris");
-        esr.setDateRange(begin+"00-"+end+"00");
+        esr.setDateRange(begin + "00-" + end + "00");
         esr.setPageSize(pageSize);
         esr.setCategory(category);
         return getEvents(esr);
@@ -82,16 +83,16 @@ public class Eventful {
         int nbPages = -1;
         do {
             try {
-                if(events.size() >= eventLimit) return events;
+                if (events.size() >= eventLimit) return events;
                 esr.setPageNumber(++pageNumber);
                 sr = eo.search(esr);
                 nbPages = sr.getPageCount();
                 events.addAll(sr.getEvents());
-                System.out.println("DEBUG : Added "+sr.getEvents().size()+" elements from page "+pageNumber+'/'+nbPages);
+                System.out.println("DEBUG : Added " + sr.getEvents().size() + " elements from page " + pageNumber + '/' + nbPages);
             } catch (EVDBRuntimeException | EVDBAPIException e) {
-                System.err.println("ERROR Eventful : "+e.getMessage());
+                System.err.println("ERROR Eventful : " + e.getMessage());
             }
-        } while(pageNumber <= nbPages);
+        } while (pageNumber <= nbPages);
         return events;
     }
 
@@ -102,13 +103,13 @@ public class Eventful {
 
         InputStream is;
         try {
-            HashMap<String,String> params = new HashMap<>();
+            HashMap<String, String> params = new HashMap<>();
             params.put("subcategories", "1");
             is = new ServerCommunication().invokeMethod("categories/list", params);
             BufferedReader reader = new BufferedReader(new InputStreamReader(is));
             StringBuilder result = new StringBuilder();
             String line;
-            while((line = reader.readLine()) != null) {
+            while ((line = reader.readLine()) != null) {
                 result.append(line).append('\n');
             }
             System.out.println(result.toString());
@@ -126,17 +127,17 @@ public class Eventful {
 
         InputStream is;
         try {
-            HashMap<String,String> params = new HashMap<>();
+            HashMap<String, String> params = new HashMap<>();
             params.put("subcategories", "1");
             is = new ServerCommunication().invokeMethod("categories/list", params);
             final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             final DocumentBuilder builder = factory.newDocumentBuilder();
-            final Document document= builder.parse(is);
+            final Document document = builder.parse(is);
             final Element root = document.getDocumentElement();
             final NodeList nodes = root.getChildNodes();
             final int nbNodes = nodes.getLength();
-            for (int i = 0; i<nbNodes; i++)
-                if(nodes.item(i).getNodeType() == Node.ELEMENT_NODE) {
+            for (int i = 0; i < nbNodes; i++)
+                if (nodes.item(i).getNodeType() == Node.ELEMENT_NODE) {
                     final Element category = (Element) nodes.item(i);
                     com.evdb.javaapi.data.Category c = new com.evdb.javaapi.data.Category();
                     c.setId(category.getElementsByTagName("id").item(0).getTextContent());
@@ -153,6 +154,6 @@ public class Eventful {
 
     public static void main(String[] args) {
         Eventful ev = new Eventful();
-        ev.updateDatabase("20161123","20161123");
+        ev.updateDatabase("20161123", "20161123");
     }
 }
