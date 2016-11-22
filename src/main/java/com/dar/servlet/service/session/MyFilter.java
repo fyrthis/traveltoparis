@@ -21,7 +21,7 @@ public class MyFilter implements Filter {
         String path = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());
         boolean loggedIn = session != null && session.getAttribute("uname") != null;
 
-        boolean whitelist = path.equals("/") || path.equals("/index.html") || path.equals("/html/sign-up.html") || path.equals("/sign-up")
+        boolean whitelist = path.equals("/") || path.equals("/index.html") || path.equals("/html/sign-up.html") || path.equals("/html/error.html") || path.equals("/sign-up")
                 || path.equals("/sign-in") || path.startsWith("/images") || path.equals("/account-creation") || path.endsWith(".css")
                 || path.endsWith(".map") || path.endsWith(".js") || path.endsWith(".jpg") || path.endsWith(".png") || path.endsWith(".ttf");
 
