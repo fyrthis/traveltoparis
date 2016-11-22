@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.dar.backend.scheduler.jobs.EventJob;
 import com.evdb.javaapi.APIConfiguration;
 import com.evdb.javaapi.EVDBAPIException;
 import com.evdb.javaapi.EVDBRuntimeException;
@@ -115,6 +117,31 @@ public class Eventful {
             e1.printStackTrace();
         }
     }
+    
+    private static void printXMLEvents() {
+        APIConfiguration.setEvdbUser("TravelToParis");
+        APIConfiguration.setEvdbPassword("none");
+        APIConfiguration.setApiKey(key);
+
+        InputStream is;
+        try {
+            HashMap<String,String> params = new HashMap<>();
+            params.put("date", "2016112200-2016112200");
+    		//params.put("category", com.dar.backend.api.Category.MUSEUMS.getId());
+    		params.put("page_size", "5");
+    		params.put("page_number", "1");
+            is = new ServerCommunication().invokeMethod("/events/search", params);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            StringBuilder result = new StringBuilder();
+            String line;
+            while((line = reader.readLine()) != null) {
+                result.append(line).append('\n');
+            }
+            System.out.println(result.toString());
+        } catch (EVDBRuntimeException | EVDBAPIException | IOException e1) {
+            e1.printStackTrace();
+        }
+    }
 
     public static List<Category> getCategories() {
         List<Category> categories = new ArrayList<>();
@@ -151,9 +178,12 @@ public class Eventful {
 
 
     public static void main(String[] args) {
-        getEvents("20161113", "20161114");
+    	//new EventJob(new java.sql.Date(new java.util.Date().getTime()), new java.sql.Date(new java.util.Date().getTime() + (1000 * 60 * 60))).run();
+    	//new EventJob(new Date(1479076696347L), new Date(1479076796347L)).run();
+        //getEvents("20161113", "20161114");
         //List<Category> categories = getCategories();
         //for(Category c : categories) System.out.println(c.getId() + " : "  + c.getName());
         //printXMLCategories();
+    	printXMLEvents();
     }
 }
