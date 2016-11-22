@@ -12,11 +12,6 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>9.4.1212.jre7</version>
-        </dependency>
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>3.8.1</version>
@@ -67,21 +62,20 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
-
         <dependency>
             <groupId>Eventful</groupId>
             <artifactId>EventfulApi</artifactId>
-            <version>LATEST</version>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>Eventful</groupId>
             <artifactId>Activation</artifactId>
-            <version>LATEST</version>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>Eventful</groupId>
             <artifactId>Jaxb-api</artifactId>
-            <version>LATEST</version>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>Eventful</groupId>
@@ -104,15 +98,15 @@
             <version>1.0</version>
         </dependency>
         <dependency>
-        <groupId>com.sun.faces</groupId>
-        <artifactId>jsf-api</artifactId>
-        <version>2.1.7</version>
-    </dependency>
-    <dependency>
-        <groupId>com.sun.faces</groupId>
-        <artifactId>jsf-impl</artifactId>
-        <version>2.1.7</version>
-    </dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-api</artifactId>
+            <version>2.1.7</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-impl</artifactId>
+            <version>2.1.7</version>
+        </dependency>
     </dependencies>
     <build>
         <sourceDirectory>src</sourceDirectory>
@@ -122,13 +116,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.0.0</version>
                 <configuration>
-<!--                    <webResources>
-                        <resource>
-                            <directory>resources</directory>
-                        </resource>
-                    </webResources>-->
                     <warSourceDirectory>src/main/webapp</warSourceDirectory>
-                    <!--<packagingIncludes>WEB-INF/*</packagingIncludes>-->
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
@@ -139,6 +127,7 @@
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
+                    <!--<compilerArgument>-Xlint:unchecked</compilerArgument>-->
                 </configuration>
             </plugin>
             <plugin>

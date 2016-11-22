@@ -18,7 +18,7 @@ CREATE TABLE Users
 
 CREATE TABLE Events
 (
-  id_event serial not null,
+  id_event VARCHAR(64) not null unique,
   name VARCHAR(100),
   url VARCHAR(512),
   location VARCHAR(100),
@@ -51,7 +51,7 @@ CREATE TABLE Categories
 CREATE TABLE Votes
 (
   id_user integer, -- integer : signed four-byte integer
-  id_event integer,
+  id_event VARCHAR(64),
   id_trip integer,
   is_like boolean,
   FOREIGN KEY (id_user) REFERENCES Users(id_user),
@@ -81,7 +81,7 @@ CREATE TABLE Involded
 
 CREATE TABLE Tagged
 (
-  id_event integer,
+  id_event VARCHAR(64),
   id_category integer,
   FOREIGN KEY (id_event) REFERENCES Events(id_event),
   FOREIGN KEY (id_category) REFERENCES Categories(id_category)

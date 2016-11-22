@@ -43,7 +43,7 @@ public class BackEndScheduler implements ServletContextListener {
     @Override
     public void contextDestroyed(ServletContextEvent event) {
         System.out.println(new java.util.Date().toString() + " | Context destroyed");
-        ServletContext context = event.getServletContext();
+        //ServletContext context = event.getServletContext();
         executor.shutdownNow();
         scheduler.shutdownNow();
     }

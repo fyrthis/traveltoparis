@@ -43,13 +43,11 @@ public class SignIn extends HttpServlet{
         String dbSalt = null;
         SQLManager sql = new SQLManager();
         JSONObject result = new JSONObject();
-        System.out.println("DEBUG : Making request1");
         try {
             Connection con = sql.getConnection();
             PreparedStatement stmt = con.prepareStatement(requestDb);
             stmt.setString(1, uname);
             ArrayList<HashMap<String, Object>> res = sql.executeQuery(stmt);
-            System.out.println("DEBUG : Making request2");
             dbHashedPass = (String)res.get(0).get("password");
             dbSalt = (String)res.get(0).get("salt");
         } catch (Exception e){
@@ -59,7 +57,6 @@ public class SignIn extends HttpServlet{
             out.close();
             return;
         }
-        System.out.println("DEBUG : request done, checking pass");
         // format: algorithm:iterations:hashSize:salt:hash
         String param = "sha256:" + Tools.PBKDF2_ITERATIONS + ":" + Tools.HASH_BYTE_SIZE + ":" + dbSalt + ":" + dbHashedPass;
         boolean isValid;

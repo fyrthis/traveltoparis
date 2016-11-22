@@ -46,35 +46,51 @@ public class Event implements JSONable{
         this.description = description;
     }
 
-    public static int insertEvent(String name, String url, String location, Date date, String description) throws NamingException, SQLException {
-        String request = "INSERT INTO events (name, url, location, eventdate, description) VALUES (?,?,?,?,?) RETURNING id_event";
+    public static void insertEvent(String id, String name, String url, String location, Date date, String description) throws NamingException, SQLException {
+        System.out.println("EXISTS id : " + id);
+        System.out.flush();
+        String request = "SELECT exists(SELECT 1 FROM events WHERE id_event=?)";
         SQLManager mngr = new SQLManager();
         Connection conn = mngr.getConnection();
         PreparedStatement stmt = conn.prepareStatement(request);
-        stmt.setString(1,name);
-        stmt.setString(2, url);
-        stmt.setString(3, location);
-        stmt.setDate(4, date);
-        stmt.setString(5, description);
+        stmt.setString(1, id);
         ArrayList<HashMap<String, Object>> res = mngr.executeQuery(stmt);
-        int id_trip = (Integer)res.get(0).get("id_event");
-        conn.close();
-
-        return id_trip;
+        System.out.println("Executed");
+        System.out.flush();
+        Boolean exists = (Boolean) res.get(0).get("exists");
+        if (!exists) {
+            request = "INSERT INTO events (id_event, name, url, location, eventdate, description) VALUES (?,?,?,?,?,?)";
+            stmt = conn.prepareStatement(request);
+            stmt.setString(1, id);
+            stmt.setString(2, name);
+            stmt.setString(3, url);
+            stmt.setString(4, location);
+            stmt.setDate(5, date);
+            stmt.setString(6, description);
+            mngr.executeUpdate(stmt);
+            conn.close();
+        }
     }
 
-    public static int insertTag(int id_event, String id_category) throws NamingException, SQLException{
-        System.out.println("DEBUG : ID_CAT = " + id_category + " ID_EVENT = " + id_event);
-        System.out.flush();
-        String request = "INSERT INTO tagged (id_event, id_category) SELECT ?, t.id_category FROM categories t WHERE t.name=?";
+    public static void insertTag(String id_event, String id_category) throws NamingException, SQLException {
+        String request = "SELECT exists(SELECT 1 FROM tagged WHERE id_event=? AND id_category=?)";
         SQLManager mngr = new SQLManager();
         Connection conn = mngr.getConnection();
         PreparedStatement stmt = conn.prepareStatement(request);
-        stmt.setInt(1, id_event);
+        stmt.setString(1, id_event);
         stmt.setString(2, id_category);
-        int res = mngr.executeUpdate(stmt);
-        conn.close();
-        return res;
+        ArrayList<HashMap<String, Object>> res = mngr.executeQuery(stmt);
+        Boolean exists = (Boolean) res.get(0).get("exists");
+        if (!exists) {
+            request = "INSERT INTO tagged (id_event, id_category) SELECT ?, t.id_category FROM categories t WHERE t.name=?";
+            mngr = new SQLManager();
+            conn = mngr.getConnection();
+            stmt = conn.prepareStatement(request);
+            stmt.setString(1, id_event);
+            stmt.setString(2, id_category);
+            mngr.executeUpdate(stmt);
+            conn.close();
+        }
     }
 
     @Override

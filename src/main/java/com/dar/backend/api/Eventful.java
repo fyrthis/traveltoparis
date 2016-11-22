@@ -13,7 +13,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import com.evdb.javaapi.data.Tag;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -23,7 +22,6 @@ import org.xml.sax.SAXException;
 import com.evdb.javaapi.APIConfiguration;
 import com.evdb.javaapi.EVDBAPIException;
 import com.evdb.javaapi.EVDBRuntimeException;
-import com.evdb.javaapi.data.Category;
 import com.evdb.javaapi.data.Event;
 import com.evdb.javaapi.data.SearchResult;
 import com.evdb.javaapi.data.request.EventSearchRequest;
@@ -33,33 +31,35 @@ import com.evdb.javaapi.operations.EventOperations;
 public class Eventful {
     // Application Keys
     private static String key = "cH942g8gwHwmjpVh";
-    private static final int pageSize = 5;
+    private static final int pageSize = 50;
     private static final int eventLimit = 5;
 
-    public Eventful(){ }
-
-    public static List<Event> getEvents(String begin, String end, ArrayList<Category> c) {
-        APIConfiguration.setEvdbUser("TravelToParis");
-        APIConfiguration.setEvdbPassword("none");
-        APIConfiguration.setApiKey(key);
-        EventSearchRequest esr = new EventSearchRequest();
-
-        if(!c.isEmpty()) {
-            StringBuilder categories = new StringBuilder();
-            for(int i = 0; i < c.size()-1 ; i++) {
-                categories.append(c.get(i).getId()).append(',');
+    public void updateDatabase(String begin, String end){
+        String[] cat_list = {Category.MUSIC.getId(), Category.FAMILY.getId(), Category.FOOD.getId(), Category.MOVIES.getId(),
+        Category.ART.getId(), Category.HEALTH.getId(), Category.MUSEUMS.getId(), Category.SPORTS.getId(), Category.TECHNOLOGY.getId(),
+        Category.FESTIVALS.getId(), Category.FUNDRAISERS.getId(), Category.ANIMALS.getId()};
+        for(String s : cat_list) {
+            List<Event> list = getEvents(begin, end, s);
+            System.out.println(new java.util.Date().toString() + " | Got Events " + list.size());
+            for (Event e : list) {
+                String name = e.getTitle();
+                String id = e.getSeid();
+                String desc = e.getDescription();
+                String location = e.getVenueAddress();
+                Date date = new Date(e.getStartTime().getTime());
+                String url = e.getURL();
+                try {
+                    com.dar.backend.sql.Event.insertEvent(id, name, url, location, date, desc);
+                    com.dar.backend.sql.Event.insertTag(id, s);
+                } catch (Exception ex){
+                    ex.printStackTrace(System.out);
+                    System.out.flush();
+                return;}
             }
-            categories.append(c.get(c.size()-1));
-            esr.setCategory(categories.toString());
         }
-
-        esr.setLocation("Paris");
-        esr.setDateRange(begin+"00-"+end+"00");
-        esr.setPageSize(50);
-        return  getEvents(esr);
     }
 
-    public List<Event> getEvents(String begin, String end) {
+    private List<Event> getEvents(String begin, String end, String category) {
         APIConfiguration.setEvdbUser("TravelToParis");
         APIConfiguration.setEvdbPassword("none");
         APIConfiguration.setApiKey(key);
@@ -67,6 +67,7 @@ public class Eventful {
         esr.setLocation("Paris");
         esr.setDateRange(begin+"00-"+end+"00");
         esr.setPageSize(pageSize);
+        esr.setCategory(category);
         return getEvents(esr);
     }
 
@@ -94,7 +95,6 @@ public class Eventful {
         return events;
     }
 
-
     private static void printXMLCategories() {
         APIConfiguration.setEvdbUser("TravelToParis");
         APIConfiguration.setEvdbPassword("none");
@@ -117,8 +117,8 @@ public class Eventful {
         }
     }
 
-    public static List<Category> getCategories() {
-        List<Category> categories = new ArrayList<>();
+    public static List<com.evdb.javaapi.data.Category> getCategories() {
+        List<com.evdb.javaapi.data.Category> categories = new ArrayList<>();
 
         APIConfiguration.setEvdbUser("TravelToParis");
         APIConfiguration.setEvdbPassword("none");
@@ -138,7 +138,7 @@ public class Eventful {
             for (int i = 0; i<nbNodes; i++)
                 if(nodes.item(i).getNodeType() == Node.ELEMENT_NODE) {
                     final Element category = (Element) nodes.item(i);
-                    Category c = new Category();
+                    com.evdb.javaapi.data.Category c = new com.evdb.javaapi.data.Category();
                     c.setId(category.getElementsByTagName("id").item(0).getTextContent());
                     c.setName(category.getElementsByTagName("name").item(0).getTextContent());
                     categories.add(c);
@@ -153,19 +153,6 @@ public class Eventful {
 
     public static void main(String[] args) {
         Eventful ev = new Eventful();
-        List<Event> list= ev.getEvents("20161122", "20161122");
-        for(Event e : list) {
-            String name = e.getTitle();
-            String desc = e.getDescription();
-            String location = e.getVenueAddress();
-            Date date = new Date(e.getStartTime().getTime());
-            String url = e.getURL();
-            System.out.println("Title " + e.getTitle());
-            List<Tag> cat_list = e.getTags();
-            if(cat_list != null) for(Tag c : cat_list) System.out.println(c.getId() + " | " + c.getTitle());
-        }
-        //List<Category> categories = getCategories();
-        //for(Category c : categories) System.out.println(c.getId() + " : "  + c.getName());
-        //printXMLCategories();
+        ev.updateDatabase("20161123","20161123");
     }
 }

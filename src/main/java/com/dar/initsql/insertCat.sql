@@ -1,0 +1,12 @@
+INSERT INTO categories (name, picture, description) VALUES ('music', NULL , 'Concerts and Tour Dates');
+INSERT INTO categories (name, picture, description) VALUES ('family_fun_kids', NULL , 'Kids and Family');
+INSERT INTO categories (name, picture, description) VALUES ('food', NULL , 'Food and Wine');
+INSERT INTO categories (name, picture, description) VALUES ('movies_film', NULL , 'Film');
+INSERT INTO categories (name, picture, description) VALUES ('art', NULL , 'Art Galleries and Exhibits');
+INSERT INTO categories (name, picture, description) VALUES ('support', NULL , 'Health and Wellness');
+INSERT INTO categories (name, picture, description) VALUES ('attractions', NULL , 'Museums and Attractions');
+INSERT INTO categories (name, picture, description) VALUES ('sports', NULL , 'Sports');
+INSERT INTO categories (name, picture, description) VALUES ('technology', NULL , 'Technology');
+INSERT INTO categories (name, picture, description) VALUES ('festivals_parades', NULL , 'Festivals');
+INSERT INTO categories (name, picture, description) VALUES ('fundraisers', NULL , 'Fundraising and Charity');
+INSERT INTO categories (name, picture, description) VALUES ('animals', NULL , 'Pets');
