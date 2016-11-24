@@ -21,6 +21,7 @@ public class EventJob implements Runnable{
             System.out.println(new java.util.Date().toString() + " | Launching background routine Events : " + begin + " | " + end);
             Eventful ev = new Eventful();
             ev.updateDatabase(begin, end);
+            ev.removePastEvents();
         } catch (Exception ex){ex.printStackTrace();}
         System.out.println(new java.util.Date().toString() + " | Done");
     }

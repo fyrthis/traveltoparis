@@ -48,13 +48,14 @@ public class Trip implements JSONable {
         SQLManager mngr = new SQLManager();
         Connection conn = mngr.getConnection();
         PreparedStatement stmt = conn.prepareStatement(request);
+        conn.close();
+        obj.put("test", "test");
         return obj;
     }
 
     public JSONObject getTripEvents() throws NamingException, SQLException {
         JSONObject obj = new JSONObject();
         JSONArray arr = new JSONArray();
-
         String request = "SELECT v.is_like, u.login, c.description AS description_cat, e.* FROM votes v, users u, events e, tagged tg, categories c " +
                 "WHERE v.id_trip=? AND v.id_event=e.id_event AND v.id_user=u.id_user AND e.id_event=tg.id_event AND tg.id_category = c.id_category;";
         SQLManager mngr = new SQLManager();
@@ -71,7 +72,8 @@ public class Trip implements JSONable {
                     (String)e.get("name"),
                     (String)e.get("url"),
                     (String)e.get("location"),
-                    (Date)e.get("date"),
+                    (Date)e.get("eventbegin"),
+                    (Date)e.get("eventend"),
                     (String)e.get("description"));
             elem.put("event", event.getJSON());
             arr.add(elem);

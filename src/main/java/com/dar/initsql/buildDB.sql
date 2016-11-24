@@ -19,10 +19,11 @@ CREATE TABLE Users
 CREATE TABLE Events
 (
   id_event VARCHAR(64) not null unique,
-  name VARCHAR(100),
+  name TEXT,
   url VARCHAR(512),
-  location VARCHAR(100),
-  eventdate DATE,
+  location TEXT,
+  eventbegin DATE,
+  eventend DATE,
   picture bytea,
   description text,
   PRIMARY KEY(id_event)
@@ -54,9 +55,9 @@ CREATE TABLE Votes
   id_event VARCHAR(64),
   id_trip integer,
   is_like boolean,
-  FOREIGN KEY (id_user) REFERENCES Users(id_user),
-  FOREIGN KEY (id_event) REFERENCES Events(id_event),
-  FOREIGN KEY (id_trip) REFERENCES Trips(id_trip)
+  FOREIGN KEY (id_user) REFERENCES Users(id_user) ON DELETE CASCADE,
+  FOREIGN KEY (id_event) REFERENCES Events(id_event) ON DELETE CASCADE,
+  FOREIGN KEY (id_trip) REFERENCES Trips(id_trip) ON DELETE CASCADE
 );
 
 CREATE TABLE Messages
@@ -66,8 +67,8 @@ CREATE TABLE Messages
   id_trip integer,
   posted DATE,
   description text,
-  FOREIGN KEY (id_user) REFERENCES Users(id_user),
-  FOREIGN KEY (id_trip) REFERENCES Trips(id_trip)
+  FOREIGN KEY (id_user) REFERENCES Users(id_user) ON DELETE CASCADE,
+  FOREIGN KEY (id_trip) REFERENCES Trips(id_trip) ON DELETE CASCADE
 );
 
 CREATE TABLE Involded
@@ -75,16 +76,16 @@ CREATE TABLE Involded
   id_user integer,
   id_trip integer,
   is_admin boolean,
-  FOREIGN KEY (id_user) REFERENCES Users(id_user),
-  FOREIGN KEY (id_trip) REFERENCES Trips(id_trip)
+  FOREIGN KEY (id_user) REFERENCES Users(id_user) ON DELETE CASCADE,
+  FOREIGN KEY (id_trip) REFERENCES Trips(id_trip) ON DELETE CASCADE
 );
 
 CREATE TABLE Tagged
 (
   id_event VARCHAR(64),
   id_category integer,
-  FOREIGN KEY (id_event) REFERENCES Events(id_event),
-  FOREIGN KEY (id_category) REFERENCES Categories(id_category)
+  FOREIGN KEY (id_event) REFERENCES Events(id_event) ON DELETE CASCADE,
+  FOREIGN KEY (id_category) REFERENCES Categories(id_category) ON DELETE CASCADE
 );
 
 CREATE TABLE Friendships
@@ -92,6 +93,6 @@ CREATE TABLE Friendships
   id_user1 integer,
   id_user2 integer,
   is_pending_request boolean,
-  FOREIGN KEY (id_user1) REFERENCES Users(id_user),
-  FOREIGN KEY (id_user2) REFERENCES Users(id_user)
+  FOREIGN KEY (id_user1) REFERENCES Users(id_user) ON DELETE CASCADE,
+  FOREIGN KEY (id_user2) REFERENCES Users(id_user) ON DELETE CASCADE
 );

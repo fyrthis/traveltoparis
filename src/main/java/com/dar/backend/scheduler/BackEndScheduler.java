@@ -35,9 +35,8 @@ public class BackEndScheduler implements ServletContextListener {
         context.setAttribute("MY_EXECUTOR", executor);
 
         scheduler = Executors.newSingleThreadScheduledExecutor();
-        scheduler.scheduleAtFixedRate(new EventJob(new Date(new java.util.Date().getTime()), new Date(new java.util.Date().getTime() + (1000 * 60 * 60 /* *24 */))), 0, 24, TimeUnit.HOURS);
+        scheduler.scheduleAtFixedRate(new EventJob(new Date(new java.util.Date().getTime()), new Date(new java.util.Date().getTime() + (1000 * 60 * 60 * 24))), 0, 24, TimeUnit.HOURS);
         scheduler.scheduleAtFixedRate(new WallpaperJob(), 5, 20, TimeUnit.MINUTES);
-
     }
 
     @Override
