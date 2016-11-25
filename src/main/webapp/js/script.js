@@ -231,14 +231,16 @@ $(document).ready(function(){
 		//Lancer le spinloader
 		$('.spinloader').css('visibility', 'visible');
 		//Les valeurs dont on a besoin
-		var begins = "2016-11-25";
-		var ends = "2016-11-28";
-		var select = $('.select-by option:selected').text();
-		var cats = $("#catbox input:checkbox:checked").map(function(){ console.log("Added "+$(this).val()); return $(this).val(); }).get();
+		var begins = "2016-11-25"; console.log("begins : "+begins);
+		var ends = "2016-11-28"; console.log("ends : "+ends);
+		var select = $('.select-by option:selected').text(); console.log("sort by : "+select);
+		var cats = $(".catbox input:checkbox:checked").map(function(){ console.log("Added "+$(this).val()); return $(this).val(); }).get();
+		console.log("categories : "+cats);
 		//Executer le Ajax
 		$.ajax({
 			type: "GET",
 			url: "../EventsTrip",
+			contentType: "application/json; charset=utf-8",
 			dataType: "json",
 			data: {id: trip_id, begins: begins, ends: ends, sortby: select, categories: cats},
 			success: function(data){
