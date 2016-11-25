@@ -40,16 +40,18 @@ public class Eventful {
                 Category.FESTIVALS.getId(), Category.FUNDRAISERS.getId(), Category.ANIMALS.getId()};
         for (String s : cat_list) {
             List<Event> list = getEvents(begin, end, s);
-            System.out.println(new java.util.Date().toString() + " | Got Events " + list.size());
+            System.out.println(new java.util.Date().toString() + " | Category : " + s + " -> Number of events " + list.size());
             for (Event e : list) {
                 String name = e.getTitle();
                 String id = e.getSeid();
                 String desc = e.getDescription();
                 String location = e.getVenueAddress();
-                Date date = new Date(e.getStartTime().getTime());
+                Date beginE = new Date(e.getStartTime().getTime());
+                Date endE = beginE;
+                if(e.getStopTime() != null) endE = new Date(e.getStopTime().getTime());
                 String url = e.getURL();
                 try {
-                    com.dar.backend.sql.Event.insertEvent(id, name, url, location, date, desc);
+                    com.dar.backend.sql.Event.insertEvent(id, name, url, location, beginE, endE, desc);
                     com.dar.backend.sql.Event.insertTag(id, s);
                 } catch (Exception ex) {
                     ex.printStackTrace(System.out);
@@ -57,6 +59,17 @@ public class Eventful {
                     return;
                 }
             }
+        }
+    }
+
+    public void removePastEvents(){
+        System.out.println(new java.util.Date().toString() + " | Removing past events");
+        Date today = new Date(new java.util.Date().getTime());
+        try {
+            com.dar.backend.sql.Event.removePast(today);
+        } catch (Exception e){
+            e.printStackTrace(System.out);
+            System.out.flush();
         }
     }
 
@@ -83,12 +96,12 @@ public class Eventful {
         int nbPages = -1;
         do {
             try {
-                if (events.size() >= eventLimit) return events;
+                //if (events.size() >= eventLimit) return events;
                 esr.setPageNumber(++pageNumber);
                 sr = eo.search(esr);
                 nbPages = sr.getPageCount();
                 events.addAll(sr.getEvents());
-                System.out.println("DEBUG : Added " + sr.getEvents().size() + " elements from page " + pageNumber + '/' + nbPages);
+                //System.out.println("DEBUG : Added " + sr.getEvents().size() + " elements from page " + pageNumber + '/' + nbPages);
             } catch (EVDBRuntimeException | EVDBAPIException e) {
                 System.err.println("ERROR Eventful : " + e.getMessage());
             }
