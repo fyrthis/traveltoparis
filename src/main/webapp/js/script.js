@@ -233,7 +233,7 @@ $(document).ready(function(){
 		//Les valeurs dont on a besoin
 		var begins = "2016-11-25"; console.log("begins : "+begins);
 		var ends = "2016-11-28"; console.log("ends : "+ends);
-		var select = $('.select-by option:selected').text(); console.log("sort by : "+select);
+		var select = $('.select-by :selected').text(); console.log("sort by : "+select);
 		var cats = [];
 		cats = $(".catbox input:checkbox:checked").map(function(){ console.log("Added "+$(this).val()); return $(this).val(); }).get();
 		//if(cats.length==0) cats = $(".catbox").map(function(){ console.log("Added "+$(this).val()); return $(this).val(); }).get();
@@ -246,7 +246,14 @@ $(document).ready(function(){
 			dataType: "json",
 			data: {id: trip_id, begins: begins, ends: ends, sortby: select, categories: cats},
 			success: function(data){
-				console.log(data);
+				if(data.status=="success") { 
+					for(var i = 0; i < data.events.size; i++) {
+						var event = data.events.list[i].event;
+						$('<div class="brdr bgc-fff pad-10 box-shad btm-mrg-20 property-listing"> <div class="media"> <a class="pull-left" href="'+event.url+'" target="_parent"><img alt="image" class="img-responsive list" src=""></a><div class="media-body fnt-smaller"><a href="#" target="_parent"></a><h4 class="media-heading"><a href="#" target="_parent">'+event.name+'</a></h4><ul class="list-inline mrg-0 btm-mrg-10 clr-535353"><li>FROM '+event.begins+'</li><li style="list-style: none">|</li><li>TO '+event.ends+'</li></ul><div><span class="pull-right"><button class="btn btn-primary">Add to trip</button></i></span></div><p class="hidden-xs">'+event.description+'</p></div></div></div>').insertBefore( ".spin-loader" );
+					}
+				} else {
+					console.log("received a data with field status = failed")
+				}
 			},
 			error: function(requestObj, status, error){
 				console.log("req : " + requestObj + " | status : " + status + " | error : " + error);
