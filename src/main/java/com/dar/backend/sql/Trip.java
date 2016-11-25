@@ -42,14 +42,43 @@ public class Trip implements JSONable {
         this.ends = ends;
     }
 
-    public JSONObject chooseNewEvents(String category_id) throws NamingException, SQLException{
+    public JSONObject chooseNewEvents(String[] categories, Date start, Date end, String sort) throws NamingException, SQLException{
         JSONObject obj = new JSONObject();
-        String request = "SELECT e.* FROM events e, categories c, tagged t WHERE e.id_event=t.id_event AND c.name=? AND c.id_category=t.id_category LIMIT 5";
+        JSONArray arr = new JSONArray();
+        StringBuilder builder = new StringBuilder("SELECT e.* FROM events e, categories c, tagged t WHERE e.id_event=t.id_event AND");
+        for(int i = 0; i < categories.length; i++){
+            builder.append("(c.id_category=? AND c.id_category=t.id_category)");
+            if(i == categories.length - 1) builder.append(" AND ");
+            else builder.append(" OR ");
+        }
+        builder.append("e.eventbegin => ? AND e.eventend <= ? ");
+        if(sort.equals("Date")) builder.append("ORDER BY e.eventbegin, e.eventend");
+        if(sort.equals("Category")) builder.append("ORDER BY c.id_category");
+        //String request = "SELECT e.* FROM events e, categories c, tagged t WHERE e.id_event=t.id_event AND c.name=? AND c.id_category=t.id_category AND e.eventbegin => ? AND e.eventend <= ? ORDER BY c.id_category";
+        String request = builder.toString();
         SQLManager mngr = new SQLManager();
         Connection conn = mngr.getConnection();
         PreparedStatement stmt = conn.prepareStatement(request);
+        int i = 1;
+        for(String s : categories){
+            stmt.setString(i++, s);
+        }
+        stmt.setDate(i++, start);
+        stmt.setDate(i, end);
+        System.out.println("REQ : " + stmt.toString());
+        ArrayList<HashMap<String, Object>> res = mngr.executeQuery(stmt);
+        for(HashMap<String, Object> e : res){
+            JSONObject elem = new JSONObject();
+            elem.put("id", e.get("id_event"));
+            elem.put("name", e.get("name"));
+            elem.put("url", e.get("url"));
+            elem.put("location", e.get("location"));
+            elem.put("begins", e.get("eventbegin"));
+            elem.put("ends", e.get("eventend"));
+            elem.put("description", e.get("description"));
+            arr.add(elem);
+        }
         conn.close();
-        obj.put("test", "test");
         return obj;
     }
 

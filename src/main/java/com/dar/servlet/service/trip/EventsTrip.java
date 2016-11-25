@@ -2,6 +2,10 @@ package com.dar.servlet.service.trip;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.dar.Tools;
+import com.dar.backend.scheduler.jobs.EventJob;
 import com.dar.backend.sql.Trip;
 import com.dar.backend.sql.User;
 import org.json.simple.JSONArray;
@@ -34,22 +40,36 @@ public class EventsTrip extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
-        String trip_id = request.getParameter("id");
-        String start_date = request.getParameter("date_start");
-        String end_date = request.getParameter("date_end");
-        String cat = request.getParameter("category");
         PrintWriter out = response.getWriter();
+        JSONObject obj = new JSONObject();
         try {
+            String trip_id = request.getParameter("id");
+            String start_dateS = request.getParameter("begins");
+            Date start = Tools.dateOfString(start_dateS);
+            String end_dateS = request.getParameter("ends");
+            Date end = Tools.dateOfString(end_dateS);
+            String[] cat = request.getParameterValues("categories");
+            String sortBy = request.getParameter("sortby");
             Trip trip = new Trip(Integer.parseInt(trip_id));
-            //TODO : epic super complicated machine learning neural network quantic algorithm of space time bending awsomeness
-            // that gives good event suggestions with EventJob runnable, or get one (thousand?) Indian guy(s?) to do it.
-            // if(end_date - start_date > 1 month) (new EventJob(start_date, end_date)).run();
-            JSONObject object = trip.chooseNewEvents(cat);
-            out.print(object);
+
+            long diff = end.getTime() - start.getTime();
+            int no_of_days = Math.round(diff / Tools.MILLISECONDS_IN_DAY);
+
+            if(no_of_days > 30){
+                ExecutorService executor = (ExecutorService)getServletContext().getAttribute("MY_EXECUTOR");
+                executor.submit(new EventJob(start, end));
+                if(!executor.awaitTermination(2, TimeUnit.MINUTES)){
+                    throw new Exception("Waiting too long");
+                }
+            }
+            /*TODO : epic super complicated machine learning neural network quantic algorithm of space time bending awsomeness
+             that gives good event suggestions with EventJob runnable, or get one (thousand?) Indian guy(s?) to do it.*/
+            obj.put("events", trip.chooseNewEvents(cat, start, end, sortBy));
         } catch (Exception e){
             e.printStackTrace();
-            response.sendRedirect(request.getContextPath());
+            obj.put("status", "fail");
         }
+        out.print(obj);
         out.flush();
         out.close();
     }

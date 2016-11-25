@@ -22,13 +22,6 @@ public class GetMyTrips extends HttpServlet {
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
         JSONObject obj = new JSONObject();
-        if(session.isNew()){
-            obj.put("status", "fail");
-            obj.put("cause", "not connected");
-            out.print(obj);
-            out.close();
-            return;
-        }
         String uname = (String)session.getAttribute("uname");
         User user;
         try {

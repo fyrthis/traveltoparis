@@ -6,6 +6,9 @@ import javax.xml.bind.DatatypeConverter;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 //Class which will contain various static usefull functions
 //Password function taken from https://github.com/defuse/password-hashing/blob/master/PasswordStorage.java
@@ -44,6 +47,8 @@ public class Tools {
     private static final int HASH_SIZE_INDEX = 2;
     private static final int SALT_INDEX = 3;
     private static final int PBKDF2_INDEX = 4;
+
+    public final static long MILLISECONDS_IN_DAY = 24 * 60 * 60 * 1000;
 
     public static String createHash(String password) throws CannotPerformOperationException {
         return createHash(password.toCharArray());
@@ -150,4 +155,10 @@ public class Tools {
         return DatatypeConverter.printBase64Binary(array);
     }
 
+    public static Date dateOfString(String date) throws ParseException{
+        String startDate="12-31-2014";
+        SimpleDateFormat sdf1 = new SimpleDateFormat("MM-dd-yyyy");
+        java.util.Date dateS = sdf1.parse(startDate);
+        return new Date(dateS.getTime());
+    }
 }

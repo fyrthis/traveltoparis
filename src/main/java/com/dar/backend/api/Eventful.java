@@ -64,13 +64,15 @@ public class Eventful {
 
     public void removePastEvents(){
         System.out.println(new java.util.Date().toString() + " | Removing past events");
+        int rows = 0;
         Date today = new Date(new java.util.Date().getTime());
         try {
-            com.dar.backend.sql.Event.removePast(today);
+            rows = com.dar.backend.sql.Event.removePast(today);
         } catch (Exception e){
             e.printStackTrace(System.out);
             System.out.flush();
         }
+        System.out.println(new java.util.Date().toString() + " | Removed "+rows+" rows");
     }
 
     private List<Event> getEvents(String begin, String end, String category) {

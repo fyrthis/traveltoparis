@@ -78,19 +78,19 @@ public class Event implements JSONable{
         stmt.setString(2, name_category);
         stmt.setString(3, id_event);
         stmt.setString(4, name_category);
-        //System.out.println(stmt.toString());
-        //System.out.flush();
         mngr.executeUpdate(stmt);
         conn.close();
     }
 
-    public static void removePast(Date date) throws NamingException, SQLException{
+    public static int removePast(Date date) throws NamingException, SQLException{
         String request = "DELETE FROM events e WHERE e.eventend < ? AND NOT exists(SELECT 1 FROM votes v WHERE v.id_event = e.id_event)";
         SQLManager mngr = new SQLManager();
         Connection conn = mngr.getConnection();
         PreparedStatement stmt = conn.prepareStatement(request);
         stmt.setDate(1, date);
+        int rows = mngr.executeUpdate(stmt);
         conn.close();
+        return rows;
     }
 
     @Override
