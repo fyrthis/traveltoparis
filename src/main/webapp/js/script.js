@@ -246,6 +246,7 @@ $(document).ready(function(){
 			dataType: "json",
 			data: {id: trip_id, begins: begins, ends: ends, sortby: select, categories: cats},
 			success: function(data){
+				console.log(data);
 				if(data.status=="success") {
 					console.log(data.events.list[0]);
 					for(var i = 0; i < data.events.size; i++) {
