@@ -248,7 +248,7 @@ $(document).ready(function(){
 			success: function(data){
 				console.log(data);
 				if(data.status=="success") {
-					console.log(data.events.list[0]);
+					console.log(data.events.list[0].event);
 					for(var i = 0; i < data.events.size; i++) {
 						var event = data.events.list[i].event;
 						$('<div class="brdr bgc-fff pad-10 box-shad btm-mrg-20 property-listing"> <div class="media"> <a class="pull-left" href="'+event.url+'" target="_parent"><img alt="image" class="img-responsive list" src=""></a><div class="media-body fnt-smaller"><a href="'+event.url+'" target="_parent"></a><h4 class="media-heading"><a href="'+event.url+'" target="_parent">'+event.name+'</a></h4><ul class="list-inline mrg-0 btm-mrg-10 clr-535353"><li>FROM '+event.begins+'</li><li style="list-style: none">|</li><li>TO '+event.ends+'</li></ul><div><span class="pull-right"><button class="btn btn-primary">Add to trip</button></i></span></div><p class="hidden-xs">'+event.description+'</p></div></div></div>').insertBefore( ".spin-loader" );
