@@ -52,10 +52,13 @@ public class EventsTrip extends HttpServlet {
             String sortBy = request.getParameter("sortby");
             Trip trip = new Trip(Integer.parseInt(trip_id));
 
-            long diff = end.getTime() - start.getTime();
+            long diff = end.getTime() - new java.util.Date().getTime();
             int no_of_days = Math.round(diff / Tools.MILLISECONDS_IN_DAY);
-
+            System.out.println("ID " + trip_id + " | S " + start.toString() + " | E " + end.toString() + " | SB " + sortBy);
+            System.out.println(" cat " + cat);
+            System.out.println(" | NO DAYS " + no_of_days);
             if(no_of_days > 30){
+                System.out.println(new java.util.Date().toString() + " | Getting future events on demand");
                 ExecutorService executor = (ExecutorService)getServletContext().getAttribute("MY_EXECUTOR");
                 executor.submit(new EventJob(start, end));
                 if(!executor.awaitTermination(2, TimeUnit.MINUTES)){
@@ -66,11 +69,15 @@ public class EventsTrip extends HttpServlet {
              that gives good event suggestions with EventJob runnable, or get one (thousand?) Indian guy(s?) to do it.*/
             obj.put("events", trip.chooseNewEvents(cat, start, end, sortBy));
         } catch (Exception e){
-            e.printStackTrace();
+            e.printStackTrace(System.out);
+            System.out.flush();
             obj.put("status", "fail");
+            out.print(obj);
+            out.close();
+            return;
         }
+        obj.put("status", "success");
         out.print(obj);
-        out.flush();
         out.close();
     }
 

@@ -45,11 +45,13 @@ public class Trip implements JSONable {
     public JSONObject chooseNewEvents(String[] categories, Date start, Date end, String sort) throws NamingException, SQLException{
         JSONObject obj = new JSONObject();
         JSONArray arr = new JSONArray();
-        StringBuilder builder = new StringBuilder("SELECT e.* FROM events e, categories c, tagged t WHERE e.id_event=t.id_event AND");
-        for(int i = 0; i < categories.length; i++){
-            builder.append("(c.id_category=? AND c.id_category=t.id_category)");
-            if(i == categories.length - 1) builder.append(" AND ");
-            else builder.append(" OR ");
+        StringBuilder builder = new StringBuilder("SELECT e.* FROM events e, categories c, tagged t WHERE e.id_event=t.id_event AND ");
+        if(categories != null) {
+            for (int i = 0; i < categories.length; i++) {
+                builder.append("(c.id_category=? AND c.id_category=t.id_category)");
+                if (i == categories.length - 1) builder.append(" AND ");
+                else builder.append(" OR ");
+            }
         }
         builder.append("e.eventbegin => ? AND e.eventend <= ? ");
         if(sort.equals("Date")) builder.append("ORDER BY e.eventbegin, e.eventend");
@@ -60,8 +62,10 @@ public class Trip implements JSONable {
         Connection conn = mngr.getConnection();
         PreparedStatement stmt = conn.prepareStatement(request);
         int i = 1;
-        for(String s : categories){
-            stmt.setString(i++, s);
+        if(categories != null) {
+            for(String s : categories){
+                stmt.setString(i++, s);
+            }
         }
         stmt.setDate(i++, start);
         stmt.setDate(i, end);
@@ -79,6 +83,8 @@ public class Trip implements JSONable {
             arr.add(elem);
         }
         conn.close();
+        obj.put("list", arr);
+        obj.put("size", res.size());
         return obj;
     }
 
@@ -149,7 +155,6 @@ public class Trip implements JSONable {
             obj.put(pair.getKey(), pair.getValue());
             it.remove();
         }
-        System.out.println("obj " + obj);
         conn.close();
         return obj;
     }

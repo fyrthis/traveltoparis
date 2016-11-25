@@ -48,8 +48,10 @@ public class SignIn extends HttpServlet{
             PreparedStatement stmt = con.prepareStatement(requestDb);
             stmt.setString(1, uname);
             ArrayList<HashMap<String, Object>> res = sql.executeQuery(stmt);
-            dbHashedPass = (String)res.get(0).get("password");
-            dbSalt = (String)res.get(0).get("salt");
+            if(res.size() >= 1){
+                dbHashedPass = (String)res.get(0).get("password");
+                dbSalt = (String)res.get(0).get("salt");
+            }
         } catch (Exception e){
             e.printStackTrace();
             result.put("requestValid", "no");
@@ -69,7 +71,7 @@ public class SignIn extends HttpServlet{
             out.close();
             return;
         }
-        System.out.println("DEBUG : cheking done");
+        //System.out.println("DEBUG : cheking done");
         if(isValid){
             result.put("requestValid", "yes");
             HttpSession session = request.getSession(true);

@@ -27,7 +27,13 @@ public class GetMyTrips extends HttpServlet {
         try {
             user = new User(uname);
             obj.put("trips", user.getUserTrips());
-        } catch (Exception e){e.printStackTrace(out); out.close();}
+        } catch (Exception e){
+            e.printStackTrace(System.out);
+            obj.put("status", "fail");
+            out.print(obj);
+            out.close();
+            return;
+        }
         obj.put("status","success");
         out.print(obj);
         out.close();
