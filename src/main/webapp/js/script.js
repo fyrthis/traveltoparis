@@ -229,12 +229,14 @@ $(document).ready(function(){
 	//---> Dans la page Events, afficher les events
 	function callEventsTrip() {
 		//Lancer le spinloader
-		$('.spinloader').css('visibility', 'visible');
+		$('.spinloader').css('display', 'block');
 		//Les valeurs dont on a besoin
 		var begins = "2016-11-25"; console.log("begins : "+begins);
 		var ends = "2016-11-28"; console.log("ends : "+ends);
 		var select = $('.select-by option:selected').text(); console.log("sort by : "+select);
-		var cats = $(".catbox input:checkbox:checked").map(function(){ console.log("Added "+$(this).val()); return $(this).val(); }).get();
+		var cats = [];
+		cats = $(".catbox input:checkbox:checked").map(function(){ console.log("Added "+$(this).val()); return $(this).val(); }).get();
+		//if(cats.length==0) cats = $(".catbox").map(function(){ console.log("Added "+$(this).val()); return $(this).val(); }).get();
 		console.log("categories : "+cats);
 		//Executer le Ajax
 		$.ajax({
@@ -252,7 +254,7 @@ $(document).ready(function(){
 			}
 		});
 		//Enlever le spinLoader
-		$('.spinloader').css('visibility', 'hidden');
+		$('.spinloader').css('display', 'none');
 	}
 	//---> Si la page est trip avec le choix des catégories, afficher les événements liés
 	/*if($('body').is('.trip')) {
