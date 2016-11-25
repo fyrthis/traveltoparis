@@ -26,14 +26,14 @@ $(document).ready(function(){
 			modal.css('display', 'block');
 			event.stopPropagation();
 		});
-		
+
 		$('#bt02').click(function(event){
 			console.log("click on button bt02 !");
 			modal2.css('display', 'block');
 			event.stopPropagation();
 		});
 		$('.signbox').click(function(event){ event.stopPropagation(); });
-		
+
 		// When the user clicks anywhere outside of the modal, close it
 		$(window).click(function(event){
 			console.log("modals closed because you click outside of the box");
@@ -96,7 +96,10 @@ $(document).ready(function(){
 	if($('body').is('.index') || body.is('.about') || body.is('.contact') || body.is('.faqs')|| body.is('.dev')|| body.is('.terms')) {	load_bar();	}
 
 	//---> Placer le footer en pied de page
-	$('body:last-child').append("<footer class=\"footer\"><div class=\"container text-center\"><div class=\"footer_top\"><div class=\"col-md-6\"><h5>Support</h5><ul class=\"nav nav-pills nav-stacked\"><li><a href=\"/help\">Help &amp; FAQs</a></li><li><a href=\"/legal\">Privacy &amp; Terms</a></li><li><a href=\"/devs\">Developers</a></li></ul></div><div class=\"col-md-6\"><h5>Travel to Paris</h5><ul class=\"nav nav-pills nav-stacked\"><li><a href=\"/about\">About us</a></li><li><a href=\"/contact\">Contact us</a></li></ul></div></div><div class=\"col-md-12\"><p>Copyright &copy; 2016. All rights reserved.</p></div></div></footer>");
+	//if($('body').is('.index')) { 
+	$('body:last-child').append("<footer class='footer'><div class='container text-center'><div class='footer_top'><div class='col-md-6'><h5>Support</h5><ul class='nav nav-pills nav-stacked'><li><a href='/TravelToParis/html/help-and-faqs.html'>Help &amp; FAQs</a></li><li><a href='/TravelToParis/html/privacy-and-terms.html'>Privacy &amp; Terms</a></li><li><a href='/TravelToParis/html/developers.html'>Developers</a></li></ul></div><div class='col-md-6'><h5>Travel to Paris</h5><ul class='nav nav-pills nav-stacked'><li><a href='/TravelToParis/html/about.html'>About us</a></li><li><a href='/TravelToParis/html/contact.html'>Contact us</a></li></ul></div></div><div class='col-md-12'><p>Copyright &copy; 2016. All rights reserved.</p></div></div></footer>"); 
+	//}
+	//else { $('body:last-child').append("<footer class='footer'><div class='container text-center'><div class='footer_top'><div class='col-md-6'><h5>Support</h5><ul class='nav nav-pills nav-stacked'><li><a href='/help'>Help &amp; FAQs</a></li><li><a href='/legal'>Privacy &amp; Terms</a></li><li><a href='/devs'>Developers</a></li></ul></div><div class='col-md-6'><h5>Travel to Paris</h5><ul class='nav nav-pills nav-stacked'><li><a href='/about'>About us</a></li><li><a href='/contact'>Contact us</a></li></ul></div></div><div class='col-md-12'><p>Copyright &copy; 2016. All rights reserved.</p></div></div></footer>"); }
 
 	if($('body').is('.index')) {
 //		-->	SET THE MINIMUM AGE TO SIGN UP
@@ -157,11 +160,7 @@ $(document).ready(function(){
 	}
 	$('#add').on('click', function() {addFriend();});
 
-//	-->	Script pour la gestion des tabs TODO : ajouter la classe .tab
-	$(".btn-pref .btn.tab").on('click', function () {
-		$(".btn-pref .btn.tab").removeClass("btn-primary").addClass("btn-default");
-		$(this).removeClass("btn-default").addClass("btn-primary");
-	});
+
 
 	//--->Obtenir un paramètre, si il existe
 	function getUrlParameter(sParam){
@@ -227,8 +226,34 @@ $(document).ready(function(){
 		}
 	}
 
+	//---> Dans la page Events, afficher les events
+	function callEventsTrip() {
+		//Lancer le spinloader
+		$('.spinloader').css('visibility', 'visible');
+		//Les valeurs dont on a besoin
+		var begins = "20161125";
+		var ends = "20161128";
+		var select = $('.select-by').text();
+		var cats = $("#catbox input:checkbox:checked").map(function(){ return $(this).val(); }).get();
+		//Executer le Ajax
+		$.ajax({
+			type: "GET",
+			url: "../EventsTrip",
+			dataType: "json",
+			data: {id: trip_id, begins: begins, ends: ends, sortby: select, categories: cats},
+			success: function(data){
+				console.log(data);
+			},
+			error: function(requestObj, status, error){
+				console.log("req : " + requestObj + " | status : " + status + " | error : " + error);
+				window.location.href = "../index.html";
+			}
+		});
+		//Enlever le spinLoader
+		$('.spinloader').css('visibility', 'hidden');
+	}
 	//---> Si la page est trip avec le choix des catégories, afficher les événements liés
-	if($('body').is('.trip')) {
+	/*if($('body').is('.trip')) {
 		$(".category").addEventListener("click", function(){
 			var cat = $(this).attr("category");
 			var servleturl = "../events?category="+cat;
@@ -243,8 +268,75 @@ $(document).ready(function(){
 				}
 			});
 		});
-	}
+	}*/
+
+//	GESTION DE LA PAGE D'UN TRIP
+//	-->	Lorsqu'on change de tab
+	$(".btn-pref .btn.tab").on('click', function () {
+		$(".btn-pref .btn.tab").removeClass("btn-primary").addClass("btn-default");
+		$(this).removeClass("btn-default").addClass("btn-primary");
+
+		var trip_id = getUrlParameter("id");
+		if(trip_id == undefined){window.location.href = "../index.html";}
+
+		//Tab Overview
+		if($("#overview").hasClass("btn-primary")){
+			$.ajax({
+				type: "GET",
+				url: "../overview",
+				dataType: "json",
+				data: {id: trip_id},
+				success: function(data){
+					$("#trip_name_banner").text(data.name);
+					$("#panel_trip_name").text(data.name);
+					$("#description_trip").text("Description : " + data.description);
+					$("#nb_participants").text(data.participants);
+					$("#from_trip").text(data.begins);
+					$("#to_trip").text(data.ends);
+					$("#music_trip").text(0);
+					$("#family_trip").text(0);
+					$("#food_trip").text(0);
+					$("#movie_trip").text(0);
+					$("#art_trip").text(0);
+					$("#health_trip").text(0);
+					$("#museum_trip").text(0);
+					$("#sport_trip").text(0);
+					$("#technology_trip").text(0);
+				},
+				error: function(requestObj, status, error){
+					console.log("req : " + requestObj + " | status : " + status + " | error : " + error);
+					window.location.href = "../index.html";
+				}
+			});
+		}
+		//Tab Events
+		if($("#events").hasClass("btn-primary")){
+			callEventsTrip();
+			$(".btn-events").on('click', function () {
+				callEventsTrip();
+			});
+
+		}
+		//Tab Calendar
+		if($("#calendar").hasClass("btn-primary")){
 
 
+		}
+		//Tab Chat
+		if($("#chat").hasClass("btn-primary")){
+
+
+		}
+		//Tab Invitations
+		if($("#invitations").hasClass("btn-primary")){
+
+
+		}
+		//Tab Settings
+		if($("#settings").hasClass("btn-primary")){
+
+
+		}
+	});
 
 });
