@@ -33,7 +33,9 @@ public class Trip implements JSONable {
             this.begins = (Date) first.get("begins");
             this.ends = (Date) first.get("ends");
         }
-        else{this.id=-1;}
+        else{
+            this.id=-1;
+        }
         conn.close();
     }
 
@@ -171,6 +173,7 @@ public class Trip implements JSONable {
         stmt.setString(1, uname);
         stmt.setInt(2, id_trip);
         ArrayList<HashMap<String, Object>> res = mngr.executeQuery(stmt);
+        conn.close();
         return (boolean)res.get(0).get("exists");
     }
 

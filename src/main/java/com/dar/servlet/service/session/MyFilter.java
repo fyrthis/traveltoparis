@@ -44,9 +44,8 @@ public class MyFilter implements Filter {
                     e.printStackTrace();
                     httpResponse.sendRedirect(httpRequest.getContextPath());
                 }
-            } else {
-                filterChain.doFilter(request, response);
             }
+            filterChain.doFilter(request, response);
         }
         else{
             System.out.println(new java.util.Date().toString() + " | Blocked : " + path);
