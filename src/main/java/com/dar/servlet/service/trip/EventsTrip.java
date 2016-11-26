@@ -85,6 +85,7 @@ public class EventsTrip extends HttpServlet {
     /**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
+    // rajoute un upvote pour un event ce qui a pour effet de bord de l'ajouter a un trip
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         response.setContentType("application/json");
@@ -92,11 +93,10 @@ public class EventsTrip extends HttpServlet {
         JSONObject object = new JSONObject();
         String event_id = request.getParameter("event_id");
         String trip_id = request.getParameter("trip_id");
-        String like = request.getParameter("vote");
         String uname = (String) session.getAttribute("uname");
         try {
             User user = new User(uname);
-            user.addEventToTrip(Integer.parseInt(trip_id), event_id, Boolean.parseBoolean(like));
+            user.addEventToTrip(Integer.parseInt(trip_id), event_id, true);
         } catch (Exception e){
             e.printStackTrace();
             object.put("status", "failed");

@@ -93,7 +93,7 @@ public class Trip implements JSONable {
         JSONObject obj = new JSONObject();
         JSONArray arr = new JSONArray();
         String request = "SELECT v.is_like, u.login, c.description AS description_cat, e.* FROM votes v, users u, events e, tagged tg, categories c " +
-                "WHERE v.id_trip=? AND v.id_event=e.id_event AND v.id_user=u.id_user AND e.id_event=tg.id_event AND tg.id_category = c.id_category;";
+                "WHERE v.id_trip=? AND v.id_event=e.id_event AND v.id_user=u.id_user AND e.id_event=tg.id_event AND tg.id_category = c.id_category ORDER BY e.eventbegin, e.eventend";
         SQLManager mngr = new SQLManager();
         Connection conn = mngr.getConnection();
         PreparedStatement stmt = conn.prepareStatement(request);
@@ -130,7 +130,7 @@ public class Trip implements JSONable {
         ArrayList<HashMap<String, Object>> res = mngr.executeQuery(stmt);
         obj.put("participants", res.size());
         request = "SELECT e.id_event, c.name AS cat_name FROM events e, votes v, tagged t, categories c" +
-                " WHERE v.id_trip=? AND e.id_event=v.id_event AND t.id_event=e.id_event AND c.id_category = t.id_category;";
+                " WHERE v.id_trip=? AND e.id_event=v.id_event AND t.id_event=e.id_event AND c.id_category = t.id_category";
         stmt = conn.prepareStatement(request);
         stmt.setInt(1, id);
         HashSet<Integer> id_event_list = new HashSet<>();

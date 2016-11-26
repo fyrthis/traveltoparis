@@ -34,17 +34,22 @@ public class CalendarTrip extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
+        JSONObject obj = new JSONObject();
         String trip_id = request.getParameter("id");
         PrintWriter out = response.getWriter();
         try {
             Trip trip = new Trip(Integer.parseInt(trip_id));
             JSONObject object = trip.getTripEvents();
-            out.print(object);
+            obj.put("events", object);
         } catch (Exception e){
             e.printStackTrace();
-            response.sendRedirect(request.getContextPath());
+            obj.put("status", "failure");
+            out.print(obj);
+            return;
+            //response.sendRedirect(request.getContextPath());
         }
-        out.flush();
+        obj.put("status", "success");
+        out.print(obj);
         out.close();
     }
 
@@ -74,4 +79,31 @@ public class CalendarTrip extends HttpServlet {
         out.print(object);
         out.close();
     }
+
+    /**
+     * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
+     */
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        response.setContentType("application/json");
+        JSONObject object = new JSONObject();
+        PrintWriter out = response.getWriter();
+        String event_id = request.getParameter("event_id");
+        String trip_id = request.getParameter("trip_id");
+        String uname = (String) session.getAttribute("uname");
+        try {
+            User user = new User(uname);
+            user.removeEventFromTrip(Integer.parseInt(trip_id), event_id);
+        } catch (Exception e){
+            e.printStackTrace();
+            object.put("status", "failure");
+            out.print(object);
+            return;
+        }
+        object.put("status", "success");
+        out.print(object);
+        out.close();
+    }
+
+
 }

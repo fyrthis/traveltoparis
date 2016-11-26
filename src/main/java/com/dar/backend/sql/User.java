@@ -104,6 +104,18 @@ public class User implements JSONable {
         conn.close();
     }
 
+    public void removeEventFromTrip(int id_trip, String id_event) throws NamingException, SQLException{
+        String request = "DELETE FROM votes v WHERE v.id_trip=? AND v.id_event=? AND exists(SELECT 1 FROM involded i WHERE i.id_trip=v.id_trip AND i.id_user=?)";
+        SQLManager mngr = new SQLManager();
+        Connection conn = mngr.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(request);
+        stmt.setInt(1, id_trip);
+        stmt.setString(2, id_event);
+        stmt.setInt(3, this.id);
+        mngr.executeUpdate(stmt);
+        conn.close();
+    }
+
     @Override
     public JSONObject getJSON() {
         JSONObject obj = new JSONObject();
