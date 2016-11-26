@@ -32,6 +32,7 @@ public class OverviewTrip extends HttpServlet {
         String trip_id = request.getParameter("id");
         try {
             Trip trip = new Trip(Integer.parseInt(trip_id));
+            if(trip.getId() == -1){response.sendRedirect(request.getContextPath()); return;}
             JSONObject object = trip.getTripOverview();
             out.print(object);
         } catch (Exception e){

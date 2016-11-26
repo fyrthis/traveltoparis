@@ -1,5 +1,8 @@
 package com.dar.servlet.service.session;
 
+
+import com.dar.backend.sql.Trip;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -28,10 +31,25 @@ public class MyFilter implements Filter {
                 || path.endsWith(".map") || path.endsWith(".js") || path.endsWith(".jpg") || path.endsWith(".png") || path.endsWith(".ttf");
 
         if(loggedIn || whitelist || path.startsWith(ResourceHandler.RESOURCE_IDENTIFIER)){
-            filterChain.doFilter(request, response);
+            if(path.startsWith("/overview") && loggedIn){
+                String uname = (String) session.getAttribute("uname");
+                int id_trip = Integer.parseInt(request.getParameter("id"));
+                try{
+                    if(!Trip.checkIfUserIsInTrip(id_trip, uname)){
+                        System.out.println(new java.util.Date().toString() + " | Illegal trip access attemps " + " Uname : " + uname + " Trip : " + id_trip);
+                        httpResponse.sendRedirect(httpRequest.getContextPath());
+                    }
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                    httpResponse.sendRedirect(httpRequest.getContextPath());
+                }
+            } else {
+                filterChain.doFilter(request, response);
+            }
         }
         else{
-            System.out.println("Blocked : " + path);
+            System.out.println(new java.util.Date().toString() + " | Blocked : " + path);
             httpResponse.sendRedirect(httpRequest.getContextPath());
         }
     }

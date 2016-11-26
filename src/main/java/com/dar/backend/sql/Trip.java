@@ -25,12 +25,15 @@ public class Trip implements JSONable {
         PreparedStatement stmt = conn.prepareStatement(request);
         stmt.setInt(1,id);
         ArrayList<HashMap<String, Object>> res = mngr.executeQuery(stmt);
-        HashMap<String, Object> first = res.get(0);
-        this.id = (Integer)first.get("id_trip");
-        this.name = (String)first.get("name");
-        this.description = (String)first.get("description");
-        this.begins = (Date)first.get("begins");
-        this.ends = (Date)first.get("ends");
+        if(res.size() > 0) {
+            HashMap<String, Object> first = res.get(0);
+            this.id = (Integer) first.get("id_trip");
+            this.name = (String) first.get("name");
+            this.description = (String) first.get("description");
+            this.begins = (Date) first.get("begins");
+            this.ends = (Date) first.get("ends");
+        }
+        else{this.id=-1;}
         conn.close();
     }
 
@@ -160,6 +163,17 @@ public class Trip implements JSONable {
         return obj;
     }
 
+    public static boolean checkIfUserIsInTrip(int id_trip, String uname) throws NamingException, SQLException{
+        String request = "SELECT exists(SELECT 1 FROM involded i, users u WHERE u.login=? AND i.id_user=u.id_user AND id_trip=?)";
+        SQLManager mngr = new SQLManager();
+        Connection conn = mngr.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(request);
+        stmt.setString(1, uname);
+        stmt.setInt(2, id_trip);
+        ArrayList<HashMap<String, Object>> res = mngr.executeQuery(stmt);
+        return (boolean)res.get(0).get("exists");
+    }
+
     @Override
     public JSONObject getJSON() {
         JSONObject obj = new JSONObject();
@@ -171,4 +185,7 @@ public class Trip implements JSONable {
         obj.put("ends", ends.toString());
         return obj;
     }
+
+
+    public int getId(){return id;}
 }
