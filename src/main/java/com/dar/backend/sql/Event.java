@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Event implements JSONable{
-    private int id;
+    private String id;
     private String name;
     private String url;
     private String location;
@@ -30,7 +30,7 @@ public class Event implements JSONable{
         ArrayList<HashMap<String, Object>> res = mngr.executeQuery(stmt);
         conn.close();
         HashMap<String, Object> first = res.get(0);
-        this.id = (Integer)first.get("id_event");
+        this.id = (String) first.get("id_event");
         this.name = (String)first.get("name");
         this.url = (String)first.get("url");
         this.location = (String)first.get("location");
@@ -39,7 +39,7 @@ public class Event implements JSONable{
         this.description = (String)first.get("description");
     }
 
-    public Event(int id, String name, String url, String location, Date begin, Date end, String description){
+    public Event(String id, String name, String url, String location, Date begin, Date end, String description){
         this.id = id;
         this.name = name;
         this.url = url;

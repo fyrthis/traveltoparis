@@ -52,6 +52,7 @@ public class SignIn extends HttpServlet{
                 dbHashedPass = (String)res.get(0).get("password");
                 dbSalt = (String)res.get(0).get("salt");
             }
+            con.close();
         } catch (Exception e){
             e.printStackTrace();
             result.put("requestValid", "no");

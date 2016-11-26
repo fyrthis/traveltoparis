@@ -42,21 +42,22 @@ public class EventsTrip extends HttpServlet {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
         JSONObject obj = new JSONObject();
+        System.out.println("DEBUG " + request.getRequestURL().append('?').append(request.getQueryString()));
         try {
             String trip_id = request.getParameter("id");
             String start_dateS = request.getParameter("begins");
             Date start = Tools.dateOfString(start_dateS);
             String end_dateS = request.getParameter("ends");
             Date end = Tools.dateOfString(end_dateS);
-            String[] cat = request.getParameterValues("categories");
+            String[] cat = request.getParameterValues("categories[]");
             String sortBy = request.getParameter("sortby");
             Trip trip = new Trip(Integer.parseInt(trip_id));
 
             long diff = end.getTime() - new java.util.Date().getTime();
             int no_of_days = Math.round(diff / Tools.MILLISECONDS_IN_DAY);
-            System.out.println("ID " + trip_id + " | S " + start.toString() + " | E " + end.toString() + " | SB " + sortBy);
-            System.out.println(" cat " + cat);
-            System.out.println(" | NO DAYS " + no_of_days);
+            //System.out.println("DEBUG ID " + trip_id + " | S " + start.toString() + " | E " + end.toString() + " | SB " + sortBy);
+            //if(cat != null)System.out.println("DEBUG CAT " + cat);
+            //System.out.println("DEBUG NO DAYS " + no_of_days);
             if(no_of_days > 30){
                 System.out.println(new java.util.Date().toString() + " | Getting future events on demand");
                 ExecutorService executor = (ExecutorService)getServletContext().getAttribute("MY_EXECUTOR");
@@ -91,11 +92,11 @@ public class EventsTrip extends HttpServlet {
         JSONObject object = new JSONObject();
         String event_id = request.getParameter("event_id");
         String trip_id = request.getParameter("trip_id");
+        String like = request.getParameter("vote");
         String uname = (String) session.getAttribute("uname");
-        String like = (String) session.getAttribute("vote");
         try {
             User user = new User(uname);
-            user.addEventToTrip(Integer.parseInt(trip_id), Integer.parseInt(event_id), Boolean.parseBoolean(like));
+            user.addEventToTrip(Integer.parseInt(trip_id), event_id, Boolean.parseBoolean(like));
         } catch (Exception e){
             e.printStackTrace();
             object.put("status", "failed");

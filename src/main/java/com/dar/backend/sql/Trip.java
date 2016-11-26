@@ -45,15 +45,16 @@ public class Trip implements JSONable {
     public JSONObject chooseNewEvents(String[] categories, Date start, Date end, String sort) throws NamingException, SQLException{
         JSONObject obj = new JSONObject();
         JSONArray arr = new JSONArray();
-        StringBuilder builder = new StringBuilder("SELECT e.* FROM events e, categories c, tagged t WHERE e.id_event=t.id_event AND ");
+        StringBuilder builder = new StringBuilder("SELECT DISTINCT e.* FROM events e, categories c, tagged t WHERE e.id_event=t.id_event AND ");
         if(categories != null) {
+            builder.append("(");
             for (int i = 0; i < categories.length; i++) {
-                builder.append("(c.id_category=? AND c.id_category=t.id_category)");
-                if (i == categories.length - 1) builder.append(" AND ");
+                builder.append("(c.name=? AND c.id_category=t.id_category)");
+                if (i == categories.length - 1) builder.append(") AND ");
                 else builder.append(" OR ");
             }
         }
-        builder.append("e.eventbegin => ? AND e.eventend <= ? ");
+        builder.append("e.eventbegin >= ? AND e.eventend <= ? ");
         if(sort.equals("Date")) builder.append("ORDER BY e.eventbegin, e.eventend");
         if(sort.equals("Category")) builder.append("ORDER BY c.id_category");
         //String request = "SELECT e.* FROM events e, categories c, tagged t WHERE e.id_event=t.id_event AND c.name=? AND c.id_category=t.id_category AND e.eventbegin => ? AND e.eventend <= ? ORDER BY c.id_category";
@@ -77,8 +78,8 @@ public class Trip implements JSONable {
             elem.put("name", e.get("name"));
             elem.put("url", e.get("url"));
             elem.put("location", e.get("location"));
-            elem.put("begins", e.get("eventbegin"));
-            elem.put("ends", e.get("eventend"));
+            elem.put("begins", e.get("eventbegin").toString());
+            elem.put("ends", e.get("eventend").toString());
             elem.put("description", e.get("description"));
             arr.add(elem);
         }
@@ -103,7 +104,7 @@ public class Trip implements JSONable {
             elem.put("user", e.get("login"));
             elem.put("is_like", e.get("is_like"));
             elem.put("category", e.get("description_cat"));
-            Event event = new Event((Integer)e.get("id_event"),
+            Event event = new Event((String)e.get("id_event"),
                     (String)e.get("name"),
                     (String)e.get("url"),
                     (String)e.get("location"),

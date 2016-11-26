@@ -156,7 +156,7 @@ public class Tools {
     }
 
     public static Date dateOfString(String date) throws ParseException{
-        SimpleDateFormat sdf1 = new SimpleDateFormat("MM-dd-yyyy");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date dateS = sdf1.parse(date);
         return new Date(dateS.getTime());
     }
