@@ -334,6 +334,7 @@ legend{
     padding: 5px 10px 2px;
     position:relative;
     vertical-align: super;
+    cursor: hand;
     color: #5bc0de;
 }
 
@@ -343,12 +344,14 @@ legend{
     padding: 5px 10px 2px;
     position:relative;
     vertical-align: super;
+    cursor: hand;
     color: #d9534f;
 }
 
 .badge-notify-remove{
     background: #354551;
     background: rgba(53,69,81,0.3);
+    cursor:hand;
     padding: 5px 10px 2px;
     position:relative;
     vertical-align: super;

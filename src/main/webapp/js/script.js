@@ -277,6 +277,7 @@ $(document).ready(function(){
         //Enlever le spinLoader
         spinner.css('display', 'none');
     }
+
     //---> Si la page est trip avec le choix des catégories, afficher les événements liés
     /*if($('body').is('.trip')) {
      $(".category").addEventListener("click", function(){
@@ -352,7 +353,7 @@ $(document).ready(function(){
             $.ajax({
                 type: "GET",
                 url: "../calendar",
-                dateType: "json",
+                dataType: "json",
                 data: {id: trip_id},
                 beforeSend: function () {
                     $('#spin2').show();
@@ -364,7 +365,7 @@ $(document).ready(function(){
                         var events = data.events;
                         for(var i = 0; i < events.size; i++) {
                             var elem = events.list[i];
-                            $('<div class="brdr bgc-fff pad-10 box-shad btm-mrg-20 property-listing expandable">' +
+                            $('<div class="brdr bgc-fff pad-10 box-shad btm-mrg-20 property-listing expandable" id='+ elem.event.id +'>' +
                                 '<div class="media"><a class="pull-left" href="'+elem.event.url+'" target="_parent">'+
                                 '<img alt="image" class="img-responsive list" src=""></a>' +
                                 '<div class="media-body fnt-smaller"><a href="#" target="_parent"></a>' +
@@ -377,6 +378,25 @@ $(document).ready(function(){
                                 '<span class="badge badge-notify-remove"><i class="glyphicon glyphicon-remove"></i><span class="number_vote">Remove</span></span>' +
                                 '</span></div><p class="hidden-xs">'+elem.event.description+'</p></div></div></div>').insertBefore("#spin2");
                         }
+                        $('.badge-notify-remove').click(function (event) {
+                            var event_obj = $(event.target).parents().eq(5);
+                            var event_id = event_obj.attr("id");
+                            $.ajax({
+                                type: "DELETE",
+                                url: "../calendar",
+                                dataType: "json",
+                                headers: {trip_id: trip_id, event_id: event_id},
+                                success: function (data) {
+                                    console.log(data.status);
+                                    if(data.status === "failure") console.log("t " + trip_id + " e " + event_id);
+                                    else event_obj.remove();
+                                },
+                                error: function (requestObj, status, error){
+                                    console.log("req : " + requestObj + " | status : " + status + " | error : " + error);
+                                    window.location.href = "../index.html";
+                                }
+                            });
+                        })
                     }
                     else{console.log("Error" + data);}
                 },

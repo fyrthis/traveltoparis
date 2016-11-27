@@ -88,9 +88,10 @@ public class CalendarTrip extends HttpServlet {
         response.setContentType("application/json");
         JSONObject object = new JSONObject();
         PrintWriter out = response.getWriter();
-        String event_id = request.getParameter("event_id");
-        String trip_id = request.getParameter("trip_id");
+        String event_id = request.getHeader("event_id");
+        String trip_id = request.getHeader("trip_id");
         String uname = (String) session.getAttribute("uname");
+        System.out.println("DEBUG " + request.getQueryString());
         try {
             User user = new User(uname);
             user.removeEventFromTrip(Integer.parseInt(trip_id), event_id);
