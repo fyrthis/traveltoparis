@@ -284,7 +284,30 @@
 
         <!-- DEBUT TAB 6 : SETTINGS -->
         <div class="tab-pane fade in" id="tab6">
-            <h3>This is tab 6</h3>
+            <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Update trip information</h3>
+                </div>
+                <div class="panel-body">
+                    <form method="POST" action="../settings">
+                        <label for="tripname">Trip name :</label><br>
+                        <input type="hidden" id="settings-tripid" name="id">
+                        <input type="text" id="settings-tripname" name="name" class="btm-mrg-20" required autofocus><br>
+                        <label for="begins">Starts :</label><br>
+                        <input type="date" id="settings-begins" name="begins" class="btm-mrg-20" required><br>
+                        <label for="ends">Ends :</label><br>
+                        <input type="date" id="settings-ends" name="ends" class="btm-mrg-20" required><br>
+                        <label for="description">Description :</label><br>
+                        <textarea type="text" id="settings-description" name="description" class="form-control"></textarea>
+                        <br> <input type="submit" value="Update !"
+                                    class="btn btn-primary btn-block">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
         </div>
         <!-- FIN TAB 6 -->
     </div>

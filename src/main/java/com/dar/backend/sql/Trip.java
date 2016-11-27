@@ -232,4 +232,16 @@ public class Trip implements JSONable {
 
 
     public int getId(){return id;}
+    
+    public static boolean checkIfUserIsAdminOfTrip(int id_trip, String uname) throws NamingException, SQLException {
+    	String request = "SELECT exists(SELECT 1 FROM involded i, users u WHERE u.login=? AND i.id_user=u.id_user AND id_trip=? ANDi.is_admin=true)";
+        SQLManager mngr = new SQLManager();
+        Connection conn = mngr.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(request);
+        stmt.setString(1, uname);
+        stmt.setInt(2, id_trip);
+        ArrayList<HashMap<String, Object>> res = mngr.executeQuery(stmt);
+        conn.close();
+        return (boolean)res.get(0).get("exists");
+    }
 }
