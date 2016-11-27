@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.dar.Tools;
+import com.dar.Validator;
 import com.dar.backend.sql.SQLManager;
 import org.json.simple.JSONObject;
 
@@ -35,6 +36,13 @@ public class SignUp extends HttpServlet {
         String country = request.getParameter("country");
         String password = request.getParameter("password");
         String securePass, salt;
+        
+      //Check parameters
+        Validator v = new Validator();
+        if(!v.firstname(firstname)) response.sendRedirect(request.getContextPath());
+        if(!v.lastname(lastname)) response.sendRedirect(request.getContextPath());
+        if(!v.email(email)) response.sendRedirect(request.getContextPath());
+        System.out.println(new java.util.Date().toString() + "SignUp POST : PARAMS ARE OK");
 
         Calendar cal = Calendar.getInstance();
         PrintWriter out = response.getWriter();
