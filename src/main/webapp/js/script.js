@@ -255,7 +255,7 @@ $(document).ready(function(){
                     console.log(data.events.list[0]);
                     for(var i = 0; i < data.events.size; i++) {
                         var event = data.events.list[i];
-                        $('<div class="brdr bgc-fff pad-10 box-shad btm-mrg-20 property-listing">' +
+                        $('<div class="brdr bgc-fff pad-10 box-shad btm-mrg-20 property-listing expandable">' +
                             '<div class="media"> <a class="pull-left" href="'+event.url+'" target="_parent">' +
                             '<img alt="image" class="img-responsive list" src=""></a>' +
                             '<div class="media-body fnt-smaller">' +
@@ -364,7 +364,7 @@ $(document).ready(function(){
                         var events = data.events;
                         for(var i = 0; i < events.size; i++) {
                             var elem = events.list[i];
-                            $('<div class="brdr bgc-fff pad-10 box-shad btm-mrg-20 property-listing">' +
+                            $('<div class="brdr bgc-fff pad-10 box-shad btm-mrg-20 property-listing expandable">' +
                                 '<div class="media"><a class="pull-left" href="'+elem.event.url+'" target="_parent">'+
                                 '<img alt="image" class="img-responsive list" src=""></a>' +
                                 '<div class="media-body fnt-smaller"><a href="#" target="_parent"></a>' +
