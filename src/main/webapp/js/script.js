@@ -1,38 +1,39 @@
 
 
 $(document).ready(function(){
-    var pagenumcpt = 0;
-    //INDEX.HTML
-    //---> Placer correctement le bandeau du index.html au chargement, et pendant les resize.
-    function fullscreen(){
-        $('#hero').css({
-            width: $(window).width(),
-            height: $(window).height()
-        });
-    }
-    if($('body').is('.index')) { fullscreen(); }
-    $(window).resize(function() {
-        if($('body').is('.index')) { fullscreen(); }
-    });
-    //---> Gérer correctement les boutons signin et signup, avec un affichage sans changer de page.
-    if($('body').is('.index')) {
-        var modal = $('#id01');
-        var modal2 = $('#id02');
-        $('#bt01').click(function(event){
-            modal.css('display', 'block');
-            event.stopPropagation();
-        });
-        $('#bt02').click(function(event){
-            modal2.css('display', 'block');
-            event.stopPropagation();
-        });
-        $('.signbox').click(function(event){ event.stopPropagation(); });
-        $(window).click(function(event){
-            console.log("modals closed because you click outside of the box");
-            modal.css('display', 'none');
-            modal2.css('display', 'none');
-        });
-    }
+	var pagenumcpt = 0;
+	var trip_id = getUrlParameter("id");
+	//INDEX.HTML
+	//---> Placer correctement le bandeau du index.html au chargement, et pendant les resize.
+	function fullscreen(){
+		$('#hero').css({
+			width: $(window).width(),
+			height: $(window).height()
+		});
+	}
+	if($('body').is('.index')) { fullscreen(); }
+	$(window).resize(function() {
+		if($('body').is('.index')) { fullscreen(); }
+	});
+	//---> Gérer correctement les boutons signin et signup, avec un affichage sans changer de page.
+	if($('body').is('.index')) {
+		var modal = $('#id01');
+		var modal2 = $('#id02');
+		$('#bt01').click(function(event){
+			modal.css('display', 'block');
+			event.stopPropagation();
+		});
+		$('#bt02').click(function(event){
+			modal2.css('display', 'block');
+			event.stopPropagation();
+		});
+		$('.signbox').click(function(event){ event.stopPropagation(); });
+		$(window).click(function(event){
+			console.log("modals closed because you click outside of the box");
+			modal.css('display', 'none');
+			modal2.css('display', 'none');
+		});
+	}
 
     //---> Soumission du formulaire pour se connecter
     $("#form-sign-in").submit(function(event){
@@ -122,13 +123,13 @@ $(document).ready(function(){
 
 //	--> Vérifier le match des deux passwords indiqués.
 
-    $('#password_confirm').on('input', function checkpw() {
-        if ($(this).value != $('#password').value) {
-            $(this).setCustomValidity('Password Must be Matching.'); //Check pattern TODO : En fonction de la langue ?
-        } else {
-            $(this).setCustomValidity('');
-        }
-    });
+	$('#password_confirm').on('input', function checkpw() {
+		if ($(this).value != $('#password').value) {
+			document.getElementById("password_confirm").setCustomValidity('Password Must be Matching.'); //Check pattern TODO : En fonction de la langue ?
+		} else {
+			document.getElementById("password_confirm").setCustomValidity('');
+		}
+	});
 
     //---> Ajouter les champs pour saisir des adresses mails.
     var i = 0;
@@ -205,128 +206,134 @@ $(document).ready(function(){
         });
     }
 
-    //---> Dans la page Events, afficher les events
-    function callEventsTrip() {
-        //Si on affiche pour la première fois : On vide le contenu
-        if(pagenumcpt==0) {
-            $(".events-trip-elements").empty();
-        }
-        $('.btn-loadmore').remove();
-        $(".events-trip-elements").append('<span class="glyphicon glyphicon-hourglass spin-loader center-block" aria-hidden="true"></span>');
-
-        //Les valeurs dont on a besoin
-        var begins = "2016-11-25"; console.log("begins : "+begins);
-        var ends = "2016-11-28"; console.log("ends : "+ends);
-        var select = $('#evt-select-by').find(":selected").text(); console.log("sort by : "+select);
-        var cats = [];
-        cats = $(".catbox input:checkbox:checked").map(function(){ console.log("Added "+$(this).val()); return $(this).val(); }).get();
-        //if(cats.length==0) cats = $(".catbox").map(function(){ console.log("Added "+$(this).val()); return $(this).val(); }).get();
-        console.log("categories : "+cats);
-        //Executer le Ajax
-        $.ajax({
-            type: "GET",
-            url: "../EventsTrip",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: {id: trip_id, begins: begins, ends: ends, sortby: select, categories: cats, page: pagenumcpt},
-            success: function(data){
-                console.log(data);
-                if(data.status=="success") {
-                    console.log(data.events.list[0]);
-                    for(var i = 0; i < data.events.size; i++) {
-                        var event = data.events.list[i];
-                        $('<div class="expandable brdr bgc-fff pad-10 box-shad btm-mrg-20 property-listing" id='+event.id+'> ' +
-                            '<div class="media"> <a class="pull-left" href="'+event.url+'" target="_parent">' +
-                            '<img alt="image" class="img-responsive list" src=""></a><div class="media-body fnt-smaller">' +
-                            '<a href="'+event.url+'" target="_parent"></a><h4 class="media-heading"><a href="'+event.url+'" target="_parent">'+event.name+'</a></h4>' +
-                            '<ul class="list-inline mrg-0 btm-mrg-10 clr-535353"><li>FROM '+event.begins+'</li><li style="list-style: none">|</li><li>TO '+event.ends+'</li></ul>' +
-                            '<div><span class="pull-right"><button class="btn btn-primary add-trip">Add to trip</button></span>' +
-                            '</div><p class="hidden-xs">'+event.description+'</p></div></div></div>').insertBefore( "#spin1" );
-                    }
+	//---> Dans la page Events, afficher les events
+	function callEventsTrip() {
+		//Si on affiche pour la première fois : On vide le contenu
+		if(pagenumcpt==0) {
+			$(".events-trip-elements").empty();
+			$(".events-trip-elements").append('<span id="spin1" class="glyphicon glyphicon-hourglass spin-loader center-block" aria-hidden="true"></span>');
+			$(".events-trip-elements").append('<button class="btn btn-primary btn-loadmore center-block">Load more...</button>');
+		}
+		$('.btn-loadmore').hide();
+		$("#spin1").show();
+		//Les valeurs dont on a besoin
+		var begins = "2016-11-25"; console.log("begins : "+begins);
+		var ends = "2016-11-28"; console.log("ends : "+ends);
+		var select = $('#evt-select-by').find(":selected").text(); console.log("sort by : "+select);
+		var cats = [];
+		cats = $(".catbox input:checkbox:checked").map(function(){ console.log("Added "+$(this).val()); return $(this).val(); }).get();
+		//if(cats.length==0) cats = $(".catbox").map(function(){ console.log("Added "+$(this).val()); return $(this).val(); }).get();
+		console.log("categories : "+cats);
+		console.log("page : "+pagenumcpt);
+		//Executer le Ajax
+		$.ajax({
+			type: "GET",
+			url: "../EventsTrip",
+			contentType: "application/json; charset=utf-8",
+			dataType: "json",
+			data: {id: trip_id, begins: begins, ends: ends, sortby: select, categories: cats, page: pagenumcpt},
+			success: function(data){
+				console.log(data);
+				if(data.status=="success") {
+					console.log(data.events.list[0]);
+					for(var i = 0; i < data.events.size; i++) {
+						var event = data.events.list[i];
+						$('<div class="expandable brdr bgc-fff pad-10 box-shad btm-mrg-20 property-listing">' +
+                            ' <div class="media"> <a class="pull-left" href="'+event.url+'" target="_parent"><img alt="image" class="img-responsive list" src=""></a>' +
+                            '<div class="media-body fnt-smaller"><a href="'+event.url+'" target="_parent"></a>' +
+                            '<h4 class="media-heading"><a href="'+event.url+'" target="_parent">'+event.name+'</a></h4>' +
+                            '<ul class="list-inline mrg-0 btm-mrg-10 clr-535353"><li>FROM '+event.begins+'</li><li style="list-style: none">|</li>' +
+                            '<li>TO '+event.ends+'</li></ul><div><span class="pull-right"><button class="btn btn-primary add-trip">Add to trip</button></i></span></div>' +
+                            '<p class="hidden-xs">'+event.description+'</p></div></div></div>').insertBefore( "#spin1" );
+					}
                     $('.add-trip').click(function (event) {
                         var event_obj = $(event.target).parents().eq(4);
                         var event_id = event_obj.attr("id");
                         voteForEvent(event_id, trip_id, true);
                         event_obj.remove();
                     });
+					//Si on a reçu != 0 résultats, on met le bouton loadmore
+					if(data.events.size != 0){
+						$('.btn-loadmore').show();
+						//$(".events-trip-elements").append('<button class="btn btn-primary btn-loadmore center-block">Load more...</button>');
+					}
+				} else {
+					console.log("received a data with field status = failed");
+				}
+			},
+			error: function(requestObj, status, error){
+				console.log("req : " + requestObj + " | status : " + status + " | error : " + error);
+				window.location.href = "../index.html";
+			}
+		});
+		//Enlever le spinLoader
+		$('#spin1').hide();
+	}
 
-                    //Si on a reçu != 0 résultats, on met le bouton loadmore
-                    if(data.events.size != 0){
-                        $(".events-trip-elements").append('<button class="btn btn-primary btn-loadmore center-block">Load more...</button>');
-                    }
-                } else {
-                    console.log("received a data with field status = failed")
-                }
-            },
-            error: function(requestObj, status, error){
-                console.log("req : " + requestObj + " | status : " + status + " | error : " + error);
-                window.location.href = "../index.html";
-            }
-        });
-        //Enlever le spinLoader
-        /*$('#spin1').remove();*/
-    }
-
-// --> Si la page est trip
-    if($('body').is('.trip')) {
-        var trip_id = getUrlParameter("id");
+	// --> Si la page est trip
+	if($('body').is('.trip')) {
         if(trip_id == undefined){window.location.href = "../index.html";}
+
 //		-->	Lorsqu'on change de tab
         $(".btn-pref .btn.tab").on('click', function () {
             $(".btn-pref .btn.tab").removeClass("btn-primary").addClass("btn-default");
             $(this).removeClass("btn-default").addClass("btn-primary");
             //Tab Overview
 
-            var overview_tab = $("#overview");
-            // si la tab est selectionnée
-            if(overview_tab.hasClass("btn-primary")){
-                $.ajax({
-                    type: "GET",
-                    url: "../overview",
-                    dataType: "json",
-                    data: {id: trip_id},
-                    success: function(data){
-                        $("#trip_name_banner").text(data.name);
-                        $("#panel_trip_name").text(data.name);
-                        $("#description_trip").text("Description : " + data.description);
-                        $("#nb_participants").text(data.participants);
-                        $("#from_trip").text(data.begins);
-                        $("#to_trip").text(data.ends);
-                        $("#music_trip").text(data.music);
-                        $("#family_trip").text(data.family);
-                        $("#food_trip").text(data.food);
-                        $("#movie_trip").text(data.movie);
-                        $("#art_trip").text(data.art);
-                        $("#health_trip").text(data.support);
-                        $("#museum_trip").text(data.attraction);
-                        $("#sport_trip").text(data.sports);
-                        $("#technology_trip").text(data.technology);
-                        $("#festival_trip").text(data.festival);
-                        $("#fundraiser_trip").text(data.fundraiser);
-                        $("#animal_trip").text(data.animals);
-                    },
-                    error: function(requestObj, status, error){
-                        console.log("req : " + requestObj + " | status : " + status + " | error : " + error);
-                        window.location.href = "../index.html";
-                    }
-                });
-            }
-            //Tab Events
-            if($("#events").hasClass("btn-primary")){
-                callEventsTrip();
-                $(".btn-events").on('click', function () {
-                    pagenumcpt=0;
-                    callEventsTrip();
-                });
+			var overview_tab = $("#overview");
+			// si la tab est selectionnée
+			if(overview_tab.hasClass("btn-primary")){
+				$.ajax({
+					type: "GET",
+					url: "../overview",
+					dataType: "json",
+					data: {id: trip_id},
+					success: function(data){
+						$("#trip_name_banner").text(data.name);
+						$("#panel_trip_name").text(data.name);
+						$("#description_trip").text("Description : " + data.description);
+						$("#nb_participants").text(data.participants);
+						$("#from_trip").text(data.begins);
+						$("#to_trip").text(data.ends);
+						$("#music_trip").text(data.music);
+						$("#family_trip").text(data.family);
+						$("#food_trip").text(data.food);
+						$("#movie_trip").text(data.movie);
+						$("#art_trip").text(data.art);
+						$("#health_trip").text(data.support);
+						$("#museum_trip").text(data.attraction);
+						$("#sport_trip").text(data.sports);
+						$("#technology_trip").text(data.technology);
+						$("#festival_trip").text(data.festival);
+						$("#fundraiser_trip").text(data.fundraiser);
+						$("#animal_trip").text(data.animals);
+					},
+					error: function(requestObj, status, error){
+						console.log("req : " + requestObj + " | status : " + status + " | error : " + error);
+						window.location.href = "../index.html";
+					}
+				});
+			}
+			//Tab Events
+			if($("#events").hasClass("btn-primary")){
+				pagenumcpt=0;
+				callEventsTrip();
+				$(".btn-events").on('click', function () {
+					pagenumcpt=0;
+					console.log("[click:btn-events] affichage page "+pagenumcpt);
+					callEventsTrip();
+				});
 
 
-                $(".btn-loadmore").on('click', function () {
-                    pagenumcpt++;
-                    callEventsTrip();
-                });
-            }
-            //Tab Calendar
-            if($("#calendar").hasClass("btn-primary")){
+				$(".btn-loadmore").on('click', function () {
+					pagenumcpt++;
+					console.log("[click:btn-loadmore] affichage page "+pagenumcpt);
+					callEventsTrip();
+				});
+			}
+
+			//Tab Calendar
+           if($("#calendar").hasClass("btn-primary")){
                 var eventsbody = $('#spin2').parent();
                 eventsbody.empty();
                 eventsbody.append('<span id="spin2" class="glyphicon glyphicon-hourglass spin-loader" aria-hidden="true"></span>');

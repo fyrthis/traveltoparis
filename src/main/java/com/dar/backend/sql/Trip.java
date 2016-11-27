@@ -203,6 +203,7 @@ public class Trip implements JSONable {
         Connection conn = mngr.getConnection();
         PreparedStatement stmt = conn.prepareStatement(request);
         conn.close();
+        return null;
     }
 
     public static boolean checkIfUserIsInTrip(int id_trip, String uname) throws NamingException, SQLException{

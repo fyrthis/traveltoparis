@@ -38,7 +38,6 @@ public class FriendsTrip extends HttpServlet {
             Trip trip = new Trip(new Integer(id));
             JSONObject object = trip.getTripParticipants();
         } catch (Exception e){}
-        out.print();
         out.flush();
         out.close();
     }
@@ -49,7 +48,6 @@ public class FriendsTrip extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
-        out.print();
         out.flush();
         out.close();
     }
