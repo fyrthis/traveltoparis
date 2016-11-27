@@ -47,8 +47,9 @@ public class Trip implements JSONable {
         this.ends = ends;
     }
 
-    public JSONObject chooseNewEvents(String[] categories, Date start, Date end, String sort) throws NamingException, SQLException{
-        JSONObject obj = new JSONObject();
+    public JSONObject chooseNewEvents(String[] categories, Date start, Date end, String sort, int page) throws NamingException, SQLException{
+        int pagesize = 20;
+    	JSONObject obj = new JSONObject();
         JSONArray arr = new JSONArray();
         StringBuilder builder = new StringBuilder("SELECT DISTINCT e.* FROM events e, categories c, tagged t WHERE e.id_event=t.id_event AND ");
         if(categories != null) {
@@ -62,6 +63,7 @@ public class Trip implements JSONable {
         builder.append("e.eventbegin >= ? AND e.eventend <= ? ");
         if(sort.equals("Date")) builder.append("ORDER BY e.eventbegin, e.eventend");
         if(sort.equals("Category")) builder.append("ORDER BY c.id_category");
+        builder.append("LIMIT ").append(pagesize).append(" OFFSET ").append(page*pagesize);
         //String request = "SELECT e.* FROM events e, categories c, tagged t WHERE e.id_event=t.id_event AND c.name=? AND c.id_category=t.id_category AND e.eventbegin => ? AND e.eventend <= ? ORDER BY c.id_category";
         String request = builder.toString();
         SQLManager mngr = new SQLManager();

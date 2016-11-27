@@ -1,47 +1,38 @@
 
 
 $(document).ready(function(){
+	var pagenumcpt = 0;
+	//INDEX.HTML
 	//---> Placer correctement le bandeau du index.html au chargement, et pendant les resize.
-
-	var body = $('body');
-
 	function fullscreen(){
 		$('#hero').css({
 			width: $(window).width(),
 			height: $(window).height()
 		});
 	}
-	if(body.is('.index')) { fullscreen(); }
+	if($('body').is('.index')) { fullscreen(); }
 	$(window).resize(function() {
 		if($('body').is('.index')) { fullscreen(); }
 	});
-
+	//---> Gérer correctement les boutons signin et signup, avec un affichage sans changer de page.
 	if($('body').is('.index')) {
-		console.log("La page est index.html !");
 		var modal = $('#id01');
 		var modal2 = $('#id02');
-
 		$('#bt01').click(function(event){
-			console.log("click on button bt01 !");
 			modal.css('display', 'block');
 			event.stopPropagation();
 		});
-
 		$('#bt02').click(function(event){
-			console.log("click on button bt02 !");
 			modal2.css('display', 'block');
 			event.stopPropagation();
 		});
 		$('.signbox').click(function(event){ event.stopPropagation(); });
-
-		// When the user clicks anywhere outside of the modal, close it
 		$(window).click(function(event){
 			console.log("modals closed because you click outside of the box");
 			modal.css('display', 'none');
 			modal2.css('display', 'none');
 		});
 	}
-
 
 	//---> Soumission du formulaire pour se connecter
 	$("#form-sign-in").submit(function(event){
@@ -93,14 +84,11 @@ $(document).ready(function(){
 
 			}
 		});}
-	if($('body').is('.index') || body.is('.about') || body.is('.contact') || body.is('.faqs')|| body.is('.dev')|| body.is('.terms')) {	load_bar();	}
+	if($('body').is('.index') || $('body').is('.about') || $('body').is('.contact') || $('body').is('.faqs')|| $('body').is('.dev')|| $('body').is('.terms')) {	load_bar();	}
 
 	//---> Placer le footer en pied de page
-	//if($('body').is('.index')) { 
 	$('body:last-child').append("<footer class='footer'><div class='container text-center'><div class='footer_top'><div class='col-md-6'><h5>Support</h5><ul class='nav nav-pills nav-stacked'><li><a href='/TravelToParis/html/help-and-faqs.html'>Help &amp; FAQs</a></li><li><a href='/TravelToParis/html/privacy-and-terms.html'>Privacy &amp; Terms</a></li><li><a href='/TravelToParis/html/developers.html'>Developers</a></li></ul></div><div class='col-md-6'><h5>Travel to Paris</h5><ul class='nav nav-pills nav-stacked'><li><a href='/TravelToParis/html/about.html'>About us</a></li><li><a href='/TravelToParis/html/contact.html'>Contact us</a></li></ul></div></div><div class='col-md-12'><p>Copyright &copy; 2016. All rights reserved.</p></div></div></footer>"); 
-	//}
-	//else { $('body:last-child').append("<footer class='footer'><div class='container text-center'><div class='footer_top'><div class='col-md-6'><h5>Support</h5><ul class='nav nav-pills nav-stacked'><li><a href='/help'>Help &amp; FAQs</a></li><li><a href='/legal'>Privacy &amp; Terms</a></li><li><a href='/devs'>Developers</a></li></ul></div><div class='col-md-6'><h5>Travel to Paris</h5><ul class='nav nav-pills nav-stacked'><li><a href='/about'>About us</a></li><li><a href='/contact'>Contact us</a></li></ul></div></div><div class='col-md-12'><p>Copyright &copy; 2016. All rights reserved.</p></div></div></footer>"); }
-
+	
 	if($('body').is('.index')) {
 //		-->	SET THE MINIMUM AGE TO SIGN UP
 		var min_birth = new Date();
@@ -184,7 +172,7 @@ $(document).ready(function(){
 			console.log(data.trips.list[0]);
 			for(var i = 0; i < data.trips.size; i++) {
 				var trip = data.trips.list[i].trip;
-				$(".row.trips").append('<div class="col-lg-12 col-sm-12 col-xs-12"><div class="brdr bgc-fff pad-10 box-shad btm-mrg-20 property-listing"><div class="media"><a class="pull-left" href="trip.html?id='+trip.id+'"><img class="img-responsive list" src="http://lorempixel.com/100/100/city/"></a><div class="media-body fnt-smaller"><a href="trip.html?id='+trip.id+'"></a><h4 class="media-heading"><a href="trip.html?id='+trip.id+'">'+trip.name+'</a></h4><ul class="list-inline mrg-0 btm-mrg-10 clr-535353"><li>From '+trip.begins+'</li><li style="list-style: none">|</li><li>To '+trip.ends+'</li></ul><p class="hidden-xs"> ?? participants</p><span class="fnt-smaller fnt-lighter fnt-arial">'+trip.description+'</span></div></div></div></div>');
+				$(".row.trips").append('<div class="col-lg-12 col-sm-12 col-xs-12"><div class="expandable brdr bgc-fff pad-10 box-shad btm-mrg-20 property-listing"><div class="media"><a class="pull-left" href="trip.html?id='+trip.id+'"><img class="img-responsive list" src="http://lorempixel.com/100/100/city/"></a><div class="media-body fnt-smaller"><a href="trip.html?id='+trip.id+'"></a><h4 class="media-heading"><a href="trip.html?id='+trip.id+'">'+trip.name+'</a></h4><ul class="list-inline mrg-0 btm-mrg-10 clr-535353"><li>From '+trip.begins+'</li><li style="list-style: none">|</li><li>To '+trip.ends+'</li></ul><p class="hidden-xs"> ?? participants</p><span class="fnt-smaller fnt-lighter fnt-arial">'+trip.description+'</span></div></div></div></div>');
 			}
 		});
 	}
@@ -228,12 +216,17 @@ $(document).ready(function(){
 
 	//---> Dans la page Events, afficher les events
 	function callEventsTrip() {
-		//Lancer le spinloader
-		$('.spinloader').css('display', 'block');
+		//Si on affiche pour la première fois : On vide le contenu
+		if(pagenumcpt==0) {
+			$(".events-trip-elements").empty();
+		}
+		$('.btn-loadmore').remove();
+		$(".events-trip-elements").append('<span class="glyphicon glyphicon-hourglass spin-loader center-block" aria-hidden="true"></span>');
+		
 		//Les valeurs dont on a besoin
 		var begins = "2016-11-25"; console.log("begins : "+begins);
 		var ends = "2016-11-28"; console.log("ends : "+ends);
-		var select = $('.select-by :selected').text(); console.log("sort by : "+select);
+		var select = $('#evt-select-by').find(":selected").text(); console.log("sort by : "+select);
 		var cats = [];
 		cats = $(".catbox input:checkbox:checked").map(function(){ console.log("Added "+$(this).val()); return $(this).val(); }).get();
 		//if(cats.length==0) cats = $(".catbox").map(function(){ console.log("Added "+$(this).val()); return $(this).val(); }).get();
@@ -244,14 +237,19 @@ $(document).ready(function(){
 			url: "../EventsTrip",
 			contentType: "application/json; charset=utf-8",
 			dataType: "json",
-			data: {id: trip_id, begins: begins, ends: ends, sortby: select, categories: cats},
+			data: {id: trip_id, begins: begins, ends: ends, sortby: select, categories: cats, page: pagenumcpt},
 			success: function(data){
 				console.log(data);
 				if(data.status=="success") {
 					console.log(data.events.list[0]);
 					for(var i = 0; i < data.events.size; i++) {
 						var event = data.events.list[i];
-						$('<div class="brdr bgc-fff pad-10 box-shad btm-mrg-20 property-listing"> <div class="media"> <a class="pull-left" href="'+event.url+'" target="_parent"><img alt="image" class="img-responsive list" src=""></a><div class="media-body fnt-smaller"><a href="'+event.url+'" target="_parent"></a><h4 class="media-heading"><a href="'+event.url+'" target="_parent">'+event.name+'</a></h4><ul class="list-inline mrg-0 btm-mrg-10 clr-535353"><li>FROM '+event.begins+'</li><li style="list-style: none">|</li><li>TO '+event.ends+'</li></ul><div><span class="pull-right"><button class="btn btn-primary">Add to trip</button></i></span></div><p class="hidden-xs">'+event.description+'</p></div></div></div>').insertBefore( ".spin-loader" );
+						$('<div class="expandable brdr bgc-fff pad-10 box-shad btm-mrg-20 property-listing"> <div class="media"> <a class="pull-left" href="'+event.url+'" target="_parent"><img alt="image" class="img-responsive list" src=""></a><div class="media-body fnt-smaller"><a href="'+event.url+'" target="_parent"></a><h4 class="media-heading"><a href="'+event.url+'" target="_parent">'+event.name+'</a></h4><ul class="list-inline mrg-0 btm-mrg-10 clr-535353"><li>FROM '+event.begins+'</li><li style="list-style: none">|</li><li>TO '+event.ends+'</li></ul><div><span class="pull-right"><button class="btn btn-primary">Add to trip</button></i></span></div><p class="hidden-xs">'+event.description+'</p></div></div></div>').insertBefore( ".spin-loader" );
+					}
+					
+					//Si on a reçu != 0 résultats, on met le bouton loadmore
+					if(data.events.size!=0){
+						$(".events-trip-elements").append('<button class="btn btn-primary btn-loadmore center-block">Load more...</button>');
 					}
 				} else {
 					console.log("received a data with field status = failed")
@@ -263,7 +261,7 @@ $(document).ready(function(){
 			}
 		});
 		//Enlever le spinLoader
-		$('.spinloader').css('display', 'none');
+		$('.spin-loader').remove();
 	}
 	//---> Si la page est trip avec le choix des catégories, afficher les événements liés
 	/*if($('body').is('.trip')) {
@@ -326,9 +324,13 @@ $(document).ready(function(){
 		if($("#events").hasClass("btn-primary")){
 			callEventsTrip();
 			$(".btn-events").on('click', function () {
-				var eventsbody = $('.spin-loader').parent();
-				eventsbody.empty();
-				eventsbody.append('<span class="glyphicon glyphicon-hourglass spin-loader" aria-hidden="true"></span>');
+				pagenumcpt=0;
+				callEventsTrip();
+			});
+			
+			
+			$(".btn-loadmore").on('click', function () {
+				pagenumcpt++;
 				callEventsTrip();
 			});
 		}
