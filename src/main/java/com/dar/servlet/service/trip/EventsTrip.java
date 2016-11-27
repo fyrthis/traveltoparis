@@ -54,13 +54,14 @@ public class EventsTrip extends HttpServlet {
             int page = Integer.parseInt(request.getParameter("page"));
             if(page<0) throw new Exception("Someone tried to shoot us down with a negative page number !");
             Trip trip = new Trip(Integer.parseInt(trip_id));
-
+            start = trip.getBegins();
+            end = trip.getEnds();
             long diff = end.getTime() - new java.util.Date().getTime();
             int no_of_days = Math.round(diff / Tools.MILLISECONDS_IN_DAY);
             //System.out.println("DEBUG ID " + trip_id + " | S " + start.toString() + " | E " + end.toString() + " | SB " + sortBy);
             //if(cat != null)System.out.println("DEBUG CAT " + cat);
             //System.out.println("DEBUG NO DAYS " + no_of_days);
-            if(no_of_days > 30){
+            if(no_of_days > 1){
                 System.out.println(new java.util.Date().toString() + " | Getting future events on demand");
                 ExecutorService executor = (ExecutorService)getServletContext().getAttribute("MY_EXECUTOR");
                 executor.submit(new EventJob(start, end));

@@ -269,6 +269,10 @@ public class Trip implements JSONable {
 
 
     public int getId(){return id;}
+
+    public Date getBegins(){return begins;}
+
+    public Date getEnds(){return ends;}
     
     public static boolean checkIfUserIsAdminOfTrip(int id_trip, String uname) throws NamingException, SQLException {
     	String request = "SELECT exists(SELECT 1 FROM involded i, users u WHERE u.login=? AND i.id_user=u.id_user AND id_trip=? AND i.is_admin=true)";
