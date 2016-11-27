@@ -40,6 +40,7 @@
         <servlet-name>signup</servlet-name>
         <servlet-class>com.dar.servlet.service.session.SignUp</servlet-class>
     </servlet>
+    
     <servlet> <!-- GET : Vérifie si connecté ; POST : permet de se connecter -->
         <servlet-name>signin</servlet-name>
         <servlet-class>com.dar.servlet.service.session.SignIn</servlet-class>
@@ -62,7 +63,7 @@
         <servlet-name>gettrips</servlet-name>
         <servlet-class>com.dar.servlet.service.info.GetMyTrips</servlet-class>
     </servlet>
-    
+
     <!-- SERVLETS D'EVENTS -->
     <servlet> <!-- GET : Renvoie les évènements auquel participe un user -->
         <servlet-name>calendar</servlet-name>

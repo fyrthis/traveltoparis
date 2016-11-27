@@ -522,7 +522,27 @@ $(document).ready(function(){
             //Tab Invitations
             if($("#invitations").hasClass("btn-primary")){}
             //Tab Settings
-            if($("#settings").hasClass("btn-primary")){}
+            if($("#settings").hasClass("btn-primary")){
+            	$.ajax({
+					type: "GET",
+					url: "../settings",
+					dataType: "json",
+					data: {id: trip_id},
+					success: function(data){
+						$("#settings-tripid").attr("value", trip_id);
+						$("#settings-tripname").attr("value", data.name);
+						$("#settings-begins").attr("value", data.begins);
+						$("#settings-ends").attr("value", data.ends);
+						if(data.description!=null)
+							$("#settings-description").attr("value", data.description);
+
+					},
+					error: function(requestObj, status, error){
+						console.log("req : " + requestObj + " | status : " + status + " | error : " + error);
+						window.location.href = "../index.html";
+					}
+				});
+            }
         });
     }
 });
