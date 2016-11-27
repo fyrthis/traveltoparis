@@ -48,6 +48,7 @@ public class Eventful {
                 String location = e.getVenueAddress();
                 Date beginE = new Date(e.getStartTime().getTime());
                 Date endE = beginE;
+                id = id.replaceAll("@", "");
                 if(e.getStopTime() != null) endE = new Date(e.getStopTime().getTime());
                 String url = e.getURL();
                 try {

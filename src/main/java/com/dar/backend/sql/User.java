@@ -86,8 +86,9 @@ public class User implements JSONable {
     }
 
     public void addEventToTrip(int id_trip, String id_event, boolean is_like) throws NamingException, SQLException{
-        String request = "INSERT INTO votes (id_user, id_event, id_trip, is_like) SELECT ?, ?, ?, ? WHERE exists(SELECT 1 FROM involded i WHERE i.id_user=? AND i.id_trip=?) " +
-                "AND NOT exists(SELECT 1 FROM votes v WHERE v.id_event=? AND v.id_trip=? AND v.id_user=?)";
+        removeVote(id_trip, id_event);
+        String request = "INSERT INTO votes (id_user, id_event, id_trip, is_like) SELECT ?, ?, ?, ? " +
+                "WHERE exists(SELECT 1 FROM involded i WHERE i.id_user=? AND i.id_trip=?)";
         SQLManager mngr = new SQLManager();
         Connection conn = mngr.getConnection();
         PreparedStatement stmt = conn.prepareStatement(request);
@@ -97,15 +98,24 @@ public class User implements JSONable {
         stmt.setBoolean(4, is_like);
         stmt.setInt(5, this.id);
         stmt.setInt(6, id_trip);
-        stmt.setString(7, id_event);
-        stmt.setInt(8, id_trip);
-        stmt.setInt(9, this.id);
         mngr.executeUpdate(stmt);
         conn.close();
     }
 
     public void removeEventFromTrip(int id_trip, String id_event) throws NamingException, SQLException{
         String request = "DELETE FROM votes v WHERE v.id_trip=? AND v.id_event=? AND exists(SELECT 1 FROM involded i WHERE i.id_trip=v.id_trip AND i.id_user=?)";
+        SQLManager mngr = new SQLManager();
+        Connection conn = mngr.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(request);
+        stmt.setInt(1, id_trip);
+        stmt.setString(2, id_event);
+        stmt.setInt(3, this.id);
+        mngr.executeUpdate(stmt);
+        conn.close();
+    }
+
+    public void removeVote(int id_trip, String id_event) throws NamingException, SQLException{
+        String request = "DELETE FROM votes v WHERE v.id_trip=? AND v.id_event=? AND v.id_user=?";
         SQLManager mngr = new SQLManager();
         Connection conn = mngr.getConnection();
         PreparedStatement stmt = conn.prepareStatement(request);
@@ -130,4 +140,6 @@ public class User implements JSONable {
         obj.put("description", description);
         return obj;
     }
+
+    public int getId(){return id;}
 }

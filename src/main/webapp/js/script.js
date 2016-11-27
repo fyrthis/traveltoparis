@@ -1,39 +1,39 @@
 
 
 $(document).ready(function(){
-	var pagenumcpt = 0;
-	var trip_id = getUrlParameter("id");
-	//INDEX.HTML
-	//---> Placer correctement le bandeau du index.html au chargement, et pendant les resize.
-	function fullscreen(){
-		$('#hero').css({
-			width: $(window).width(),
-			height: $(window).height()
-		});
-	}
-	if($('body').is('.index')) { fullscreen(); }
-	$(window).resize(function() {
-		if($('body').is('.index')) { fullscreen(); }
-	});
-	//---> Gérer correctement les boutons signin et signup, avec un affichage sans changer de page.
-	if($('body').is('.index')) {
-		var modal = $('#id01');
-		var modal2 = $('#id02');
-		$('#bt01').click(function(event){
-			modal.css('display', 'block');
-			event.stopPropagation();
-		});
-		$('#bt02').click(function(event){
-			modal2.css('display', 'block');
-			event.stopPropagation();
-		});
-		$('.signbox').click(function(event){ event.stopPropagation(); });
-		$(window).click(function(event){
-			console.log("modals closed because you click outside of the box");
-			modal.css('display', 'none');
-			modal2.css('display', 'none');
-		});
-	}
+    var pagenumcpt = 0;
+    var trip_id = getUrlParameter("id");
+    //INDEX.HTML
+    //---> Placer correctement le bandeau du index.html au chargement, et pendant les resize.
+    function fullscreen(){
+        $('#hero').css({
+            width: $(window).width(),
+            height: $(window).height()
+        });
+    }
+    if($('body').is('.index')) { fullscreen(); }
+    $(window).resize(function() {
+        if($('body').is('.index')) { fullscreen(); }
+    });
+    //---> Gérer correctement les boutons signin et signup, avec un affichage sans changer de page.
+    if($('body').is('.index')) {
+        var modal = $('#id01');
+        var modal2 = $('#id02');
+        $('#bt01').click(function(event){
+            modal.css('display', 'block');
+            event.stopPropagation();
+        });
+        $('#bt02').click(function(event){
+            modal2.css('display', 'block');
+            event.stopPropagation();
+        });
+        $('.signbox').click(function(event){ event.stopPropagation(); });
+        $(window).click(function(event){
+            console.log("modals closed because you click outside of the box");
+            modal.css('display', 'none');
+            modal2.css('display', 'none');
+        });
+    }
 
     //---> Soumission du formulaire pour se connecter
     $("#form-sign-in").submit(function(event){
@@ -123,13 +123,13 @@ $(document).ready(function(){
 
 //	--> Vérifier le match des deux passwords indiqués.
 
-	$('#password_confirm').on('input', function checkpw() {
-		if ($(this).value != $('#password').value) {
-			document.getElementById("password_confirm").setCustomValidity('Password Must be Matching.'); //Check pattern TODO : En fonction de la langue ?
-		} else {
-			document.getElementById("password_confirm").setCustomValidity('');
-		}
-	});
+    $('#password_confirm').on('input', function checkpw() {
+        if ($(this).value != $('#password').value) {
+            document.getElementById("password_confirm").setCustomValidity('Password Must be Matching.'); //Check pattern TODO : En fonction de la langue ?
+        } else {
+            document.getElementById("password_confirm").setCustomValidity('');
+        }
+    });
 
     //---> Ajouter les champs pour saisir des adresses mails.
     var i = 0;
@@ -180,12 +180,46 @@ $(document).ready(function(){
         });
     }
 
-    function voteForEvent(id_event, id_trip, vote){
+    function removeVote(id_event, id_trip, vote) {
         $.ajax({
             type: "POST",
             url: "../calendar",
             dataType: "json",
-            data: {trip_id: id_trip, event_id: id_event, vote: vote},
+            data: {trip_id: id_trip, event_id: id_event, vote: vote, remove: true},
+            success: function (data) {
+                if (data.status === "failure") console.log("failure t " + id_trip + " e " + id_event);
+                else {
+                    var elem = $("#" + id_event);
+                    if (elem.length && $("#calendar").hasClass("btn-primary")) {
+                        var votes = vote ? $("span.upvotes") : $("span.downvotes");
+                        var spanVote = elem.find(votes);
+                        var up = $("span.badge-notify-up");
+                        var down = $("span.badge-notify-down");
+                        var spanBadgeUp = elem.find(up);
+                        var spanBadgeDown = elem.find(down);
+                        spanVote.text(parseInt(spanVote.text()) - 1);
+                        spanBadgeDown.off('click');
+                        spanBadgeDown.css("background", "rgba(217,83,79,0.3)");
+                        spanBadgeDown.click(function () {
+                            voteForEvent(id_event, trip_id, false, false);
+                        });
+                        spanBadgeUp.off('click');
+                        spanBadgeUp.css("background", "rgba(91,192,222,0.3)");
+                        spanBadgeUp.click(function () {
+                            voteForEvent(id_event, trip_id, true, false);
+                        });
+                    }
+                }
+            }
+        });
+    }
+
+    function voteForEvent(id_event, id_trip, vote, other){
+        $.ajax({
+            type: "POST",
+            url: "../calendar",
+            dataType: "json",
+            data: {trip_id: id_trip, event_id: id_event, vote: vote, remove: false},
             success: function (data) {
                 console.log(data.status);
                 if (data.status === "failure") console.log("failure t " + id_trip + " e " + id_event);
@@ -193,9 +227,47 @@ $(document).ready(function(){
                     //location.reload();
                     var elem = $("#"+ id_event);
                     if(elem.length && $("#calendar").hasClass("btn-primary")){
-                        var votes = vote ? $("span.upvote") : $("span.downvotes");
-                        var spanVote = elem.find(votes);
-                        spanVote.text(parseInt(spanVote.text()) + 1);
+                        var votesUp = $("span.upvotes");
+                        var votesDown = $("span.downvotes");
+                        var spanVoteUp = elem.find(votesUp);
+                        var spanVoteDown = elem.find(votesDown);
+                        var up = $("span.badge-notify-up");
+                        var down = $("span.badge-notify-down");
+                        var spanBadgeUp = elem.find(up);
+                        var spanBadgeDown = elem.find(down);
+                        if(vote) {
+                            spanVoteUp.text(parseInt(spanVoteUp.text()) + 1);
+                            if(other) spanVoteDown.text(parseInt(spanVoteDown.text()) - 1);
+                        }
+                        if(!vote){
+                            spanVoteDown.text(parseInt(spanVoteDown.text()) + 1);
+                            if(other) spanVoteUp.text(parseInt(spanVoteUp.text()) - 1);
+                        }
+
+                        if(vote){
+                            spanBadgeUp.off('click');
+                            spanBadgeUp.css("background", "rgba(91,192,222,0.7)");
+                            spanBadgeUp.click(function () {
+                                removeVote(id_event, trip_id, true);
+                            });
+                            spanBadgeDown.off('click');
+                            spanBadgeDown.css("background", "rgba(217,83,79,0.3)");
+                            spanBadgeDown.click(function () {
+                                voteForEvent(id_event, trip_id, false, true);
+                            });
+
+                        } else {
+                            spanBadgeDown.off('click');
+                            spanBadgeDown.css("background", "rgba(217,83,79,0.7)");
+                            spanBadgeDown.click(function () {
+                                removeVote(id_event, trip_id, false);
+                            });
+                            spanBadgeUp.off('click');
+                            spanBadgeUp.css("background", "rgba(91,192,222,0.3)");
+                            spanBadgeUp.click(function () {
+                                voteForEvent(id_event, trip_id, true, true);
+                            });
+                        }
                     }
                 }
             },
@@ -206,71 +278,71 @@ $(document).ready(function(){
         });
     }
 
-	//---> Dans la page Events, afficher les events
-	function callEventsTrip() {
-		//Si on affiche pour la première fois : On vide le contenu
-		if(pagenumcpt==0) {
-			$(".events-trip-elements").empty();
-			$(".events-trip-elements").append('<span id="spin1" class="glyphicon glyphicon-hourglass spin-loader center-block" aria-hidden="true"></span>');
-			$(".events-trip-elements").append('<button class="btn btn-primary btn-loadmore center-block">Load more...</button>');
-		}
-		$('.btn-loadmore').hide();
-		$("#spin1").show();
-		//Les valeurs dont on a besoin
-		var begins = "2016-11-25"; console.log("begins : "+begins);
-		var ends = "2016-11-28"; console.log("ends : "+ends);
-		var select = $('#evt-select-by').find(":selected").text(); console.log("sort by : "+select);
-		var cats = [];
-		cats = $(".catbox input:checkbox:checked").map(function(){ console.log("Added "+$(this).val()); return $(this).val(); }).get();
-		//if(cats.length==0) cats = $(".catbox").map(function(){ console.log("Added "+$(this).val()); return $(this).val(); }).get();
-		console.log("categories : "+cats);
-		console.log("page : "+pagenumcpt);
-		//Executer le Ajax
-		$.ajax({
-			type: "GET",
-			url: "../EventsTrip",
-			contentType: "application/json; charset=utf-8",
-			dataType: "json",
-			data: {id: trip_id, begins: begins, ends: ends, sortby: select, categories: cats, page: pagenumcpt},
-			success: function(data){
-				//console.log(data);
-				if(data.status=="success") {
-					//console.log(data.events.list[0]);
-					for(var i = 0; i < data.events.size; i++) {
-						var event = data.events.list[i];
-						$('<div class="expandable brdr bgc-fff pad-10 box-shad btm-mrg-20 property-listing" id="'+ event.id +'">' +
+    //---> Dans la page Events, afficher les events
+    function callEventsTrip() {
+        //Si on affiche pour la première fois : On vide le contenu
+        if(pagenumcpt==0) {
+            $(".events-trip-elements").empty();
+            $(".events-trip-elements").append('<span id="spin1" class="glyphicon glyphicon-hourglass spin-loader center-block" aria-hidden="true"></span>');
+            $(".events-trip-elements").append('<button class="btn btn-primary btn-loadmore center-block">Load more...</button>');
+        }
+        $('.btn-loadmore').hide();
+        $("#spin1").show();
+        //Les valeurs dont on a besoin
+        var begins = "2016-11-27"; console.log("begins : "+begins);
+        var ends = "2016-11-30"; console.log("ends : "+ends);
+        var select = $('#evt-select-by').find(":selected").text(); console.log("sort by : "+select);
+        var cats = [];
+        cats = $(".catbox input:checkbox:checked").map(function(){ console.log("Added "+$(this).val()); return $(this).val(); }).get();
+        //if(cats.length==0) cats = $(".catbox").map(function(){ console.log("Added "+$(this).val()); return $(this).val(); }).get();
+        console.log("categories : "+cats);
+        console.log("page : "+pagenumcpt);
+        //Executer le Ajax
+        $.ajax({
+            type: "GET",
+            url: "../EventsTrip",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: {id: trip_id, begins: begins, ends: ends, sortby: select, categories: cats, page: pagenumcpt},
+            success: function(data){
+                //console.log(data);
+                if(data.status=="success") {
+                    //console.log(data.events.list[0]);
+                    for(var i = 0; i < data.events.size; i++) {
+                        var event = data.events.list[i];
+                        $('<div class="expandable brdr bgc-fff pad-10 box-shad btm-mrg-20 property-listing" id="'+ event.id +'">' +
                             ' <div class="media"> <a class="pull-left" href="'+event.url+'" target="_parent"><img alt="image" class="img-responsive list" src=""></a>' +
                             '<div class="media-body fnt-smaller"><a href="'+event.url+'" target="_parent"></a>' +
                             '<h4 class="media-heading"><a href="'+event.url+'" target="_parent">'+event.name+'</a></h4>' +
                             '<ul class="list-inline mrg-0 btm-mrg-10 clr-535353"><li>FROM '+event.begins+'</li><li style="list-style: none">|</li>' +
-                            '<li>TO '+event.ends+'</li></ul><div><span class="pull-right"><button class="btn btn-primary add-trip">Add to trip</button></i></span></div>' +
+                            '<li>TO '+event.ends+'</li></ul><div><span class="pull-right"><i><button class="btn btn-primary add-trip">Add to trip</button></i></span></div>' +
                             '<p class="hidden-xs">'+event.description+'</p></div></div></div>').insertBefore( "#spin1" );
-					}
+                    }
                     $('.add-trip').click(function (event) {
-                        var event_obj = $(event.target).parents().eq(4);
+                        var event_obj = $(event.target).parents().eq(5);
                         var event_id = event_obj.attr("id");
                         voteForEvent(event_id, trip_id, true);
                         event_obj.remove();
                     });
-					//Si on a reçu != 0 résultats, on met le bouton loadmore
-					if(data.events.size != 0){
-						$('.btn-loadmore').show();
-						//$(".events-trip-elements").append('<button class="btn btn-primary btn-loadmore center-block">Load more...</button>');
-					}
-				} else {
-					console.log("received a data with field status = failed");
-				}
-			},
-			error: function(requestObj, status, error){
-				console.log("req : " + requestObj + " | status : " + status + " | error : " + error);
-				window.location.href = "../index.html";
-			}
-		});
-		//Enlever le spinLoader
-		$('#spin1').hide();
-	}
+                    //Si on a reçu != 0 résultats, on met le bouton loadmore
+                    if(data.events.size != 0){
+                        $('.btn-loadmore').show();
+                        //$(".events-trip-elements").append('<button class="btn btn-primary btn-loadmore center-block">Load more...</button>');
+                    }
+                } else {
+                    console.log("received a data with field status = failed");
+                }
+            },
+            error: function(requestObj, status, error){
+                console.log("req : " + requestObj + " | status : " + status + " | error : " + error);
+                window.location.href = "../index.html";
+            }
+        });
+        //Enlever le spinLoader
+        $('#spin1').hide();
+    }
 
-	function getOverview() {
+    function getOverview() {
         $.ajax({
             type: "GET",
             context: this,
@@ -304,8 +376,8 @@ $(document).ready(function(){
         });
     }
 
-	// --> Si la page est trip
-	if($('body').is('.trip')) {
+    // --> Si la page est trip
+    if($('body').is('.trip')) {
         var overview_tab = $("#overview");
         if(trip_id == undefined){window.location.href = "../index.html";}
         if(overview_tab.hasClass("btn-primary")) {getOverview();}
@@ -315,30 +387,30 @@ $(document).ready(function(){
             $(this).removeClass("btn-default").addClass("btn-primary");
             //Tab Overview
 
-			// si la tab est selectionnée
-			if(overview_tab.hasClass("btn-primary")){
-				getOverview();
-			}
-			//Tab Events
-			if($("#events").hasClass("btn-primary")){
-				pagenumcpt=0;
-				callEventsTrip();
-				$(".btn-events").on('click', function () {
-					pagenumcpt=0;
-					console.log("[click:btn-events] affichage page "+pagenumcpt);
-					callEventsTrip();
-				});
+            // si la tab est selectionnée
+            if(overview_tab.hasClass("btn-primary")){
+                getOverview();
+            }
+            //Tab Events
+            if($("#events").hasClass("btn-primary")){
+                pagenumcpt=0;
+                callEventsTrip();
+                $(".btn-events").on('click', function () {
+                    pagenumcpt=0;
+                    console.log("[click:btn-events] affichage page "+pagenumcpt);
+                    callEventsTrip();
+                });
 
 
-				$(".btn-loadmore").on('click', function () {
-					pagenumcpt++;
-					console.log("[click:btn-loadmore] affichage page "+pagenumcpt);
-					callEventsTrip();
-				});
-			}
+                $(".btn-loadmore").on('click', function () {
+                    pagenumcpt++;
+                    console.log("[click:btn-loadmore] affichage page "+pagenumcpt);
+                    callEventsTrip();
+                });
+            }
 
-			//Tab Calendar
-           if($("#calendar").hasClass("btn-primary")){
+            //Tab Calendar
+            if($("#calendar").hasClass("btn-primary")){
                 var eventsbody = $('#spin2').parent();
                 eventsbody.empty();
                 eventsbody.append('<span id="spin2" class="glyphicon glyphicon-hourglass spin-loader" aria-hidden="true"></span>');
@@ -370,35 +442,71 @@ $(document).ready(function(){
                                     '<span class="badge badge-notify-remove"><i class="glyphicon glyphicon-remove"></i><span class="number_vote">Remove</span></span>' +
                                     '</span></div><p class="hidden-xs">'+elem.event.description+'</p></div></div></div>').insertBefore("#spin2");
                             }
-                            $('.badge-notify-remove').click(function (event) {
-                                var event_obj = $(event.target).parents().eq(5);
-                                var event_id = event_obj.attr("id");
-                                $.ajax({
-                                    type: "DELETE",
-                                    url: "../calendar",
-                                    dataType: "json",
-                                    headers: {trip_id: trip_id, event_id: event_id},
-                                    success: function (data) {
-                                        console.log(data.status);
-                                        if(data.status === "failure") console.log("failure t " + trip_id + " e " + event_id);
-                                        else event_obj.remove();
-                                    },
-                                    error: function (requestObj, status, error){
-                                        console.log("req : " + requestObj + " | status : " + status + " | error : " + error);
-                                        window.location.href = "../index.html";
-                                    }
+                            if(events.size > 0){
+                                $('.badge-notify-remove').click(function (event) {
+                                    var event_obj = $(event.target).parents().eq(5);
+                                    var event_id = event_obj.attr("id");
+                                    $.ajax({
+                                        type: "DELETE",
+                                        url: "../calendar",
+                                        dataType: "json",
+                                        headers: {trip_id: trip_id, event_id: event_id},
+                                        success: function (data) {
+                                            console.log(data.status);
+                                            if(data.status === "failure") console.log("failure t " + trip_id + " e " + event_id);
+                                            else event_obj.remove();
+                                        },
+                                        error: function (requestObj, status, error){
+                                            console.log("req : " + requestObj + " | status : " + status + " | error : " + error);
+                                            window.location.href = "../index.html";
+                                        }
+                                    });
                                 });
-                            });
-                            $('.badge-notify-up').click(function (event) {
-                                var event_obj = $(event.target).parents().eq(5);
-                                var event_id = event_obj.attr("id");
-                                voteForEvent(event_id, trip_id, true);
-                            });
-                            $('.badge-notify-down').click(function (event) {
-                                var event_obj = $(event.target).parents().eq(5);
-                                var event_id = event_obj.attr("id");
-                                voteForEvent(event_id, trip_id, false);
-                            });
+                                var hasUp = parseInt(elem.hasupvote);
+                                var hasDown = parseInt(elem.hasdownvote);
+                                if(hasUp == 0 && hasDown == 0){
+                                    $('.badge-notify-up').click(function (event) {
+                                        var event_obj = $(event.target).parents().eq(5);
+                                        var event_id = event_obj.attr("id");
+                                        voteForEvent(event_id, trip_id, true, false);
+                                    });
+                                    $('.badge-notify-down').click(function (event) {
+                                        var event_obj = $(event.target).parents().eq(5);
+                                        var event_id = event_obj.attr("id");
+                                        voteForEvent(event_id, trip_id, false, false);
+                                    });
+                                }
+                                else{
+                                    if(hasUp > 0){
+                                        var badge = $('.badge-notify-up');
+                                        badge.click(function (event) {
+                                            var event_obj = $(event.target).parents().eq(5);
+                                            var event_id = event_obj.attr("id");
+                                            removeVote(event_id, trip_id, true);
+                                        });
+                                        badge.css("background", "rgba(91,192,222,0.7)");
+                                        $('.badge-notify-down').click(function (event) {
+                                            var event_obj = $(event.target).parents().eq(5);
+                                            var event_id = event_obj.attr("id");
+                                            voteForEvent(event_id, trip_id, false, true);
+                                        });
+                                    }
+                                    if(hasDown > 0){
+                                        badge = $('.badge-notify-down');
+                                        badge.click(function (event) {
+                                            var event_obj = $(event.target).parents().eq(5);
+                                            var event_id = event_obj.attr("id");
+                                            removeVote(event_id, trip_id, false);
+                                        });
+                                        badge.css("background", "rgba(217,83,79,0.7)");
+                                        $('.badge-notify-up').click(function (event) {
+                                            var event_obj = $(event.target).parents().eq(5);
+                                            var event_id = event_obj.attr("id");
+                                            voteForEvent(event_id, trip_id, true, true);
+                                        });
+                                    }
+                                }
+                            }
                         }
                         else{console.log("Error" + data);}
                     },
