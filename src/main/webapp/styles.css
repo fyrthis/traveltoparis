@@ -10,7 +10,20 @@ a {
     color: #03a1d1;
     text-decoration: none!important;
 }
+/* TEXT IN BOXES */
+.expandable {
+   max-height:120px;
+  background-color:green;
+   overflow:hidden;
+   text-overflow:ellipsis;
 
+   }
+.expandable:hover {
+max-height:1000px;
+transition: max-height 1s;
+  -webkit-transition: max-height 1s;
+}
+   
 /* LAYOUT */
 .list-inline>li {
     padding: 0 10px 0 0;
