@@ -233,12 +233,12 @@ $(document).ready(function(){
 			dataType: "json",
 			data: {id: trip_id, begins: begins, ends: ends, sortby: select, categories: cats, page: pagenumcpt},
 			success: function(data){
-				console.log(data);
+				//console.log(data);
 				if(data.status=="success") {
-					console.log(data.events.list[0]);
+					//console.log(data.events.list[0]);
 					for(var i = 0; i < data.events.size; i++) {
 						var event = data.events.list[i];
-						$('<div class="expandable brdr bgc-fff pad-10 box-shad btm-mrg-20 property-listing">' +
+						$('<div class="expandable brdr bgc-fff pad-10 box-shad btm-mrg-20 property-listing" id="'+ event.id +'">' +
                             ' <div class="media"> <a class="pull-left" href="'+event.url+'" target="_parent"><img alt="image" class="img-responsive list" src=""></a>' +
                             '<div class="media-body fnt-smaller"><a href="'+event.url+'" target="_parent"></a>' +
                             '<h4 class="media-heading"><a href="'+event.url+'" target="_parent">'+event.name+'</a></h4>' +
@@ -270,49 +270,54 @@ $(document).ready(function(){
 		$('#spin1').hide();
 	}
 
+	function getOverview() {
+        $.ajax({
+            type: "GET",
+            context: this,
+            url: "../overview",
+            dataType: "json",
+            data: {id: trip_id},
+            success: function(data){
+                $("#trip_name_banner").text(data.name);
+                $("#panel_trip_name").text(data.name);
+                $("#description_trip").text("Description : " + data.description);
+                $("#nb_participants").text(data.participants);
+                $("#from_trip").text(data.begins);
+                $("#to_trip").text(data.ends);
+                $("#music_trip").text(data.music);
+                $("#family_trip").text(data.family);
+                $("#food_trip").text(data.food);
+                $("#movie_trip").text(data.movie);
+                $("#art_trip").text(data.art);
+                $("#health_trip").text(data.support);
+                $("#museum_trip").text(data.attraction);
+                $("#sport_trip").text(data.sports);
+                $("#technology_trip").text(data.technology);
+                $("#festival_trip").text(data.festival);
+                $("#fundraiser_trip").text(data.fundraiser);
+                $("#animal_trip").text(data.animals);
+            },
+            error: function(requestObj, status, error){
+                console.log("req : " + requestObj + " | status : " + status + " | error : " + error);
+                window.location.href = "../index.html";
+            }
+        });
+    }
+
 	// --> Si la page est trip
 	if($('body').is('.trip')) {
+        var overview_tab = $("#overview");
         if(trip_id == undefined){window.location.href = "../index.html";}
-
+        if(overview_tab.hasClass("btn-primary")) {getOverview();}
 //		-->	Lorsqu'on change de tab
         $(".btn-pref .btn.tab").on('click', function () {
             $(".btn-pref .btn.tab").removeClass("btn-primary").addClass("btn-default");
             $(this).removeClass("btn-default").addClass("btn-primary");
             //Tab Overview
 
-			var overview_tab = $("#overview");
 			// si la tab est selectionnée
 			if(overview_tab.hasClass("btn-primary")){
-				$.ajax({
-					type: "GET",
-					url: "../overview",
-					dataType: "json",
-					data: {id: trip_id},
-					success: function(data){
-						$("#trip_name_banner").text(data.name);
-						$("#panel_trip_name").text(data.name);
-						$("#description_trip").text("Description : " + data.description);
-						$("#nb_participants").text(data.participants);
-						$("#from_trip").text(data.begins);
-						$("#to_trip").text(data.ends);
-						$("#music_trip").text(data.music);
-						$("#family_trip").text(data.family);
-						$("#food_trip").text(data.food);
-						$("#movie_trip").text(data.movie);
-						$("#art_trip").text(data.art);
-						$("#health_trip").text(data.support);
-						$("#museum_trip").text(data.attraction);
-						$("#sport_trip").text(data.sports);
-						$("#technology_trip").text(data.technology);
-						$("#festival_trip").text(data.festival);
-						$("#fundraiser_trip").text(data.fundraiser);
-						$("#animal_trip").text(data.animals);
-					},
-					error: function(requestObj, status, error){
-						console.log("req : " + requestObj + " | status : " + status + " | error : " + error);
-						window.location.href = "../index.html";
-					}
-				});
+				getOverview();
 			}
 			//Tab Events
 			if($("#events").hasClass("btn-primary")){
