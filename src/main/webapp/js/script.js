@@ -352,7 +352,7 @@ $(document).ready(function(){
             success: function(data){
                 $("#trip_name_banner").text(data.name);
                 $("#panel_trip_name").text(data.name);
-                $("#description_trip").text("Description : " + data.description);
+                $("#description_trip").text(data.description);
                 $("#nb_participants").text(data.participants);
                 $("#from_trip").text(data.begins);
                 $("#to_trip").text(data.ends);
