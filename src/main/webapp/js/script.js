@@ -83,12 +83,13 @@ $(document).ready(function(){
 				$("#second_div").toggleClass("hidden", false);
 
 			}
-		});}
+		});
+	}
 	if($('body').is('.index') || $('body').is('.about') || $('body').is('.contact') || $('body').is('.faqs')|| $('body').is('.dev')|| $('body').is('.terms')) {	load_bar();	}
 
 	//---> Placer le footer en pied de page
 	$('body:last-child').append("<footer class='footer'><div class='container text-center'><div class='footer_top'><div class='col-md-6'><h5>Support</h5><ul class='nav nav-pills nav-stacked'><li><a href='/TravelToParis/html/help-and-faqs.html'>Help &amp; FAQs</a></li><li><a href='/TravelToParis/html/privacy-and-terms.html'>Privacy &amp; Terms</a></li><li><a href='/TravelToParis/html/developers.html'>Developers</a></li></ul></div><div class='col-md-6'><h5>Travel to Paris</h5><ul class='nav nav-pills nav-stacked'><li><a href='/TravelToParis/html/about.html'>About us</a></li><li><a href='/TravelToParis/html/contact.html'>Contact us</a></li></ul></div></div><div class='col-md-12'><p>Copyright &copy; 2016. All rights reserved.</p></div></div></footer>"); 
-	
+
 	if($('body').is('.index')) {
 //		-->	SET THE MINIMUM AGE TO SIGN UP
 		var min_birth = new Date();
@@ -120,6 +121,7 @@ $(document).ready(function(){
 	}
 
 //	--> Vérifier le match des deux passwords indiqués.
+
 	$('#password_confirm').on('input', function checkpw() {
 		if ($(this).value != $('#password').value) {
 			$(this).setCustomValidity('Password Must be Matching.'); //Check pattern TODO : En fonction de la langue ?
@@ -177,43 +179,6 @@ $(document).ready(function(){
 		});
 	}
 
-	// --> Si la page est trip
-	if($('body').is('.trip')) {
-		var trip_id = getUrlParameter("id");
-		if(trip_id == undefined){window.location.href = "../index.html";}
-		var overview_tab = $("#overview");
-		// si la tab est selectionnée
-		if(overview_tab.hasClass("btn-primary")){
-			$.ajax({
-				type: "GET",
-				url: "../overview",
-				dataType: "json",
-				data: {id: trip_id},
-				success: function(data){
-					$("#trip_name_banner").text(data.name);
-					$("#panel_trip_name").text(data.name);
-					$("#description_trip").text("Description : " + data.description);
-					$("#nb_participants").text(data.participants);
-					$("#from_trip").text(data.begins);
-					$("#to_trip").text(data.ends);
-					$("#music_trip").text(0);
-					$("#family_trip").text(0);
-					$("#food_trip").text(0);
-					$("#movie_trip").text(0);
-					$("#art_trip").text(0);
-					$("#health_trip").text(0);
-					$("#museum_trip").text(0);
-					$("#sport_trip").text(0);
-					$("#technology_trip").text(0);
-				},
-				error: function(requestObj, status, error){
-					console.log("req : " + requestObj + " | status : " + status + " | error : " + error);
-					window.location.href = "../index.html";
-				}
-			});
-		}
-	}
-
 	//---> Dans la page Events, afficher les events
 	function callEventsTrip() {
 		//Si on affiche pour la première fois : On vide le contenu
@@ -222,7 +187,7 @@ $(document).ready(function(){
 		}
 		$('.btn-loadmore').remove();
 		$(".events-trip-elements").append('<span class="glyphicon glyphicon-hourglass spin-loader center-block" aria-hidden="true"></span>');
-		
+
 		//Les valeurs dont on a besoin
 		var begins = "2016-11-25"; console.log("begins : "+begins);
 		var ends = "2016-11-28"; console.log("ends : "+ends);
@@ -246,7 +211,7 @@ $(document).ready(function(){
 						var event = data.events.list[i];
 						$('<div class="expandable brdr bgc-fff pad-10 box-shad btm-mrg-20 property-listing"> <div class="media"> <a class="pull-left" href="'+event.url+'" target="_parent"><img alt="image" class="img-responsive list" src=""></a><div class="media-body fnt-smaller"><a href="'+event.url+'" target="_parent"></a><h4 class="media-heading"><a href="'+event.url+'" target="_parent">'+event.name+'</a></h4><ul class="list-inline mrg-0 btm-mrg-10 clr-535353"><li>FROM '+event.begins+'</li><li style="list-style: none">|</li><li>TO '+event.ends+'</li></ul><div><span class="pull-right"><button class="btn btn-primary">Add to trip</button></i></span></div><p class="hidden-xs">'+event.description+'</p></div></div></div>').insertBefore( ".spin-loader" );
 					}
-					
+
 					//Si on a reçu != 0 résultats, on met le bouton loadmore
 					if(data.events.size!=0){
 						$(".events-trip-elements").append('<button class="btn btn-primary btn-loadmore center-block">Load more...</button>');
@@ -263,97 +228,114 @@ $(document).ready(function(){
 		//Enlever le spinLoader
 		$('.spin-loader').remove();
 	}
-	//---> Si la page est trip avec le choix des catégories, afficher les événements liés
-	/*if($('body').is('.trip')) {
-		$(".category").addEventListener("click", function(){
-			var cat = $(this).attr("category");
-			var servleturl = "../events?category="+cat;
-			$.get(servleturl, function(data) {
-				console.log(data);
-				//Pour chaque event, on append
-				console.log(data.events.list[0]);
-				$("#tab2").empty();
-				for(var i = 0; i < data.events.size; i++) {
-					var event = data.events.list[i].event;
-					$("#tab2").append('<div class="row categories"><div class="col-lg-12 col-sm-12 col-xs-12"><div class="brdr bgc-fff pad-10 box-shad btm-mrg-20 property-listing"><div class="media"><a class="pull-left" href="'+event.url+'"><img class="img-responsive list" src="http://lorempixel.com/100/100/"></a><div class="media-body fnt-smaller"><a href="'+event.url+'"></a><h4 class="media-heading"><a href="'+event.url+'">'+event.name+'</a></h4><ul class="list-inline mrg-0 btm-mrg-10 clr-535353"><li>From '+event.date+'</li></ul><span class="fnt-smaller fnt-lighter fnt-arial">'+event.description+'</span></div></div></div></div></div>');
-				}
-			});
-		});
-	}*/
 
-//	GESTION DE LA PAGE D'UN TRIP
-//	-->	Lorsqu'on change de tab
-	$(".btn-pref .btn.tab").on('click', function () {
-		$(".btn-pref .btn.tab").removeClass("btn-primary").addClass("btn-default");
-		$(this).removeClass("btn-default").addClass("btn-primary");
 
+	// --> Si la page est trip
+	if($('body').is('.trip')) {
 		var trip_id = getUrlParameter("id");
 		if(trip_id == undefined){window.location.href = "../index.html";}
+//		-->	Lorsqu'on change de tab
+		$(".btn-pref .btn.tab").on('click', function () {
+			$(".btn-pref .btn.tab").removeClass("btn-primary").addClass("btn-default");
+			$(this).removeClass("btn-default").addClass("btn-primary");
+			//Tab Overview
 
-		//Tab Overview
-		if($("#overview").hasClass("btn-primary")){
-			$.ajax({
-				type: "GET",
-				url: "../overview",
-				dataType: "json",
-				data: {id: trip_id},
-				success: function(data){
-					$("#trip_name_banner").text(data.name);
-					$("#panel_trip_name").text(data.name);
-					$("#description_trip").text("Description : " + data.description);
-					$("#nb_participants").text(data.participants);
-					$("#from_trip").text(data.begins);
-					$("#to_trip").text(data.ends);
-					$("#music_trip").text(0);
-					$("#family_trip").text(0);
-					$("#food_trip").text(0);
-					$("#movie_trip").text(0);
-					$("#art_trip").text(0);
-					$("#health_trip").text(0);
-					$("#museum_trip").text(0);
-					$("#sport_trip").text(0);
-					$("#technology_trip").text(0);
-				},
-				error: function(requestObj, status, error){
-					console.log("req : " + requestObj + " | status : " + status + " | error : " + error);
-					window.location.href = "../index.html";
-				}
-			});
-		}
-		//Tab Events
-		if($("#events").hasClass("btn-primary")){
-			callEventsTrip();
-			$(".btn-events").on('click', function () {
-				pagenumcpt=0;
+			var overview_tab = $("#overview");
+			// si la tab est selectionnée
+			if(overview_tab.hasClass("btn-primary")){
+				$.ajax({
+					type: "GET",
+					url: "../overview",
+					dataType: "json",
+					data: {id: trip_id},
+					success: function(data){
+						$("#trip_name_banner").text(data.name);
+						$("#panel_trip_name").text(data.name);
+						$("#description_trip").text("Description : " + data.description);
+						$("#nb_participants").text(data.participants);
+						$("#from_trip").text(data.begins);
+						$("#to_trip").text(data.ends);
+						$("#music_trip").text(data.music);
+						$("#family_trip").text(data.family);
+						$("#food_trip").text(data.food);
+						$("#movie_trip").text(data.movie);
+						$("#art_trip").text(data.art);
+						$("#health_trip").text(data.support);
+						$("#museum_trip").text(data.attraction);
+						$("#sport_trip").text(data.sports);
+						$("#technology_trip").text(data.technology);
+						$("#festival_trip").text(data.festival);
+						$("#fundraiser_trip").text(data.fundraiser);
+						$("#animal_trip").text(data.animals);
+					},
+					error: function(requestObj, status, error){
+						console.log("req : " + requestObj + " | status : " + status + " | error : " + error);
+						window.location.href = "../index.html";
+					}
+				});
+			}
+			//Tab Events
+			if($("#events").hasClass("btn-primary")){
 				callEventsTrip();
-			});
-			
-			
-			$(".btn-loadmore").on('click', function () {
-				pagenumcpt++;
-				callEventsTrip();
-			});
-		}
-		//Tab Calendar
-		if($("#calendar").hasClass("btn-primary")){
+				$(".btn-events").on('click', function () {
+					pagenumcpt=0;
+					callEventsTrip();
+				});
 
 
-		}
-		//Tab Chat
-		if($("#chat").hasClass("btn-primary")){
-
-
-		}
-		//Tab Invitations
-		if($("#invitations").hasClass("btn-primary")){
-
-
-		}
-		//Tab Settings
-		if($("#settings").hasClass("btn-primary")){
-
-
-		}
-	});
-
+				$(".btn-loadmore").on('click', function () {
+					pagenumcpt++;
+					callEventsTrip();
+				});
+			}
+			//Tab Calendar
+			if($("#calendar").hasClass("btn-primary")){
+				var eventsbody = $('#spin2').parent();
+				eventsbody.empty();
+				eventsbody.append('<span id="spin2" class="glyphicon glyphicon-hourglass spin-loader" aria-hidden="true"></span>');
+				$.ajax({
+					type: "GET",
+					url: "../calendar",
+					dateType: "json",
+					data: {id: trip_id},
+					beforeSend: function () {
+						$('#spin2').show();
+					},
+					success: function (data){
+						$('#spin2').hide();
+						var status = data.status;
+						if(status === "success"){
+							var events = data.events;
+							for(var i = 0; i < events.size; i++) {
+								var elem = events.list[i];
+								$('<div class="brdr bgc-fff pad-10 box-shad btm-mrg-20 property-listing expandable">' +
+										'<div class="media"><a class="pull-left" href="'+elem.event.url+'" target="_parent">'+
+										'<img alt="image" class="img-responsive list" src=""></a>' +
+										'<div class="media-body fnt-smaller"><a href="#" target="_parent"></a>' +
+										'<h4 class="media-heading"><a href="#" target="_parent">'+elem.event.name+'</a></h4>' +
+										'<ul class="list-inline mrg-0 btm-mrg-10 clr-535353"><li>FROM '+elem.event.begins+'</li>' +
+										'<li style="list-style: none">|</li><li>TO '+elem.event.ends+'</li></ul>' +
+										'<div class="like-or-not"><span class="pull-right">' +
+										'<span class="badge badge-notify-up"><i class="glyphicon glyphicon-thumbs-up"></i><span class="number_vote">'+ elem.upvotes +'</span></span>' +
+										'<span class="badge badge-notify-down"><i class="glyphicon glyphicon-thumbs-down"></i><span class="number_vote">'+elem.downvotes+'</span></span>' +
+										'<span class="badge badge-notify-remove"><i class="glyphicon glyphicon-remove"></i><span class="number_vote">Remove</span></span>' +
+										'</span></div><p class="hidden-xs">'+elem.event.description+'</p></div></div></div>').insertBefore("#spin2");
+							}
+						}
+						else{console.log("Error" + data);}
+					},
+					error: function (requestObj, status, error){
+						console.log("req : " + requestObj + " | status : " + status + " | error : " + error);
+						window.location.href = "../index.html";
+					}
+				});
+			}
+			//Tab Chat
+			if($("#chat").hasClass("btn-primary")){}
+			//Tab Invitations
+			if($("#invitations").hasClass("btn-primary")){}
+			//Tab Settings
+			if($("#settings").hasClass("btn-primary")){}
+		});
+	}
 });

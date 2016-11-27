@@ -43,14 +43,13 @@ public class OverviewTrip extends HttpServlet {
             JSONObject object = trip.getTripOverview();
             object.put("status", "success");
             out.print(object);
-            System.out.println("OBJ --> " + object);
         } catch (Exception e){
             e.printStackTrace();
             JSONObject obj = new JSONObject();
             obj.put("status", "failure");
             out.print(obj);
             out.close();
-            response.sendRedirect(request.getContextPath());
+            //response.sendRedirect(request.getContextPath());
         }
         out.flush();
         out.close();

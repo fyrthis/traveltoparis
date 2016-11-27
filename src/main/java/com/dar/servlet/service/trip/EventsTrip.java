@@ -42,7 +42,7 @@ public class EventsTrip extends HttpServlet {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
         JSONObject obj = new JSONObject();
-        System.out.println("DEBUG " + request.getRequestURL().append('?').append(request.getQueryString()));
+        //System.out.println("DEBUG " + request.getRequestURL().append('?').append(request.getQueryString()));
         try {
             String trip_id = request.getParameter("id");
             String start_dateS = request.getParameter("begins");
