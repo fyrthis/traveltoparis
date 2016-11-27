@@ -214,8 +214,33 @@ public class Trip implements JSONable {
         SQLManager mngr = new SQLManager();
         Connection conn = mngr.getConnection();
         PreparedStatement stmt = conn.prepareStatement(request);
+        ArrayList<HashMap<String, Object>> res = mngr.executeQuery(stmt);
+        JSONObject object = new JSONObject();
+        JSONArray arr = new JSONArray();
+        for(HashMap<String, Object> e : res){
+            arr.add(e.get("login"));
+        }
+        object.put("size", res.size());
+        object.put("list", arr);
         conn.close();
-        return null;
+        return object;
+    }
+
+    public void addUserToTrip(String[] users) throws NamingException, SQLException{
+        SQLManager mngr = new SQLManager();
+        Connection conn = mngr.getConnection();
+        String request = "INSERT INTO involded (id_user, id_trip, is_admin) SELECT u.id_user,?,? FROM users u WHERE u.login=? " +
+                "AND NOT exists(SELECT 1 FROM involded t WHERE t.id_user=u.id_user AND u.login=?)";
+        PreparedStatement stmt = conn.prepareStatement(request);
+        stmt.setInt(1, id);
+        stmt.setBoolean(2, false);
+        for(String us : users){
+            stmt.setString(3, us);
+            stmt.setString(4, us);
+            System.out.println(stmt);
+            mngr.executeUpdate(stmt);
+        }
+        conn.close();
     }
 
     public static boolean checkIfUserIsInTrip(int id_trip, String uname) throws NamingException, SQLException{
@@ -246,7 +271,7 @@ public class Trip implements JSONable {
     public int getId(){return id;}
     
     public static boolean checkIfUserIsAdminOfTrip(int id_trip, String uname) throws NamingException, SQLException {
-    	String request = "SELECT exists(SELECT 1 FROM involded i, users u WHERE u.login=? AND i.id_user=u.id_user AND id_trip=? ANDi.is_admin=true)";
+    	String request = "SELECT exists(SELECT 1 FROM involded i, users u WHERE u.login=? AND i.id_user=u.id_user AND id_trip=? AND i.is_admin=true)";
         SQLManager mngr = new SQLManager();
         Connection conn = mngr.getConnection();
         PreparedStatement stmt = conn.prepareStatement(request);

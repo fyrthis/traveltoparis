@@ -144,7 +144,7 @@ $(document).ready(function(){
             $(this).parent().parent().fadeOut(500, function() { $(this).remove(); })
         });
 
-        $('<tr><td><input type="email" name="friend" class="form-control"></td><td><i id="add" class="glyphicon glyphicon-plus"></i></td></tr>').fadeIn(500).insertAfter(add.parent().parent());
+        $('<tr><td><input type="text" name="friend" class="form-control unames"></td><td><i id="add" class="glyphicon glyphicon-plus"></i></td></tr>').fadeIn(500).insertAfter(add.parent().parent());
         add.removeAttr('id');
         var add = $('#add');
         add.on('click', function() { addFriend(); });
@@ -520,7 +520,25 @@ $(document).ready(function(){
             //Tab Chat
             if($("#chat").hasClass("btn-primary")){}
             //Tab Invitations
-            if($("#invitations").hasClass("btn-primary")){}
+            if($("#invitations").hasClass("btn-primary")){
+                $('#invite-submit').click(function () {
+                    var unames = $('.unames').map(function(){return $(this).val()}).get();
+                    $.ajax({
+                        type: "POST",
+                        url: "../invite-friends",
+                        dataType: "json",
+                        data: {trip_id:trip_id, users:unames},
+                        success: function () {
+                            console.log("sucess");
+                        },
+                        error: function(requestObj, status, error){
+                            console.log("req : " + requestObj + " | status : " + status + " | error : " + error);
+                            window.location.href = "../index.html";
+                        }
+                    });
+                });
+
+            }
             //Tab Settings
             if($("#settings").hasClass("btn-primary")){
             	$.ajax({

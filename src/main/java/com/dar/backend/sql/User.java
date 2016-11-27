@@ -62,7 +62,7 @@ public class User implements JSONable {
         JSONObject obj = new JSONObject();
         JSONArray arr = new JSONArray();
         String request = "SELECT t.*, i.is_admin FROM involded i, trips t, users u WHERE u.id_user=? AND i.id_user=u.id_user " +
-                "AND t.id_trip=i.id_trip AND i.is_admin=TRUE;";
+                "AND t.id_trip=i.id_trip";
         SQLManager mngr = new SQLManager();
         Connection conn = mngr.getConnection();
         PreparedStatement stmt = conn.prepareStatement(request);

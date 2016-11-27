@@ -16,7 +16,6 @@ import org.json.simple.JSONObject;
 /**
  * Servlet implementation class FriendsTrip
  */
-@WebServlet("/FriendsTrip")
 public class FriendsTrip extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -34,10 +33,18 @@ public class FriendsTrip extends HttpServlet {
         response.setContentType("application/json");
         String id = request.getParameter("trip_id");
         PrintWriter out = response.getWriter();
+        JSONObject obj = new JSONObject();
         try {
             Trip trip = new Trip(new Integer(id));
-            JSONObject object = trip.getTripParticipants();
-        } catch (Exception e){}
+            obj.put("users", trip.getTripParticipants());
+        } catch (Exception e){
+            obj.put("status", "fail");
+            out.print(obj);
+            out.close();
+            return;
+        }
+        obj.put("status", "success");
+        out.print(obj);
         out.flush();
         out.close();
     }
@@ -48,6 +55,19 @@ public class FriendsTrip extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
+        JSONObject object = new JSONObject();
+        String trip_id = request.getParameter("trip_id");
+        String[] user = request.getParameterValues("users[]");
+        try {
+            Trip trip = new Trip(new Integer(trip_id));
+            trip.addUserToTrip(user);
+        } catch (Exception e){
+            object.put("status", "fail");
+            out.print(object);
+            out.close();
+            return;
+        }
+        out.print(object);
         out.flush();
         out.close();
     }

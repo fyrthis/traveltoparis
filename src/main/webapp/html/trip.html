@@ -261,19 +261,17 @@
                                 <h3 class="panel-title">Invite friends</h3>
                             </div>
                             <div class="panel-body">
-                                <form method="POST" action="send-invitations">
+                                <form method="POST" action="" id="invite-form">
                                     <label for="name">Invitation message :</label><br>
                                     <textarea type="text" id="msg" name="msg" class="form-control"></textarea>
-                                    <br> <label for="friends">Add emails :</label><br>
+                                    <br> <label for="friend">Add usernames :</label><br>
                                     <table id="invited">
                                         <tr>
-                                            <td><input type="email" name="friend"
-                                                       class="form-control"></td>
+                                            <td><input type="text" name="friend" class="form-control unames"></td>
                                             <td><i id="add" class="glyphicon glyphicon-plus"></i></td>
                                         </tr>
                                     </table>
-                                    <br> <input type="submit" value="Send invitations"
-                                                class="btn btn-primary btn-block">
+                                    <br> <input type="submit" value="Send invitations" class="btn btn-primary btn-block" id="invite-submit">
                                 </form>
                             </div>
                         </div>
