@@ -101,8 +101,8 @@ public class Event implements JSONable{
         obj.put("name", name);
         obj.put("url", url);
         obj.put("location", location);
-        obj.put("begin", begin.toString());
-        obj.put("end", end.toString());
+        obj.put("begins", begin.toString());
+        obj.put("ends", end.toString());
         obj.put("description", description);
         return obj;
     }

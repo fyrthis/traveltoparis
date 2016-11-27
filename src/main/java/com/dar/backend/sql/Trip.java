@@ -75,7 +75,7 @@ public class Trip implements JSONable {
         }
         stmt.setDate(i++, start);
         stmt.setDate(i, end);
-        System.out.println("REQ : " + stmt.toString());
+        //System.out.println("REQ : " + stmt.toString());
         ArrayList<HashMap<String, Object>> res = mngr.executeQuery(stmt);
         for(HashMap<String, Object> e : res){
             JSONObject elem = new JSONObject();
@@ -97,8 +97,8 @@ public class Trip implements JSONable {
     public JSONObject getTripEvents() throws NamingException, SQLException {
         JSONObject obj = new JSONObject();
         JSONArray arr = new JSONArray();
-        String request = "SELECT v.is_like, u.login, c.description AS description_cat, e.* FROM votes v, users u, events e, tagged tg, categories c " +
-                "WHERE v.id_trip=? AND v.id_event=e.id_event AND v.id_user=u.id_user AND e.id_event=tg.id_event AND tg.id_category = c.id_category ORDER BY e.eventbegin, e.eventend";
+        String request = "SELECT e.*, sum((v.is_like = TRUE)::INT) AS upvotes, sum((v.is_like = FALSE)::int) AS downvotes " +
+                "FROM events e, votes v, trips t WHERE e.id_event=v.id_event AND v.id_trip=? GROUP BY e.id_event";
         SQLManager mngr = new SQLManager();
         Connection conn = mngr.getConnection();
         PreparedStatement stmt = conn.prepareStatement(request);
@@ -106,9 +106,6 @@ public class Trip implements JSONable {
         ArrayList<HashMap<String, Object>> res = mngr.executeQuery(stmt);
         for(HashMap<String, Object> e : res){
             JSONObject elem = new JSONObject();
-            elem.put("user", e.get("login"));
-            elem.put("is_like", e.get("is_like"));
-            elem.put("category", e.get("description_cat"));
             Event event = new Event((String)e.get("id_event"),
                     (String)e.get("name"),
                     (String)e.get("url"),
@@ -117,6 +114,8 @@ public class Trip implements JSONable {
                     (Date)e.get("eventend"),
                     (String)e.get("description"));
             elem.put("event", event.getJSON());
+            elem.put("upvotes", e.get("upvotes"));
+            elem.put("downvotes", e.get("downvotes"));
             arr.add(elem);
         }
         obj.put("size", res.size());
@@ -134,28 +133,58 @@ public class Trip implements JSONable {
         stmt.setInt(1, id);
         ArrayList<HashMap<String, Object>> res = mngr.executeQuery(stmt);
         obj.put("participants", res.size());
-        request = "SELECT e.id_event, c.name AS cat_name FROM events e, votes v, tagged t, categories c" +
-                " WHERE v.id_trip=? AND e.id_event=v.id_event AND t.id_event=e.id_event AND c.id_category = t.id_category";
+        request = "SELECT DISTINCT e.id_event,\n" +
+                "  sum((c.id_category=1)::INT) AS music,\n" +
+                "  sum((c.id_category=2)::INT) AS family,\n" +
+                "  sum((c.id_category=3)::INT) AS food,\n" +
+                "  sum((c.id_category=4)::INT) AS movie,\n" +
+                "  sum((c.id_category=5)::INT) AS art,\n" +
+                "  sum((c.id_category=6)::INT) AS support,\n" +
+                "  sum((c.id_category=7)::INT) AS attraction,\n" +
+                "  sum((c.id_category=8)::INT) AS sports,\n" +
+                "  sum((c.id_category=9)::INT) AS technology,\n" +
+                "  sum((c.id_category=10)::INT) AS festival,\n" +
+                "  sum((c.id_category=11)::INT) AS fundraiser,\n" +
+                "  sum((c.id_category=12)::INT) AS animals\n" +
+                "FROM trips t, events e, votes v, tagged tag, categories c\n" +
+                "WHERE t.id_trip=? AND e.id_event=v.id_event AND v.id_trip=t.id_trip AND tag.id_event=e.id_event AND c.id_category=tag.id_category\n" +
+                "GROUP BY e.id_event";
         stmt = conn.prepareStatement(request);
         stmt.setInt(1, id);
-        HashSet<Integer> id_event_list = new HashSet<>();
-        HashMap<String, Integer> events_in_cat = new HashMap<>();
         res = mngr.executeQuery(stmt);
+        HashMap<String, Integer> cat_num = new HashMap<>();
+        cat_num.put("music", 0);
+        cat_num.put("family", 0);
+        cat_num.put("food", 0);
+        cat_num.put("movie", 0);
+        cat_num.put("art", 0);
+        cat_num.put("support", 0);
+        cat_num.put("attraction", 0);
+        cat_num.put("sports", 0);
+        cat_num.put("technology", 0);
+        cat_num.put("festival", 0);
+        cat_num.put("fundraiser", 0);
+        cat_num.put("animals", 0);
         for(HashMap<String, Object> e : res){
-            Integer id_event = (Integer)e.get("id_event");
-            if(!id_event_list.contains(id_event)) {
-                id_event_list.add(id_event);
-                String cat_name = (String)e.get("cat_name");
-                events_in_cat.put(cat_name, events_in_cat.get(cat_name) + 1);
-            }
+            if((Long)e.get("music") > 0)cat_num.put("music", cat_num.get("music")+1);
+            if((Long)e.get("family") > 0)cat_num.put("family", cat_num.get("family")+1);
+            if((Long)e.get("food") > 0)cat_num.put("food", cat_num.get("food")+1);
+            if((Long)e.get("movie") > 0)cat_num.put("movie", cat_num.get("movie")+1);
+            if((Long)e.get("art") > 0)cat_num.put("art", cat_num.get("art")+1);
+            if((Long)e.get("support") > 0)cat_num.put("support", cat_num.get("support")+1);
+            if((Long)e.get("attraction") > 0)cat_num.put("attraction", cat_num.get("attraction")+1);
+            if((Long)e.get("sports") > 0)cat_num.put("sports", cat_num.get("sports")+1);
+            if((Long)e.get("technology") > 0)cat_num.put("technology", cat_num.get("technology")+1);
+            if((Long)e.get("festival") > 0)cat_num.put("festival", cat_num.get("festival")+1);
+            if((Long)e.get("fundraiser") > 0)cat_num.put("fundraiser", cat_num.get("fundraiser")+1);
+            if((Long)e.get("animals") > 0)cat_num.put("animals", cat_num.get("animals")+1);
         }
         obj.put("name", this.name);
         obj.put("description", this.description);
         obj.put("begins", this.begins.toString());
         obj.put("ends", this.ends.toString());
-        obj.put("events", id_event_list.size());
-        obj.put("categories", events_in_cat.size());
-        Iterator it = events_in_cat.entrySet().iterator();
+        obj.put("events", res.size());
+        Iterator it = cat_num.entrySet().iterator();
         while(it.hasNext()){
             Map.Entry pair = (Map.Entry)it.next();
             obj.put(pair.getKey(), pair.getValue());

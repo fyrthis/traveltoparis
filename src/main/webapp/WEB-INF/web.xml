@@ -116,7 +116,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>calendar</servlet-name>
-        <url-pattern>/cal</url-pattern>
+        <url-pattern>/calendar</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>chat</servlet-name>
