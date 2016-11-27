@@ -26,7 +26,7 @@ public class MyFilter implements Filter {
 
         boolean whitelist = path.equals("/") || path.equals("/index.html") || path.equals("/html/error.html") || path.equals("/sign-up") 
         		|| path.equals("/html/about.html") || path.equals("/html/contact.html") || path.equals("/html/developers.html")
-        		|| path.equals("/html/help-and-faqs.html") || path.equals("/html/privacy-and-terms.html")
+        		|| path.equals("/html/help-and-faqs.html") || path.equals("/html/privacy-and-terms.html") || path.equals("/html/account.html")
                 || path.equals("/sign-in") || path.startsWith("/images") || path.equals("/account-creation") || path.endsWith(".css")
                 || path.endsWith(".map") || path.endsWith(".js") || path.endsWith(".jpg") || path.endsWith(".png") || path.endsWith(".ttf");
 

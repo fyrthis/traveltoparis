@@ -40,23 +40,21 @@ public class SettingsTrip extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//Check identity and permissions
-		HttpSession session = request.getSession(false);
-		String uname = (String) session.getAttribute("uname");
-		int id_trip = Integer.parseInt(request.getParameter("id"));
+		PrintWriter out = response.getWriter();
 		try{
+			//Check identity and permissions
+			HttpSession session = request.getSession(false);
+			if(session == null) throw new Exception("Someone tried to access a user zone, without any session.");
+			String uname = (String) session.getAttribute("uname");
+			int id_trip = Integer.parseInt(request.getParameter("id"));
+
 			if(!Trip.checkIfUserIsInTrip(id_trip, uname)){
 				System.out.println(new java.util.Date().toString() + " | Illegal trip access attemps " + " Uname : " + uname + " Trip : " + id_trip);
 				response.sendRedirect(request.getContextPath());
 			}
-		}catch (Exception e){
-			e.printStackTrace();
-			response.sendRedirect(request.getContextPath());
-		}
-		//Renvoyer les informations relatives au trip
-		response.setContentType("application/json");
-		PrintWriter out = response.getWriter();
-		try {
+			//Renvoyer les informations relatives au trip
+			response.setContentType("application/json");
+
 			Trip trip = new Trip(id_trip);
 			if(trip.getId() == -1){
 				JSONObject obj = new JSONObject();
@@ -89,6 +87,7 @@ public class SettingsTrip extends HttpServlet {
 			//Check dentity
 			//Check identity and permissions
 			HttpSession session = request.getSession(false);
+			if(session == null) throw new Exception("Someone tried to access a user zone, without any session.");
 			String uname = (String) session.getAttribute("uname");
 			int id_trip = Integer.parseInt(request.getParameter("id"));
 			if(!Trip.checkIfUserIsInTrip(id_trip, uname)){

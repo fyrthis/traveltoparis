@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Calendar;
 
 import javax.servlet.ServletException;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.dar.Tools;
+import com.dar.Validator;
 import com.dar.backend.sql.SQLManager;
 import org.json.simple.JSONObject;
 
@@ -34,11 +36,19 @@ public class SignUp extends HttpServlet {
         String country = request.getParameter("country");
         String password = request.getParameter("password");
         String securePass, salt;
+        
+      //Check parameters
+        Validator v = new Validator();
+        if(!v.firstname(firstname)) response.sendRedirect(request.getContextPath());
+        if(!v.lastname(lastname)) response.sendRedirect(request.getContextPath());
+        if(!v.email(email)) response.sendRedirect(request.getContextPath());
+        System.out.println(new java.util.Date().toString() + "SignUp POST : PARAMS ARE OK");
 
         Calendar cal = Calendar.getInstance();
         PrintWriter out = response.getWriter();
         String rq = ("INSERT INTO users (login, password, salt, firstname, lastname, birthday, country, email) VALUES (?,?,?,?,?,?,?,?);");
         PreparedStatement stmt;
+        Connection conn = null;
         try {
             String[] list = birth.split("-");
             cal.set(Calendar.YEAR, Integer.parseInt(list[0]));
@@ -49,7 +59,7 @@ public class SignUp extends HttpServlet {
             salt = list[3];
             securePass = list[4];
             SQLManager mngr = new SQLManager();
-            Connection conn = mngr.getConnection();
+            conn = mngr.getConnection();
             stmt = conn.prepareStatement(rq);
             stmt.setString(1, username);
             stmt.setString(2, securePass);
@@ -62,6 +72,12 @@ public class SignUp extends HttpServlet {
             stmt.executeUpdate();
             conn.close();
         } catch(Exception e){
+        	if(conn!= null)
+				try {
+					if(!conn.isClosed()) conn.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
             e.printStackTrace(out);
             out.close();
             return;
