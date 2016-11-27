@@ -161,72 +161,73 @@
         </div>
         <!-- FIN TAB 1 -->
 
-        <!-- DEBUT TAB 2 : EVENTS-->
-        <div class="tab-pane fade in" id="tab2">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-1">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <div class="btn-group open">
-                                    <button type="button"
-                                            class="multiselect dropdown-toggle btn btn-default"
-                                            data-toggle="dropdown" aria-expanded="true">
-                                        <span class="multiselect-selected-text">Categories</span> <b
-                                            class="caret"></b>
-                                    </button>
-                                    <ul class="multiselect-container dropdown-menu">
-                                        <li><a><label class="checkbox catbox"><input
-                                                type="checkbox" value="animals"> Animals</label></a></li>
-                                        <li><a><label class="checkbox catbox"><input
-                                                type="checkbox" value="art"> Art</label></a></li>
-                                        <li><a><label class="checkbox catbox"><input
-                                                type="checkbox" value="family_fun_kids"> Family</label></a></li>
-                                        <li><a><label class="checkbox catbox"><input
-                                                type="checkbox" value="festivals_parades"> Festivals</label></a></li>
-                                        <li><a><label class="checkbox catbox"><input
-                                                type="checkbox" value="food"> Food</label></a></li>
-                                        <li><a><label class="checkbox catbox"><input
-                                                type="checkbox" value="fundraisers"> Fundraisers</label></a></li>
-                                        <li><a><label class="checkbox catbox"><input
-                                                type="checkbox" value="support"> Health</label></a></li>
-                                        <li><a><label class="checkbox catbox"><input
-                                                type="checkbox" value="movies_film"> Movies</label></a></li>
-                                        <li><a><label class="checkbox catbox"><input
-                                                type="checkbox" value="attractions"> Museums</label></a></li>
-                                        <li><a><label class="checkbox catbox"><input
-                                                type="checkbox" value="music"> Music</label></a></li>
-                                        <li><a><label class="checkbox catbox"><input
-                                                type="checkbox" value="sports"> Sports</label></a></li>
-                                        <li><a><label class="checkbox catbox"><input
-                                                type="checkbox" value="technology"> Technology</label></a></li>
-                                    </ul>
-                                </div>
-                                <div class="btn-group">
-                                    <p>Sort by : </p>
-                                    <select class="dropdown-toggle btn btn-default">
-                                        <option value="1" class="select-by" selected="selected">Date</option>
-                                        <option value="2" class="select-by">Category</option>
-                                    </select>
-                                </div>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default btn-events">Refresh</button>
-                                </div>
-                            </div>
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-lg-12 col-sm-12 col-xs-12">
-                                        <span id="spin1" class="glyphicon glyphicon-hourglass spin-loader" aria-hidden="true"></span>
-                                    </div>
-                                    <!-- End Col -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- FIN TAB 2 -->
+			<!-- DEBUT TAB 2 : EVENTS-->
+			<div class="tab-pane fade in" id="tab2">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-8 col-md-offset-1">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<div class="btn-group open">
+										<button type="button"
+											class="multiselect dropdown-toggle btn btn-default"
+											data-toggle="dropdown" aria-expanded="true">
+											<span class="multiselect-selected-text">Categories</span> <b
+												class="caret"></b>
+										</button>
+										<ul class="multiselect-container dropdown-menu">
+											<li><a><label class="checkbox catbox"><input
+														type="checkbox" value="animals"> Animals</label></a></li>
+											<li><a><label class="checkbox catbox"><input
+														type="checkbox" value="art"> Art</label></a></li>
+											<li><a><label class="checkbox catbox"><input
+														type="checkbox" value="family_fun_kids"> Family</label></a></li>
+											<li><a><label class="checkbox catbox"><input
+														type="checkbox" value="festivals_parades"> Festivals</label></a></li>
+											<li><a><label class="checkbox catbox"><input
+														type="checkbox" value="food"> Food</label></a></li>
+											<li><a><label class="checkbox catbox"><input
+														type="checkbox" value="fundraisers"> Fundraisers</label></a></li>
+											<li><a><label class="checkbox catbox"><input
+														type="checkbox" value="support"> Health</label></a></li>
+											<li><a><label class="checkbox catbox"><input
+														type="checkbox" value="movies_film"> Movies</label></a></li>
+											<li><a><label class="checkbox catbox"><input
+														type="checkbox" value="attractions"> Museums</label></a></li>
+											<li><a><label class="checkbox catbox"><input
+														type="checkbox" value="music"> Music</label></a></li>
+											<li><a><label class="checkbox catbox"><input
+														type="checkbox" value="sports"> Sports</label></a></li>
+											<li><a><label class="checkbox catbox"><input
+														type="checkbox" value="technology"> Technology</label></a></li>
+										</ul>
+									</div>
+									<div class="btn-group">
+									<p>Sort by : </p>
+										<select id="evt-select-by" class="dropdown-toggle btn btn-default">
+											<option value="1" selected="selected">Date</option>
+											<option value="2" >Category</option>
+										</select>
+									</div>
+									<div class="btn-group">
+										<button type="button" class="btn btn-default btn-events">Refresh</button>
+									</div>
+								</div>
+								<div class="panel-body">
+									<div class="row">
+										<div class="col-lg-12 col-sm-12 col-xs-12 center-block events-trip-elements">
+
+										</div>
+										<!-- End Col -->
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- FIN TAB 2 -->
+
 
         <!-- DEBUT TAB 3 : CALENDAR-->
         <div class="tab-pane fade in" id="tab3">

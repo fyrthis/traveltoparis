@@ -51,6 +51,8 @@ public class EventsTrip extends HttpServlet {
             Date end = Tools.dateOfString(end_dateS);
             String[] cat = request.getParameterValues("categories[]");
             String sortBy = request.getParameter("sortby");
+            int page = Integer.parseInt(request.getParameter("page"));
+            if(page<0) throw new Exception("Someone tried to shoot us down with a negative page number !");
             Trip trip = new Trip(Integer.parseInt(trip_id));
 
             long diff = end.getTime() - new java.util.Date().getTime();
@@ -68,7 +70,7 @@ public class EventsTrip extends HttpServlet {
             }
             /*TODO : epic super complicated machine learning neural network quantic algorithm of space time bending awsomeness
              that gives good event suggestions with EventJob runnable, or get one (thousand?) Indian guy(s?) to do it.*/
-            obj.put("events", trip.chooseNewEvents(cat, start, end, sortBy));
+            obj.put("events", trip.chooseNewEvents(cat, start, end, sortBy, page));
         } catch (Exception e){
             e.printStackTrace(System.out);
             System.out.flush();
