@@ -60,7 +60,7 @@ public class Trip implements JSONable {
                 else builder.append(" OR ");
             }
         }
-        builder.append("e.eventbegin >= ? AND e.eventend <= ? ");
+        builder.append("e.eventbegin >= ? AND e.eventend <= ? AND NOT exists(SELECT 1 FROM votes v WHERE v.id_event = e.id_event AND v.id_trip=?)");
         if(sort.equals("Date")) builder.append("ORDER BY e.eventbegin, e.eventend");
         if(sort.equals("Category")) builder.append("ORDER BY c.id_category");
         builder.append(" LIMIT ").append(pagesize).append(" OFFSET ").append(page*pagesize);
@@ -76,7 +76,8 @@ public class Trip implements JSONable {
             }
         }
         stmt.setDate(i++, start);
-        stmt.setDate(i, end);
+        stmt.setDate(i++, end);
+        stmt.setInt(i, id);
         System.out.println("REQ : " + stmt.toString());
         ArrayList<HashMap<String, Object>> res = mngr.executeQuery(stmt);
         for(HashMap<String, Object> e : res){
@@ -194,6 +195,14 @@ public class Trip implements JSONable {
         }
         conn.close();
         return obj;
+    }
+
+    public JSONObject getTripParticipants() throws NamingException, SQLException{
+        String request = "SELECT DISTINCT u.login FROM users u, involded i WHERE i.id_trip=? AND users.id_user=i.id_user";
+        SQLManager mngr = new SQLManager();
+        Connection conn = mngr.getConnection();
+        PreparedStatement stmt = conn.prepareStatement(request);
+        conn.close();
     }
 
     public static boolean checkIfUserIsInTrip(int id_trip, String uname) throws NamingException, SQLException{

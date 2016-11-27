@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.dar.backend.sql.Trip;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -17,8 +18,8 @@ import org.json.simple.JSONObject;
  */
 @WebServlet("/FriendsTrip")
 public class FriendsTrip extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+    private static final long serialVersionUID = 1L;
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -26,41 +27,31 @@ public class FriendsTrip extends HttpServlet {
         super();
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//TODO : Check identity and permissions
-		response.setContentType("application/json");
-		PrintWriter out = response.getWriter();
-		out.print(buildJSONMock());
-		out.flush();
-		out.close();
-	}
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        String id = request.getParameter("trip_id");
+        PrintWriter out = response.getWriter();
+        try {
+            Trip trip = new Trip(new Integer(id));
+            JSONObject object = trip.getTripParticipants();
+        } catch (Exception e){}
+        out.print();
+        out.flush();
+        out.close();
+    }
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
-	}
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+        out.print();
+        out.flush();
+        out.close();
+    }
 
-	private JSONObject buildJSON() {
-		return null;
-	}
-	
-	private JSONObject buildJSONMock() {
-		JSONObject obj = new JSONObject();
-		obj.put("Name", "crunchify.com");
-		obj.put("Author", "App Shah");
- 
-		JSONArray company = new JSONArray();
-		company.add("Compnay: eBay");
-		company.add("Compnay: Paypal");
-		company.add("Compnay: Google");
-		obj.put("Company List", company);
-		
-		return obj;
-	}
-	
 }
