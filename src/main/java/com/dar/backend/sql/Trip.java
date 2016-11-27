@@ -83,9 +83,13 @@ public class Trip implements JSONable {
         stmt.setInt(i, id);
         System.out.println("REQ : " + stmt.toString());
         ArrayList<HashMap<String, Object>> res = mngr.executeQuery(stmt);
+        HashSet<String> ids = new HashSet<>();
         for(HashMap<String, Object> e : res){
+            String id = (String)e.get("id_event");
+            if(ids.contains(id)) continue;
+            ids.add(id);
             JSONObject elem = new JSONObject();
-            elem.put("id", e.get("id_event"));
+            elem.put("id", id);
             elem.put("name", e.get("name"));
             elem.put("url", e.get("url"));
             elem.put("location", e.get("location"));
@@ -96,19 +100,22 @@ public class Trip implements JSONable {
         }
         conn.close();
         obj.put("list", arr);
-        obj.put("size", res.size());
+        obj.put("size", ids.size());
         return obj;
     }
 
-    public JSONObject getTripEvents() throws NamingException, SQLException {
+    public JSONObject getTripEvents(int user_id) throws NamingException, SQLException {
         JSONObject obj = new JSONObject();
         JSONArray arr = new JSONArray();
-        String request = "SELECT e.*, sum((v.is_like = TRUE)::INT) AS upvotes, sum((v.is_like = FALSE)::int) AS downvotes " +
-                "FROM events e, votes v, trips t WHERE e.id_event=v.id_event AND v.id_trip=? GROUP BY e.id_event";
+        String request = "SELECT e.*, sum((v.is_like = TRUE)::INT) AS upvotes, sum((v.is_like = FALSE)::int) AS downvotes, " +
+                "sum((v.id_user = ? AND v.is_like=TRUE)::INT) AS hasupvote, sum((v.id_user = ? AND v.is_like=FALSE)::INT) AS hasdownvote" +
+                " FROM events e, votes v, trips t WHERE e.id_event=v.id_event AND v.id_trip=? GROUP BY e.id_event";
         SQLManager mngr = new SQLManager();
         Connection conn = mngr.getConnection();
         PreparedStatement stmt = conn.prepareStatement(request);
-        stmt.setInt(1,id);
+        stmt.setInt(1, user_id);
+        stmt.setInt(2, user_id);
+        stmt.setInt(3, id);
         ArrayList<HashMap<String, Object>> res = mngr.executeQuery(stmt);
         for(HashMap<String, Object> e : res){
             JSONObject elem = new JSONObject();
@@ -122,6 +129,8 @@ public class Trip implements JSONable {
             elem.put("event", event.getJSON());
             elem.put("upvotes", e.get("upvotes"));
             elem.put("downvotes", e.get("downvotes"));
+            elem.put("hasupvote", e.get("hasupvote"));
+            elem.put("hasdownvote", e.get("hasdownvote"));
             arr.add(elem);
         }
         obj.put("size", res.size());

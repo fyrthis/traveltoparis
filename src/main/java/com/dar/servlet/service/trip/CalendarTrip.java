@@ -34,12 +34,14 @@ public class CalendarTrip extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
+        HttpSession session = request.getSession();
         JSONObject obj = new JSONObject();
         String trip_id = request.getParameter("id");
         PrintWriter out = response.getWriter();
         try {
+            int user_id = new User((String)session.getAttribute("uname")).getId();
             Trip trip = new Trip(Integer.parseInt(trip_id));
-            JSONObject object = trip.getTripEvents();
+            JSONObject object = trip.getTripEvents(user_id);
             obj.put("events", object);
         } catch (Exception e){
             e.printStackTrace();
@@ -63,11 +65,13 @@ public class CalendarTrip extends HttpServlet {
         JSONObject object = new JSONObject();
         String event_id = request.getParameter("event_id");
         String like = request.getParameter("vote");
+        boolean remove = Boolean.parseBoolean(request.getParameter("remove"));
         String trip_id = request.getParameter("trip_id");
         String uname = (String) session.getAttribute("uname");
         try {
             User user = new User(uname);
-            user.addEventToTrip(Integer.parseInt(trip_id), event_id, Boolean.parseBoolean(like));
+            if(!remove) user.addEventToTrip(Integer.parseInt(trip_id), event_id, Boolean.parseBoolean(like));
+            else user.removeVote(Integer.parseInt(trip_id), event_id);
         } catch (Exception e){
             e.printStackTrace();
             object.put("status", "failed");
@@ -91,7 +95,6 @@ public class CalendarTrip extends HttpServlet {
         String event_id = request.getHeader("event_id");
         String trip_id = request.getHeader("trip_id");
         String uname = (String) session.getAttribute("uname");
-        System.out.println("DEBUG " + request.getQueryString());
         try {
             User user = new User(uname);
             user.removeEventFromTrip(Integer.parseInt(trip_id), event_id);
