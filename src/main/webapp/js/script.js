@@ -437,4 +437,27 @@ $(document).ready(function(){
             }
         });
     }
+	
+	if($('body').is('.account')) {
+		
+		//Mettre les infos connues
+		$.ajax({
+			type: "GET",
+			url: "../account",
+			dataType: "json",
+			success: function(data){
+				$("#loginspan").text(data.login);
+				$("#firstname").attr("value", data.firstname);
+				$("#lastname").attr("value", data.lastname);
+				$("#email").attr("value", data.email);
+				if(data.birthday!=null) $("#birth").attr("value", data.birthday);
+				if(data.country!=null) $("#countries").attr("value", data.country);
+
+			},
+			error: function(requestObj, status, error){
+				console.log("req : " + requestObj + " | status : " + status + " | error : " + error);
+				window.location.href = "../index.html";
+			}
+		});
+	}
 });

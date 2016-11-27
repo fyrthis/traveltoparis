@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Calendar;
 
 import javax.servlet.ServletException;
@@ -39,6 +40,7 @@ public class SignUp extends HttpServlet {
         PrintWriter out = response.getWriter();
         String rq = ("INSERT INTO users (login, password, salt, firstname, lastname, birthday, country, email) VALUES (?,?,?,?,?,?,?,?);");
         PreparedStatement stmt;
+        Connection conn = null;
         try {
             String[] list = birth.split("-");
             cal.set(Calendar.YEAR, Integer.parseInt(list[0]));
@@ -49,7 +51,7 @@ public class SignUp extends HttpServlet {
             salt = list[3];
             securePass = list[4];
             SQLManager mngr = new SQLManager();
-            Connection conn = mngr.getConnection();
+            conn = mngr.getConnection();
             stmt = conn.prepareStatement(rq);
             stmt.setString(1, username);
             stmt.setString(2, securePass);
@@ -62,6 +64,12 @@ public class SignUp extends HttpServlet {
             stmt.executeUpdate();
             conn.close();
         } catch(Exception e){
+        	if(conn!= null)
+				try {
+					if(!conn.isClosed()) conn.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
             e.printStackTrace(out);
             out.close();
             return;

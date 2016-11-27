@@ -87,7 +87,10 @@
         <servlet-name>settings</servlet-name>
         <servlet-class>com.dar.servlet.service.trip.SettingsTrip</servlet-class>
     </servlet>
-    <!--  TODO :  obtenir participants du voyage -->
+    <servlet>
+        <servlet-name>account</servlet-name>
+        <servlet-class>com.dar.servlet.service.session.MyAccount</servlet-class>
+    </servlet>
     
     
     <!-- MAPPING DE SERVLETS -->
@@ -142,6 +145,10 @@
     <servlet-mapping>
         <servlet-name>getimages</servlet-name>
         <url-pattern>/images</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>account</servlet-name>
+        <url-pattern>/account</url-pattern>
     </servlet-mapping>
     
     <!-- FILTRES -->
