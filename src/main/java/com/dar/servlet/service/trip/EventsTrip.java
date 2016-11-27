@@ -61,7 +61,7 @@ public class EventsTrip extends HttpServlet {
             //System.out.println("DEBUG ID " + trip_id + " | S " + start.toString() + " | E " + end.toString() + " | SB " + sortBy);
             //if(cat != null)System.out.println("DEBUG CAT " + cat);
             //System.out.println("DEBUG NO DAYS " + no_of_days);
-            if(no_of_days > 1){
+            if(no_of_days > 7){
                 System.out.println(new java.util.Date().toString() + " | Getting future events on demand");
                 ExecutorService executor = (ExecutorService)getServletContext().getAttribute("MY_EXECUTOR");
                 executor.submit(new EventJob(start, end));
