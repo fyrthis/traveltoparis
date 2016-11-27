@@ -51,7 +51,8 @@ public class Trip implements JSONable {
         int pagesize = 20;
     	JSONObject obj = new JSONObject();
         JSONArray arr = new JSONArray();
-        StringBuilder builder = new StringBuilder("SELECT DISTINCT e.* FROM events e, categories c, tagged t WHERE e.id_event=t.id_event AND ");
+        StringBuilder builder = new StringBuilder("SELECT DISTINCT e.*, c.id_category FROM events e, categories c, tagged t " +
+                "WHERE e.id_event=t.id_event AND t.id_category=c.id_category AND ");
         if(categories != null) {
             builder.append("(");
             for (int i = 0; i < categories.length; i++) {
@@ -60,11 +61,13 @@ public class Trip implements JSONable {
                 else builder.append(" OR ");
             }
         }
-        builder.append("e.eventbegin >= ? AND e.eventend <= ? AND NOT exists(SELECT 1 FROM votes v WHERE v.id_event = e.id_event AND v.id_trip=?)");
-        if(sort.equals("Date")) builder.append("ORDER BY e.eventbegin, e.eventend");
-        if(sort.equals("Category")) builder.append("ORDER BY c.id_category");
+        builder.append("e.eventbegin >= ? AND e.eventend <= ? AND NOT exists(SELECT 1 FROM votes v WHERE v.id_event = e.id_event AND v.id_trip=?) ");
+        switch (sort){
+            case "Date": builder.append("ORDER BY e.eventbegin, e.eventend, e.name"); break;
+            case "Category" : builder.append("ORDER BY c.id_category, e.eventbegin, e.eventend, e.name"); break;
+            default: builder.append("ORDER BY e.name"); break;
+        }
         builder.append(" LIMIT ").append(pagesize).append(" OFFSET ").append(page*pagesize);
-        //String request = "SELECT e.* FROM events e, categories c, tagged t WHERE e.id_event=t.id_event AND c.name=? AND c.id_category=t.id_category AND e.eventbegin => ? AND e.eventend <= ? ORDER BY c.id_category";
         String request = builder.toString();
         SQLManager mngr = new SQLManager();
         Connection conn = mngr.getConnection();
